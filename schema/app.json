@@ -1,0 +1,148 @@
+{
+    "$id": "",
+    "$schema": "",
+    "title": "Project title",
+    "description": "Project description",
+    "type": "object",
+    "required": [
+        "chainName",
+        "chainID",
+        "genesisURL",
+        "networkType",
+        "projectPage",
+        "logo",
+        "backgroundColor",
+        "serviceURLs",
+        "explorers"
+    ],
+    "properties": {
+        "chainName": {
+            "type": "string",
+            "description": "Chain name as registered on the network"
+        },
+        "chainID": {
+            "type": "string",
+            "description": "Chain ID as registered on the network"
+        },
+        "genesisURL": {
+            "type": "string",
+            "format": "uri-reference",
+            "description": "URI to the network genesis block"
+        },
+        "networkType": {
+            "type": "string",
+            "description": "Network for which this configuration is specified. Must be one of 'mainnet', 'testnet' or 'betanet'"
+        },
+        "projectPage": {
+            "type": "string",
+            "format": "uri-reference",
+            "description": "URL to the project's homepage"
+        },
+        "appPage": {
+            "type": "string",
+            "format": "uri-reference",
+            "description": "URL to the blockchain application's frontend, if exists"
+        },
+        "logo": {
+            "$ref": "#/$defs/logoURI"
+        },
+        "backgroundColor": {
+            "type": "string",
+            "description": "Default background color to be used in the application management and exploration screens of the Lisk wallets. Must be of the format '#rrggbb' (hex values)"
+        },
+        "serviceURLs": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/serviceURL"
+            }
+        },
+        "explorers": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/explorer"
+            }
+        },
+        "appNodes": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/appNode"
+            }
+        }
+    },
+    "$defs": {
+        "appNode ": {
+            "type": "object",
+            "required": [
+                "url",
+                "maintainer"
+            ],
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "format": "uri-reference",
+                    "description": "URI to connect and query to the node directly"
+                },
+                "maintainer": {
+                    "type": "string",
+                    "description": "Maintainer details of the node"
+                }
+            }
+        },
+        "explorer": {
+            "type": "object",
+            "required": [
+                "url",
+                "txnPage"
+            ],
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "format": "uri-reference",
+                    "description": "URI endpoint to the explorer's homepage"
+                },
+                "txnPage": {
+                    "type": "string",
+                    "description": "URI endpoint to the explorer's transactions page"
+                }
+            }
+        },
+        "logoURI ": {
+            "type": "object",
+            "required": [
+                "png",
+                "svg"
+            ],
+            "properties": {
+                "png": {
+                    "type": "string",
+                    "format": "uri-reference",
+                    "description": "URI to the PNG format of the application logo"
+                },
+                "svg": {
+                    "type": "string",
+                    "format": "uri-reference",
+                    "description": "URI to the SVG format of the application logo"
+                }
+            }
+        },
+        "serviceURL": {
+            "type": "object",
+            "required": [
+                "http",
+                "ws"
+            ],
+            "properties": {
+                "ws": {
+                    "type": "string",
+                    "format": "uri-reference",
+                    "description": "WS endpoint to access Lisk Service API against the blockchain application"
+                },
+                "http": {
+                    "type": "string",
+                    "format": "uri-reference",
+                    "description": "HTTP endpoint to access Lisk Service API against the blockchain application"
+                }
+            }
+        }
+    }
+}
