@@ -18,7 +18,16 @@
             "ws": "wss://betanet-service.lisk.com"
         }
     ],
-    "explorers": [],
+    "explorers": [
+        {
+            "url": "https://lisk.observer",
+            "txnPage": "https://lisk.observer/transactions"
+        },
+        {
+            "url": "https://liskscan.com",
+            "txnPage": "https://liskscan.com/transactions"
+        }
+    ],
     "appNodes": [
         {
             "url": "https://betanet.lisk.com",
