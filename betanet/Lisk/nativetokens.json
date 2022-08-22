@@ -22,7 +22,7 @@
     "displayDenom": "lisk",
     "symbol": "LSK",
     "logo": {
-        "png": "https://github.com/LiskHQ/app-registry/main/betanet/Lisk/images/tokens/lisk.png",
-        "svg": "https://github.com/LiskHQ/app-registry/main/betanet/Lisk/images/tokens/lisk.svg"
+        "png": "https://lisk-qa.ams3.digitaloceanspaces.com/Artboard%201%20copy%2019.png",
+        "svg": "https://lisk-qa.ams3.digitaloceanspaces.com/Logo-20.svg"
     }
 }
