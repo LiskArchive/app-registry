@@ -1,17 +1,16 @@
 {
+    "title": "Lisk - Betanet",
+    "description": "Metadata configuration for the Lisk blockchain (mainchain) in betanet",
     "chainName": "Lisk",
     "chainID": "00000001",
-    "title": "Lisk Betanet",
-    "description": "Metadata configuration for the Lisk blockchain in betanet",
     "networkType": "betanet",
-    "isDefault": true,
     "genesisURL": "https://downloads.lisk.com/lisk/betanet/genesis_block.json.tar.gz",
     "projectPage": "https://lisk.com",
     "logo": {
         "png": "https://lisk-qa.ams3.digitaloceanspaces.com/Artboard%201%20copy%2019.png",
         "svg": "https://lisk-qa.ams3.digitaloceanspaces.com/Logo-20.svg"
     },
-    "backgroundColor": "#0981D1",
+    "backgroundColor": "#f7f9fb",
     "serviceURLs": [
         {
             "http": "https://betanet-service.lisk.com",
@@ -20,12 +19,8 @@
     ],
     "explorers": [
         {
-            "url": "https://lisk.observer",
-            "txnPage": "https://lisk.observer/transactions"
-        },
-        {
-            "url": "https://liskscan.com",
-            "txnPage": "https://liskscan.com/transactions"
+            "url": "https://betanet.liskscan.com",
+            "txnPage": "https://betanet.liskscan.com/transactions"
         }
     ],
     "appNodes": [

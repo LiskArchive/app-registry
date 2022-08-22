@@ -1,28 +1,33 @@
 {
-    "chainID": "00000001",
-    "chainName": "Lisk",
-    "tokenID": "00000000",
-    "tokenName": "Lisk",
-    "networkType": "betanet",
-    "description": "Base token for the Lisk ecosystem",
-    "denomUnits": [
+    "title": "Lisk - Betanet - Native tokens",
+    "tokens": [
         {
-            "denom": "beddows",
-            "decimal": 0
-        },
-        {
-            "denom": "lsk",
-            "decimal": 8,
-            "aliases": [
-                "Lisk"
-            ]
+            "tokenID": "00000000",
+            "name": "Lisk",
+            "description": "Default token for the entire Lisk ecosystem",
+            "denomUnits": [
+                {
+                    "denom": "beddows",
+                    "decimals": 0,
+                    "aliases": [
+                        "Beddows"
+                    ]
+                },
+                {
+                    "denom": "lsk",
+                    "decimals": 8,
+                    "aliases": [
+                        "Lisk"
+                    ]
+                }
+            ],
+            "baseDenom": "beddows",
+            "displayDenom": "lisk",
+            "symbol": "LSK",
+            "logo": {
+                "png": "https://lisk-qa.ams3.digitaloceanspaces.com/Artboard%201%20copy%2019.png",
+                "svg": "https://lisk-qa.ams3.digitaloceanspaces.com/Logo-20.svg"
+            }
         }
-    ],
-    "baseDenom": "beddows",
-    "displayDenom": "lisk",
-    "symbol": "LSK",
-    "logo": {
-        "png": "https://lisk-qa.ams3.digitaloceanspaces.com/Artboard%201%20copy%2019.png",
-        "svg": "https://lisk-qa.ams3.digitaloceanspaces.com/Logo-20.svg"
-    }
+    ]
 }
