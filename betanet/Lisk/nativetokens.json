@@ -1,0 +1,28 @@
+{
+    "chainID": "00000001",
+    "chainName": "Lisk",
+    "tokenID": "00000000",
+    "tokenName": "Lisk",
+    "networkType": "betanet",
+    "description": "Base token for the Lisk ecosystem",
+    "denomUnits": [
+        {
+            "denom": "beddows",
+            "decimal": 0
+        },
+        {
+            "denom": "lsk",
+            "decimal": 8,
+            "aliases": [
+                "Lisk"
+            ]
+        }
+    ],
+    "baseDenom": "beddows",
+    "displayDenom": "lisk",
+    "symbol": "LSK",
+    "logo": {
+        "png": "https://github.com/LiskHQ/app-registry/main/betanet/Lisk/images/tokens/lisk.png",
+        "svg": "https://github.com/LiskHQ/app-registry/main/betanet/Lisk/images/tokens/lisk.svg"
+    }
+}
