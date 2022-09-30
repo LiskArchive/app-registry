@@ -2,7 +2,7 @@
     "title": "Lisk - Betanet - Native tokens",
     "tokens": [
         {
-            "tokenID": "0000000100000000",
+            "tokenID": "0000000000000000",
             "tokenName": "Lisk",
             "description": "Default token for the entire Lisk ecosystem",
             "denomUnits": [
