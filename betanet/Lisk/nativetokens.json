@@ -3,7 +3,7 @@
     "tokens": [
         {
             "tokenID": "0000000100000000",
-            "name": "Lisk",
+            "tokenName": "Lisk",
             "description": "Default token for the entire Lisk ecosystem",
             "denomUnits": [
                 {
