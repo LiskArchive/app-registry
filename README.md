@@ -1,4 +1,6 @@
-![Lisk Application Registry]( "Lisk Application Registry")
+![Logo](./docs/assets/banner_app_registry.png)
+
+# Lisk Application Registry
 
 Welcome to the Lisk Application Registry repository which contains off-chain metadata about all the blockchain applications which is developed on Lisk SDK or which follows Lisk Protocol.
 
