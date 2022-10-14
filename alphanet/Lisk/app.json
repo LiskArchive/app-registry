@@ -1,0 +1,40 @@
+{
+    "title": "Lisk - Alphanet",
+    "description": "Metadata configuration for the Lisk blockchain (mainchain) in alphanet",
+    "chainName": "Lisk",
+    "chainID": "03000000",
+    "networkType": "alphanet",
+    "genesisURL": "https://downloads.lisk.com/lisk/alphanet/genesis_block.json.tar.gz",
+    "projectPage": "https://lisk.com",
+    "logo": {
+        "png": "https://lisk-qa.ams3.digitaloceanspaces.com/Artboard%201%20copy%2019.png",
+        "svg": "https://lisk-qa.ams3.digitaloceanspaces.com/Logo-20.svg"
+    },
+    "backgroundColor": "#f7f9fb",
+    "serviceURLs": [
+        {
+            "http": "https://alphanet-service.lisk.com",
+            "ws": "wss://alphanet-service.lisk.com"
+        },
+        {
+            "http": "http://165.227.246.146:9901",
+            "ws": "ws://165.227.246.146:9901"
+        }
+    ],
+    "explorers": [
+        {
+            "url": "https://alphanet.liskscan.com",
+            "txnPage": "https://alphanet.liskscan.com/transactions"
+        }
+    ],
+    "appNodes": [
+        {
+            "url": "https://alphanet.lisk.com",
+            "maintainer": "Lightcurve GmbH"
+        },
+        {
+            "url": "wss://alphanet.lisk.com",
+            "maintainer": "Lightcurve GmbH"
+        }
+    ]
+}

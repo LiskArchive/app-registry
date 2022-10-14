@@ -2,7 +2,7 @@
     "title": "Lisk - Betanet",
     "description": "Metadata configuration for the Lisk blockchain (mainchain) in betanet",
     "chainName": "Lisk",
-    "chainID": "00000001",
+    "chainID": "02000000",
     "networkType": "betanet",
     "genesisURL": "https://downloads.lisk.com/lisk/betanet/genesis_block.json.tar.gz",
     "projectPage": "https://lisk.com",

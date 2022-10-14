@@ -1,0 +1,40 @@
+{
+    "title": "Lisk - Devnet",
+    "description": "Metadata configuration for the Lisk blockchain (mainchain) in devnet",
+    "chainName": "Lisk",
+    "chainID": "04000000",
+    "networkType": "devnet",
+    "genesisURL": "https://downloads.lisk.com/lisk/devnet/genesis_block.json.tar.gz",
+    "projectPage": "https://lisk.com",
+    "logo": {
+        "png": "https://lisk-qa.ams3.digitaloceanspaces.com/Artboard%201%20copy%2019.png",
+        "svg": "https://lisk-qa.ams3.digitaloceanspaces.com/Logo-20.svg"
+    },
+    "backgroundColor": "#f7f9fb",
+    "serviceURLs": [
+        {
+            "http": "http://165.227.246.146:9901",
+            "ws": "ws://165.227.246.146:9901"
+        },
+        {
+            "http": "http://165.22.29.229:9901",
+            "ws": "ws://165.22.29.229:9901"
+        }
+    ],
+    "explorers": [
+        {
+            "url": "https://devnet.liskscan.com",
+            "txnPage": "https://devnet.liskscan.com/transactions"
+        }
+    ],
+    "appNodes": [
+        {
+            "url": "https://devnet.lisk.com",
+            "maintainer": "Lightcurve GmbH"
+        },
+        {
+            "url": "wss://devnet.lisk.com",
+            "maintainer": "Lightcurve GmbH"
+        }
+    ]
+}
