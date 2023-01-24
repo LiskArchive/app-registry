@@ -1,0 +1,26 @@
+{
+    "title": "Enevti - Devnet",
+    "description": "Metadata configuration for the Enevti blockchain (sidechain) in devnet",
+    "chainName": "Enevti",
+    "chainID": "04000001",
+    "networkType": "devnet",
+    "genesisURL": "",
+    "projectPage": "https://enevti.com",
+    "logo": {
+        "png": "https://media.lisk.com/init/enevti_logo_0dbeff61b1.png",
+        "svg": ""
+    },
+    "backgroundColor": "#cf2e2e",
+    "serviceURLs": [
+        {
+            "http": "http://146.190.206.145:9901",
+            "ws": "ws://146.190.206.145:9901"
+        },
+        {
+            "http": "http://164.92.167.80:9901",
+            "ws": "ws://164.92.167.80:9901"
+        }
+    ],
+    "explorers": [],
+    "appNodes": []
+}
