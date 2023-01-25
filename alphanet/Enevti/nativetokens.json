@@ -7,12 +7,17 @@
             "description": "Native Utility Token",
             "denomUnits": [
                 {
-                    "denom": "envt",
+                    "denom": "ventti",
                     "decimals": 0,
+                    "aliases": []
+                },
+                {
+                    "denom": "envt",
+                    "decimals": 8,
                     "aliases": []
                 }
             ],
-            "baseDenom": "envt",
+            "baseDenom": "ventti",
             "displayDenom": "envt",
             "symbol": "ENVT",
             "logo": {
