@@ -1,0 +1,29 @@
+{
+    "title": "Enevti - Alphanet - Native tokens",
+    "tokens": [
+        {
+            "tokenID": "0300000100000000",
+            "tokenName": "Enevti",
+            "description": "Native Utility Token",
+            "denomUnits": [
+                {
+                    "denom": "ventti",
+                    "decimals": 0,
+                    "aliases": []
+                },
+                {
+                    "denom": "envt",
+                    "decimals": 8,
+                    "aliases": []
+                }
+            ],
+            "baseDenom": "ventti",
+            "displayDenom": "envt",
+            "symbol": "ENVT",
+            "logo": {
+                "png": "https://media.lisk.com/init/enevti_logo_0dbeff61b1.png",
+                "svg": ""
+            }
+        }
+    ]
+}
