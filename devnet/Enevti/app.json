@@ -13,14 +13,15 @@
     "backgroundColor": "#cf2e2e",
     "serviceURLs": [
         {
-            "http": "http://146.190.206.145:9901",
-            "ws": "ws://146.190.206.145:9901"
-        },
-        {
-            "http": "http://164.92.167.80:9901",
-            "ws": "ws://164.92.167.80:9901"
+            "http": "http://devnet-enevti-service.liskdev.net:9901",
+            "ws": "ws://devnet-enevti-service.liskdev.net:9901"
         }
     ],
     "explorers": [],
-    "appNodes": []
+    "appNodes": [
+        {
+            "url": "ws://devnet-enevti-service.liskdev.net:7887",
+            "maintainer": "Lightcurve GmbH"
+        }
+    ]
 }
