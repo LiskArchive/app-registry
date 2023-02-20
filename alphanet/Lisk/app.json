@@ -13,27 +13,14 @@
     "backgroundColor": "#f7f9fb",
     "serviceURLs": [
         {
-            "http": "https://alphanet-service.lisk.com",
-            "ws": "wss://alphanet-service.lisk.com"
-        },
-        {
-            "http": "http://165.227.246.146:9901",
-            "ws": "ws://165.227.246.146:9901"
+            "http": "https://alphanet-service.liskdev.net",
+            "ws": "wss://alphanet-service.liskdev.net"
         }
     ],
-    "explorers": [
-        {
-            "url": "https://alphanet.liskscan.com",
-            "txnPage": "https://alphanet.liskscan.com/transactions"
-        }
-    ],
+    "explorers": [],
     "appNodes": [
         {
-            "url": "https://alphanet.lisk.com",
-            "maintainer": "Lightcurve GmbH"
-        },
-        {
-            "url": "wss://alphanet.lisk.com",
+            "url": "ws://alphanet.liskdev.net:4002",
             "maintainer": "Lightcurve GmbH"
         }
     ]

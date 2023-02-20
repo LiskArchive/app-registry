@@ -13,14 +13,15 @@
     "backgroundColor": "#cf2e2e",
     "serviceURLs": [
         {
-            "http": "http://146.190.206.145:9901",
-            "ws": "ws://146.190.206.145:9901"
-        },
-        {
-            "http": "http://164.92.167.80:9901",
-            "ws": "ws://164.92.167.80:9901"
+            "http": "https://alphanet-enevti-service.liskdev.net",
+            "ws": "wss://alphanet-enevti-service.liskdev.net"
         }
     ],
     "explorers": [],
-    "appNodes": []
+    "appNodes": [
+        {
+            "url": "ws://alphanet-enevti.liskdev.net:4002",
+            "maintainer": "Lightcurve GmbH"
+        }
+    ]
 }
