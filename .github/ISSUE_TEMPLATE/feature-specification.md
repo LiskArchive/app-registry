@@ -4,7 +4,6 @@ about: Specification of new features/improvements
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
 ### Description
@@ -16,3 +15,4 @@ Please describe the specification of new features/improvements
 Please describe the conditions which must be met for this issue to close
 
 ### Additional Information
+
