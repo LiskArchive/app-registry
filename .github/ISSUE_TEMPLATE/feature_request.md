@@ -4,7 +4,9 @@ about: Propose an idea for new improvements/features
 title: ''
 labels: ''
 assignees: ''
+
 ---
+
 ### Description
 
 Please describe what functionality is needed
@@ -14,4 +16,3 @@ Please describe what functionality is needed
 Please describe why it is needed
 
 ### Additional Information
-
