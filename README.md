@@ -2,7 +2,7 @@
 
 # Lisk Application Registry
 
-Welcome to the Lisk Application Registry. The repository contains off-chain metadata for applications developed based on Lisk SDK or applications compatible with Lisk Protocol.
+Welcome to the Lisk Application Registry. The repository contains off-chain metadata for applications developed based on the Lisk SDK and any other applications that are compatible with the Lisk Protocol.
 Each application will include the [*app.json*](#app-json) containing the blockchain application-specific metadata and [*nativetokens.json*](#native-tokens-json) containing metadata about the application's native tokens.
 
 ## Repository Structure
