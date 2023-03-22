@@ -32,7 +32,7 @@ All the *nativetokens.json* files within the repository must adhere to the schem
 
 Example: *mainnet/Lisk/nativetokens.json*
 
-### Logo images
+### Logo Images
 
 We recommend that all the *svg* and *png* format logo images added to the repository adhere to the following resolution: `64px x 64px`.
 
