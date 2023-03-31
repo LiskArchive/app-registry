@@ -7,8 +7,8 @@
     "genesisURL": "https://downloads.lisk.com/lisk/betanet/genesis_block.json.tar.gz",
     "projectPage": "https://lisk.com",
     "logo": {
-        "png": "https://lisk-qa.ams3.digitaloceanspaces.com/Artboard%201%20copy%2019.png",
-        "svg": "https://lisk-qa.ams3.digitaloceanspaces.com/Logo-20.svg"
+        "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/betanet/Lisk/images/application/lisk.png",
+        "svg": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/betanet/Lisk/images/application/lisk.svg"
     },
     "backgroundColor": "#f7f9fb",
     "serviceURLs": [
