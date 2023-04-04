@@ -1,0 +1,27 @@
+{
+    "title": "Colecti - Devnet",
+    "description": "Metadata configuration for the Colecti blockchain (sidechain) in devnet",
+    "chainName": "Colecti",
+    "chainID": "04000002",
+    "networkType": "devnet",
+    "genesisURL": "",
+    "projectPage": "https://colecti.com/",
+    "logo": {
+        "png": "https://lisk-qa.ams3.digitaloceanspaces.com/colecti.png",
+        "svg": ""
+    },
+    "backgroundColor": "#cf2e2e",
+    "serviceURLs": [
+        {
+            "http": "http://devnet-colecti-service.liskdev.net:9901",
+            "ws": "ws://devnet-colecti-service.liskdev.net:9901"
+        }
+    ],
+    "explorers": [],
+    "appNodes": [
+        {
+            "url": "ws://devnet-colecti-service.liskdev.net:7887",
+            "maintainer": "Lightcurve GmbH"
+        }
+    ]
+}

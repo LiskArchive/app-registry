@@ -1,0 +1,27 @@
+{
+    "title": "Colecti - Alphanet",
+    "description": "Metadata configuration for the Colecti blockchain (sidechain) in alphanet",
+    "chainName": "Colecti",
+    "chainID": "03000002",
+    "networkType": "alphanet",
+    "genesisURL": "",
+    "projectPage": "https://colecti.com/",
+    "logo": {
+        "png": "https://lisk-qa.ams3.digitaloceanspaces.com/colecti.png",
+        "svg": ""
+    },
+    "backgroundColor": "#cf2e2e",
+    "serviceURLs": [
+        {
+            "http": "https://alphanet-colecti-service.liskdev.net",
+            "ws": "wss://alphanet-colecti-service.liskdev.net"
+        }
+    ],
+    "explorers": [],
+    "appNodes": [
+        {
+            "url": "ws://alphanet-colecti.liskdev.net:4002",
+            "maintainer": "Lightcurve GmbH"
+        }
+    ]
+}
