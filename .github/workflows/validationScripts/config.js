@@ -29,4 +29,8 @@ config.nativeTokenSchema = path.join(config.rootDir, './schema/nativetokens.json
 // API suffix to get chain ID
 config.networkStatusAPIPath = "/api/v3/network/status";
 
+// Files whitelisted
+config.whitelistedFiles = []
+config.whitelistedExtentionsToValidate = ['.js']
+
 module.exports = config;

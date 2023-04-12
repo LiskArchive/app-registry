@@ -12,29 +12,26 @@
  * Removal or modification of this copyright notice is prohibited.
  */
 
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
 const config = require('../config')
 const { getNetworkDirs } = require('./shared/utils')
 
-const allowedExtensions = ['.js'];
-const whitelist = [];
-
 function isFileOnWhitelist(file) {
-	return whitelist.includes(file);
+	return config.whitelistedFiles.includes(file);
 }
 
 function isExtensionOnWhitelist(file) {
 	const ext = path.extname(file);
-	return allowedExtensions.includes(ext);
+	return config.whitelistedExtentionsToValidate.includes(ext);
 }
 
 async function validateAllWhitelistedFilesForDir(directory) {
 	try {
-		const files = await fs.promises.readdir(directory);
+		const files = await fs.readdir(directory);
 		for (const file of files) {
 			const fullPath = path.join(directory, file);
-			const stat = await fs.promises.stat(fullPath);
+			const stat = await fs.stat(fullPath);
 
 			if (stat.isDirectory()) {
 				await validateAllWhitelistedFilesForDir(fullPath);
