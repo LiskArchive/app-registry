@@ -66,7 +66,7 @@ describe('ChainID Validation tests', () => {
 
 	it('should throw error when service URL API returns status code other than 200', async () => {
 		// Mock axios to return an success response
-		axios.get.mockImplementationOnce(() => Promise.resolve(require('./constants/ServiceURL404Response.json')));
+		axios.get.mockImplementationOnce(() => Promise.resolve(require('./constants/ServiceURL500Response.json')));
 
 		// Test validation
 		await expect(validateAllChainIds(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
