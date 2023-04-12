@@ -18,8 +18,6 @@ const config = require('../config');
 const axios = require('axios');
 const { validateAllConfigFiles } = require('../src/validateConfigFiles');
 
-jest.mock("axios");
-
 describe('Configs in network directories validation tests', () => {
 
 	beforeAll(async () => {
@@ -48,7 +46,7 @@ describe('Configs in network directories validation tests', () => {
 	it('should throw error when app.json is not present in any network directories', async () => {
 		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'nativetokens.json'), JSON.stringify(require('./constants/nativetokens.json')));
 
-		await expect(validateAllConfigFiles(path.join(config.rootDir, 'tempdir'))).rejects.toThrow(Error);
+		await expect(validateAllConfigFiles(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
 		await fs.rm(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'nativetokens.json'));
 	});
@@ -56,7 +54,7 @@ describe('Configs in network directories validation tests', () => {
 	it('should throw error when nativetokens.json is not present in any network directories', async () => {
 		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'app.json'), JSON.stringify(require('./constants/nativetokens.json')));
 
-		await expect(validateAllConfigFiles(path.join(config.rootDir, 'tempdir'))).rejects.toThrow(Error);
+		await expect(validateAllConfigFiles(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
 		await fs.rm(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'app.json'));
 	});

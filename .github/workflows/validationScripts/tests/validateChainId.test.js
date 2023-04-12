@@ -37,7 +37,7 @@ describe('ChainID Validation tests', () => {
 	});
 
 	it('should throw error when serviceURLs dosent contain any URLs', async () => {
-		// Create a test app.json file with chainID different from service URL
+		// Create a test app.json file without any service URL
 		const testAppJson = {
 			chainID: 'testChainID',
 			serviceURLs: [
