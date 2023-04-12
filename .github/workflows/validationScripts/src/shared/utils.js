@@ -14,7 +14,7 @@
 
 const fs = require('fs').promises;
 const path = require('path');
-const config = require('../config');
+const config = require('../../config');
 
 async function getNestedFilesByName(directory, filename) {
 	const entries = await fs.readdir(directory);

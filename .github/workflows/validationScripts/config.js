@@ -17,7 +17,7 @@ const path = require("path");
 const config = {};
 
 // Root directory which holds networks
-config.rootDir = path.join(__dirname, '../../../../');
+config.rootDir = path.join(__dirname, '../../../');
 
 // Directories not related to networks
 config.nonNetworkDirs = ['.git', '.github', 'schema', 'docs']

@@ -16,7 +16,7 @@ const { validateAllSchemas } = require('./schemaValidation');
 const { validateAllChainIds } = require('./validateChainId');
 const { validateAllWhitelistedFiles } = require('./validateWhitelistedFiles');
 const { validateAllConfigFiles } = require('./validateConfigFiles');
-const config = require('./config');
+const config = require('../config');
 
 // Validate schemas
 validateAllSchemas(config.rootDir);

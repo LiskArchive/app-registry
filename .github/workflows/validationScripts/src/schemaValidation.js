@@ -14,7 +14,7 @@
 
 const Ajv = require("ajv");
 const addFormats = require("ajv-formats");
-const config = require('./config');
+const config = require('../config');
 
 const { getNestedFilesByName, getNetworkDirs} = require("./shared/utils")
 

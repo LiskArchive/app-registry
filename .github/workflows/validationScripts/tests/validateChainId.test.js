@@ -14,7 +14,7 @@
 
 const fs = require('fs').promises;;
 const path = require('path');
-const config = require('../src/config');
+const config = require('../config');
 const axios = require('axios');
 const { validateAllChainIds } = require('../src/validateChainId');
 

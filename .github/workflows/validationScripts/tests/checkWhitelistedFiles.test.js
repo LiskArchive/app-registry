@@ -13,7 +13,7 @@
  */
 
 const { validateAllWhitelistedFiles } = require('../src/validateWhitelistedFiles');
-const config = require('../src/config');
+const config = require('../config');
 const fs = require('fs').promises;
 const path = require('path');
 

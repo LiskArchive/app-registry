@@ -14,7 +14,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const config = require('./config')
+const config = require('../config')
 const { getNetworkDirs } = require('./shared/utils')
 
 const allowedExtensions = ['.js'];
