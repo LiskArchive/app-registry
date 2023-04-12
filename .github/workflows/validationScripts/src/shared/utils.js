@@ -71,5 +71,6 @@ async function getNetworkDirs(rootDir) {
 
 module.exports = {
 	getNestedFilesByName: getNestedFilesByName,
+	getDirectories: getDirectories,
 	getNetworkDirs: getNetworkDirs
 }

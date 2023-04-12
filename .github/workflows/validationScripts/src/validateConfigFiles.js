@@ -15,7 +15,7 @@
 const fs = require('fs').promises;
 const path = require('path');
 const config = require('./config');
-const { getNetworkDirs } = require('./shared/utils')
+const { getNetworkDirs, getDirectories } = require('./shared/utils')
 
 async function validateConfigInDir(directory) {
 	try {
@@ -31,14 +31,14 @@ async function validateConfigInDir(directory) {
 
 async function validateAllConfigFilesForDir(rootFolder) {
 	try {
-		const dirs = await fs.readdir(rootFolder, { withFileTypes: true });
-		for (const dirent of dirs) {
-			if (dirent.isDirectory()) {
-				await validateConfigInDir(path.join(rootFolder, dirent.name));
-			}
+		const dirs = await getDirectories(rootFolder);
+
+		for (const dir of dirs) {
+			await validateConfigInDir(dir);
 		}
+
 	} catch (err) {
-		throw new Error(`Error reading directory ${rootFolder}: ${err}`);
+		throw new Error(`Error: ${err}`);
 	}
 }
 
