@@ -16,6 +16,8 @@ const { validateAllSchemas } = require('../src/schemaValidation');
 const config = require('../config');
 const fs = require('fs').promises;
 const path = require('path');
+const invalidNativeTokensConfig = require ('./constants/invalidNativeTokensConfig')
+const invalidAppConfig = require('./constants/invalidAppConfig')
 
 describe('Schema Validation Tests', () => {
 	beforeAll(async () => {
@@ -42,7 +44,7 @@ describe('Schema Validation Tests', () => {
 
 	it('should throw error while validating schema for app.json without background color', async () => {
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet2'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet2', 'app.json'), JSON.stringify(require('./constants/invalidConfigs/app_backgroundColorNotPresent.json')));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet2', 'app.json'), JSON.stringify(invalidAppConfig.backgroundColorNotPresent));
 
 		await expect(validateAllSchemas(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
@@ -51,7 +53,7 @@ describe('Schema Validation Tests', () => {
 
 	it('should throw error while validating schema for app.json without chain ID', async () => {
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet3'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet3', 'app.json'), JSON.stringify(require('./constants/invalidConfigs/app_chainIDNotPresent.json')));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet3', 'app.json'), JSON.stringify(invalidAppConfig.chainIDNotPresent));
 
 		await expect(validateAllSchemas(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
@@ -60,7 +62,7 @@ describe('Schema Validation Tests', () => {
 
 	it('should throw error while validating schema for app.json without chainName', async () => {
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet4'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet4', 'app.json'), JSON.stringify(require('./constants/invalidConfigs/app_chainNameNotPresent.json')));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet4', 'app.json'), JSON.stringify(invalidAppConfig.chainNameNotPresent));
 
 		await expect(validateAllSchemas(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
@@ -69,7 +71,7 @@ describe('Schema Validation Tests', () => {
 
 	it('should throw error while validating schema for app.json without explorers', async () => {
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet5'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet5', 'app.json'), JSON.stringify(require('./constants/invalidConfigs/app_explorersNotPresent.json')));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet5', 'app.json'), JSON.stringify(invalidAppConfig.explorersNotPresent));
 
 		await expect(validateAllSchemas(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
@@ -78,7 +80,7 @@ describe('Schema Validation Tests', () => {
 
 	it('should throw error while validating schema for app.json without genesis url', async () => {
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet6'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet6', 'app.json'), JSON.stringify(require('./constants/invalidConfigs/app_genesisURLNotPresent.json')));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet6', 'app.json'), JSON.stringify(invalidAppConfig.genesisURLNotPresent));
 
 		await expect(validateAllSchemas(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
@@ -87,7 +89,7 @@ describe('Schema Validation Tests', () => {
 
 	it('should throw error while validating schema for app.json without logo', async () => {
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet7'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet7', 'app.json'), JSON.stringify(require('./constants/invalidConfigs/app_logoNotPresent.json')));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet7', 'app.json'), JSON.stringify(invalidAppConfig.logoNotPresent));
 
 		await expect(validateAllSchemas(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
@@ -96,7 +98,7 @@ describe('Schema Validation Tests', () => {
 
 	it('should throw error while validating schema for app.json without network type', async () => {
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet8'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet8', 'app.json'), JSON.stringify(require('./constants/invalidConfigs/app_networkTypeNotPresent.json')));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet8', 'app.json'), JSON.stringify(invalidAppConfig.networkTypeNotPresent));
 
 		await expect(validateAllSchemas(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
@@ -105,7 +107,7 @@ describe('Schema Validation Tests', () => {
 
 	it('should throw error while validating schema for app.json without project page', async () => {
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet9'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet9', 'app.json'), JSON.stringify(require('./constants/invalidConfigs/app_projectPageNotPresent.json')));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet9', 'app.json'), JSON.stringify(invalidAppConfig.projectPageNotPresent));
 
 		await expect(validateAllSchemas(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
@@ -114,7 +116,7 @@ describe('Schema Validation Tests', () => {
 
 	it('should throw error while validating schema for app.json without service url', async () => {
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet10'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet10', 'app.json'), JSON.stringify(require('./constants/invalidConfigs/app_serviceURLsNotPresent.json')));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet10', 'app.json'), JSON.stringify(invalidAppConfig.serviceURLsNotPresent));
 
 		await expect(validateAllSchemas(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
@@ -123,7 +125,7 @@ describe('Schema Validation Tests', () => {
 
 	it('should throw error while validating schema for app.json with incorrect Service url', async () => {
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet11'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet11', 'app.json'), JSON.stringify(require('./constants/invalidConfigs/app_serviceUrlIncorrect.json')));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet11', 'app.json'), JSON.stringify(invalidAppConfig.serviceUrlIncorrect));
 
 		await expect(validateAllSchemas(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
@@ -132,7 +134,7 @@ describe('Schema Validation Tests', () => {
 
 	it('should throw error while validating schema for nativetokens.json with incorrect tokens type', async () => {
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet12'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet12', 'app.json'), JSON.stringify(require('./constants/invalidConfigs/nativetokens_tokensIncorrect.json')));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet12', 'app.json'), JSON.stringify(invalidNativeTokensConfig.tokensIncorrect));
 
 		await expect(validateAllSchemas(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
@@ -141,7 +143,7 @@ describe('Schema Validation Tests', () => {
 
 	it('should throw error while validating schema for nativetokens.json without tokens', async () => {
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet13'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet13', 'app.json'), JSON.stringify(require('./constants/invalidConfigs/nativetokens_tokensNotPresent.json')));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet13', 'app.json'), JSON.stringify(invalidNativeTokensConfig.tokensNotPresent));
 
 		await expect(validateAllSchemas(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
