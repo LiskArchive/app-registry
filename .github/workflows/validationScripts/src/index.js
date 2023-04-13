@@ -13,7 +13,7 @@
  */
 
 const { validateAllSchemas } = require('./schemaValidation');
-const { validateAllChainIds } = require('./validateChainId');
+const { validateAllChainIDs } = require('./validateChainID');
 const { validateAllWhitelistedFiles } = require('./validateWhitelistedFiles');
 const { validateAllConfigFiles } = require('./validateConfigFiles');
 const config = require('../config');
@@ -27,5 +27,5 @@ validateAllWhitelistedFiles(config.rootDir);
 // Check Config files
 validateAllConfigFiles(config.rootDir);
 
-// Validate chain Ids
-validateAllChainIds(config.rootDir);
+// Validate chain IDs
+validateAllChainIDs(config.rootDir);

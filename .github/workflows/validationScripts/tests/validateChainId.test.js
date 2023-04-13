@@ -16,7 +16,7 @@ const fs = require('fs').promises;;
 const path = require('path');
 const config = require('../config');
 const axios = require('axios');
-const { validateAllChainIds } = require('../src/validateChainId');
+const { validateAllChainIDs } = require('../src/validateChainID');
 
 jest.mock("axios");
 
@@ -47,7 +47,7 @@ describe('ChainID Validation tests', () => {
 		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet2', 'app.json'), JSON.stringify(testAppJson));
 
 		// Test validation with the test app.json file
-		await expect(validateAllChainIds(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
+		await expect(validateAllChainIDs(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
 		// Delete the test app.json file
 		await fs.rm(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet2', 'app.json'));
@@ -58,7 +58,7 @@ describe('ChainID Validation tests', () => {
 		axios.get.mockImplementationOnce(() => Promise.reject(new Error('mock error')));
 
 		// Test validation
-		await expect(validateAllChainIds(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
+		await expect(validateAllChainIDs(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
 		// Restore axios mock
 		jest.resetAllMocks();
@@ -69,7 +69,7 @@ describe('ChainID Validation tests', () => {
 		axios.get.mockImplementationOnce(() => Promise.resolve(require('./constants/ServiceURL500Response.json')));
 
 		// Test validation
-		await expect(validateAllChainIds(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
+		await expect(validateAllChainIDs(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
 		// Restore axios mock
 		jest.resetAllMocks();
@@ -80,7 +80,7 @@ describe('ChainID Validation tests', () => {
 		axios.get.mockImplementationOnce(() => Promise.resolve(require('./constants/ServiceURLSuccessResponse.json')));
 
 		// Test validation
-		await expect(validateAllChainIds(path.join(config.rootDir, 'tempdir'))).resolves.not.toThrow();
+		await expect(validateAllChainIDs(path.join(config.rootDir, 'tempdir'))).resolves.not.toThrow();
 
 		// Restore axios mock
 		jest.resetAllMocks();
@@ -91,7 +91,7 @@ describe('ChainID Validation tests', () => {
 		axios.get.mockImplementationOnce(() => Promise.resolve(require('./constants/ServiceURLIncorrectChainIDResponse.json')));
 
 		// Test validation
-		await expect(validateAllChainIds(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
+		await expect(validateAllChainIDs(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
 		// Restore axios mock
 		jest.resetAllMocks();

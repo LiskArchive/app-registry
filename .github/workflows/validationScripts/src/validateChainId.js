@@ -18,13 +18,13 @@ const axios = require('axios');
 
 const { getNestedFilesByName, getNetworkDirs } = require("./shared/utils")
 
-const validateAllChainIds = async (directory) => {
+const validateAllChainIDs = async (directory) => {
 	// Get all network dirs for schema validation
 	const networkDirs = await getNetworkDirs(directory);
 
 	for (const networkDir of networkDirs) {
 		// Get all app.json files from network folders
-		let appFiles = await getNestedFilesByName(networkDir, 'app.json');
+		const appFiles = await getNestedFilesByName(networkDir, 'app.json');
 
 		// Validate chain ID for all app.json files
 		for (appFile of appFiles) {
@@ -34,11 +34,11 @@ const validateAllChainIds = async (directory) => {
 				throw new Error("Service URL or chain ID missing from app.json")
 			}
 
-			const chainId = data.chainID;
-			const serviceURL = data.serviceURLs[0].http;
+			const chainID = data.chainID;
+			const [{ http: serviceURL }] = data.serviceURLs;
 
-			let chainIDFromServiceURL = await getChainIdFromService(serviceURL + "/api/v3/network/status");
-			if (chainIDFromServiceURL != chainId) {
+			const chainIDFromServiceURL = await getChainIDFromService(serviceURL + "/api/v3/network/status");
+			if (chainIDFromServiceURL != chainID) {
 				throw new Error("Chain ID mismatch from service URL")
 			}
 		}
@@ -46,12 +46,12 @@ const validateAllChainIds = async (directory) => {
 	}
 }
 
-const getChainIdFromService = async (serviceURL) => {
+const getChainIDFromService = async (serviceURL) => {
 	try {
 		const response = await axios.get(serviceURL);
 		if (response.status === 200) {
-			const chainId = response.data.data.chainID;
-			return chainId;
+			const chainID = response.data.data.chainID;
+			return chainID;
 		} else {
 			throw new Error(`Error: Service URL API returned status code ${response.status}`);
 		}
@@ -61,5 +61,5 @@ const getChainIdFromService = async (serviceURL) => {
 }
 
 module.exports = {
-	validateAllChainIds: validateAllChainIds
+	validateAllChainIDs,
 }

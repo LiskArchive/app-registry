@@ -53,5 +53,5 @@ async function validateAllWhitelistedFiles(directory) {
 }
 
 module.exports = {
-	validateAllWhitelistedFiles: validateAllWhitelistedFiles
+	validateAllWhitelistedFiles,
 }

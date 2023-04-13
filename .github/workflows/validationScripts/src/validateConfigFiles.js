@@ -51,5 +51,5 @@ async function validateAllConfigFiles(directory) {
 }
 
 module.exports = {
-	validateAllConfigFiles: validateAllConfigFiles
+	validateAllConfigFiles,
 }
