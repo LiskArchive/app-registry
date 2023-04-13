@@ -1,0 +1,30 @@
+name: Validate on Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: cd .github/workflows/validationScripts && npm install
+
+      - name: Run validation script
+        run: cd .github/workflows/validationScripts && npm start
+
+      - name: Check for errors
+        run: |
+          if [ $? -eq 0 ]
+          then
+            echo "Validation successful"
+          else
+            echo "Validation failed"
+            exit 1
+          fi
