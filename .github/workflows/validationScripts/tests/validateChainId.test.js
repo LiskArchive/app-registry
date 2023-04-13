@@ -17,7 +17,7 @@ const path = require('path');
 const config = require('../config');
 const axios = require('axios');
 const { validateAllChainIDs } = require('../src/validateChainID');
-const { serviceURLSuccessRes, serviceURL500Res, serviceURLIncorrectRes } = require('./constants/serviceURLResponse');
+const serviceURLResponse = require('./constants/serviceURLResponse');
 
 jest.mock("axios");
 
@@ -67,7 +67,7 @@ describe('ChainID Validation tests', () => {
 
 	it('should throw error when service URL API returns status code other than 200', async () => {
 		// Mock axios to return an success response
-		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURL500Res));
+		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURL500Res));
 
 		// Test validation
 		await expect(validateAllChainIDs(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
@@ -78,7 +78,7 @@ describe('ChainID Validation tests', () => {
 
 	it('should not throw error when service URL API returns correct chain ID', async () => {
 		// Mock axios to return an success response
-		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLSuccessRes));
+		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
 
 		// Test validation
 		await expect(validateAllChainIDs(path.join(config.rootDir, 'tempdir'))).resolves.not.toThrow();
@@ -89,7 +89,7 @@ describe('ChainID Validation tests', () => {
 
 	it('should throw error when service URL API returns incorrect chain ID', async () => {
 		// Mock axios to return an success response
-		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLIncorrectRes));
+		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURLIncorrectRes));
 
 		// Test validation
 		await expect(validateAllChainIDs(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
