@@ -16,6 +16,7 @@ const { validateAllWhitelistedFiles } = require('../src/validateWhitelistedFiles
 const config = require('../config');
 const fs = require('fs').promises;
 const path = require('path');
+const validConfig = require('./constants/validConfig')
 
 describe('Whitelisted Files Tests', () => {
 	beforeAll(async () => {
@@ -24,8 +25,8 @@ describe('Whitelisted Files Tests', () => {
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'docs'));
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet'));
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'app.json'), JSON.stringify(require('./constants/app.json')));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'nativetokens.json'), JSON.stringify(require('./constants/nativetokens.json')));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'app.json'), JSON.stringify(validConfig.appConfig));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'nativetokens.json'), JSON.stringify(validConfig.nativeTokenConfig));
 	});
 
 	afterAll(async () => {

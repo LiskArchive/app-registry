@@ -18,6 +18,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const invalidNativeTokensConfig = require ('./constants/invalidNativeTokensConfig')
 const invalidAppConfig = require('./constants/invalidAppConfig')
+const validConfig = require('./constants/validConfig')
 
 describe('Schema Validation Tests', () => {
 	beforeAll(async () => {
@@ -34,8 +35,8 @@ describe('Schema Validation Tests', () => {
 
 	it('should validate correct schema', async () => {
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'app.json'), JSON.stringify(require('./constants/app.json')));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'nativetokens.json'), JSON.stringify(require('./constants/nativetokens.json')));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'app.json'), JSON.stringify(validConfig.appConfig));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'nativetokens.json'), JSON.stringify(validConfig.nativeTokenConfig));
 
 		await expect(validateAllSchemas(config.rootDir)).resolves.not.toThrow();
 

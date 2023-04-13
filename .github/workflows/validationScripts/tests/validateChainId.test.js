@@ -18,6 +18,7 @@ const config = require('../config');
 const axios = require('axios');
 const { validateAllChainIDs } = require('../src/validateChainID');
 const serviceURLResponse = require('./constants/serviceURLResponse');
+const validConfig = require('./constants/validConfig')
 
 jest.mock("axios");
 
@@ -29,7 +30,7 @@ describe('ChainID Validation tests', () => {
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'docs'));
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet'));
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'app.json'), JSON.stringify(require('./constants/app.json')));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'app.json'), JSON.stringify(validConfig.appConfig));
 	});
 
 	afterAll(async () => {
