@@ -36,17 +36,17 @@ async function getNestedFilesByName(directory, filename) {
 async function getDirectories(directory) {
 	try {
 		const files = await fs.readdir(directory);
-		const subdirectories = await Promise.all(
-			files.map(async (file) => {
-				const filePath = path.join(directory, file);
-				const stat = await fs.stat(filePath);
-				if (stat.isDirectory()) {
-					return filePath;
-				} else {
-					return null;
-				}
-			})
-		);
+		const subdirectories = [];
+
+		for (const file of files) {
+			const filePath = path.join(directory, file);
+			const stat = await fs.stat(filePath);
+
+			if (stat.isDirectory()) {
+				subdirectories.push(filePath);
+			}
+		}
+
 		return subdirectories.filter((subdirectory) => subdirectory !== null);
 	} catch (err) {
 		throw new Error(`Error getting subdirectories in ${directory}: ${err}`);
