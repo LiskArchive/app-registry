@@ -22,41 +22,41 @@ const validConfig = require('./constants/validConfig')
 describe('Configs in network directories validation tests', () => {
 
 	beforeAll(async () => {
-		// create a temporary directory and some files for testing
+		// Create a temporary directory and some files for testing
 		await fs.mkdir(path.join(config.rootDir, 'tempdir'));
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'docs'));
-		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet'));
-		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet'));
+		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainnet'));
+		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain'));
 	});
 
 	afterAll(async () => {
-		// remove the temporary directory and files created during testing
+		// Remove the temporary directory and files created during testing
 		await fs.rm(path.join(config.rootDir, 'tempdir'), { recursive: true });
 	});
 
 	it('should not throw error when app.json and nativetokens.json is present in all network directories', async () => {
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'app.json'), JSON.stringify(validConfig.appConfig));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'nativetokens.json'), JSON.stringify(validConfig.nativeTokenConfig));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain', 'app.json'), JSON.stringify(validConfig.appConfig));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain', 'nativetokens.json'), JSON.stringify(validConfig.nativeTokenConfig));
 
 		await expect(validateAllConfigFiles(path.join(config.rootDir, 'tempdir'))).resolves.not.toThrow();
 
-		await fs.rm(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'app.json'));
-		await fs.rm(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'nativetokens.json'));
+		await fs.rm(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain', 'app.json'));
+		await fs.rm(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain', 'nativetokens.json'));
 	});
 
 	it('should throw error when app.json is not present in any network directories', async () => {
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'nativetokens.json'), JSON.stringify(validConfig.nativeTokenConfig));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain', 'nativetokens.json'), JSON.stringify(validConfig.nativeTokenConfig));
 
 		await expect(validateAllConfigFiles(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
-		await fs.rm(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'nativetokens.json'));
+		await fs.rm(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain', 'nativetokens.json'));
 	});
 
 	it('should throw error when nativetokens.json is not present in any network directories', async () => {
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'app.json'), JSON.stringify(validConfig.nativeTokenConfig));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain', 'app.json'), JSON.stringify(validConfig.nativeTokenConfig));
 
 		await expect(validateAllConfigFiles(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
-		await fs.rm(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'app.json'));
+		await fs.rm(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain', 'app.json'));
 	});
 });

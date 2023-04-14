@@ -16,7 +16,7 @@ const Ajv = require("ajv");
 const addFormats = require("ajv-formats");
 const config = require('../config');
 
-const { getNestedFilesByName, getNetworkDirs} = require("./shared/utils")
+const { getNestedFilesByName, getNetworkDirs, readJsonFile} = require("./shared/utils")
 
 const appSchema = require(config.appSchema);
 const nativeTokenSchema = require(config.nativeTokenSchema);
@@ -34,20 +34,19 @@ const validateAllSchemas = async (directory) => {
 		const appFiles = await getNestedFilesByName(networkDir, 'app.json');
 
 		// Validate all app files
-		validateSchema(appSchema, appFiles);
+		await validateSchema(appSchema, appFiles);
 
 		// Get all nativetokens.json files from network folders
 		const nativeTokenFiles = await getNestedFilesByName(networkDir, 'nativetokens.json');
 
 		// Validate all nativetokens files
-		validateSchema(nativeTokenSchema, nativeTokenFiles);
+		await validateSchema(nativeTokenSchema, nativeTokenFiles);
 	}
 }
 
-const validateSchema = (schema, filePaths) => {
+const validateSchema = async (schema, filePaths) => {
 	for (filePath of filePaths) {
-
-		const data = require(filePath);
+		const data = await readJsonFile(filePath);
 		const valid = ajv.validate(schema, data);
 
 		if (!valid) {

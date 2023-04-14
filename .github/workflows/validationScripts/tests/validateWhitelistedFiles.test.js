@@ -20,17 +20,17 @@ const validConfig = require('./constants/validConfig')
 
 describe('Whitelisted Files Tests', () => {
 	beforeAll(async () => {
-		// create a temporary directory and some files for testing
+		// Create a temporary directory and some files for testing
 		await fs.mkdir(path.join(config.rootDir, 'tempdir'));
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'docs'));
-		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet'));
-		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'app.json'), JSON.stringify(validConfig.appConfig));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'nativetokens.json'), JSON.stringify(validConfig.nativeTokenConfig));
+		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainnet'));
+		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain'));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain', 'app.json'), JSON.stringify(validConfig.appConfig));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain', 'nativetokens.json'), JSON.stringify(validConfig.nativeTokenConfig));
 	});
 
 	afterAll(async () => {
-		// remove the temporary directory and files created during testing
+		// Remove the temporary directory and files created during testing
 		await fs.rm(path.join(config.rootDir, 'tempdir'), { recursive: true });
 	});
 
@@ -39,9 +39,9 @@ describe('Whitelisted Files Tests', () => {
 	});
 
 	it('should throw an error for non-whitelisted files', async () => {
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'tempfile2.js'), 'console.log("hello world");');
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainnet', 'tempfile2.js'), 'console.log("hello world");');
 		await expect(validateAllWhitelistedFiles(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
-		await fs.rm(path.join(config.rootDir, 'tempdir', 'mainNet', 'tempfile2.js'));
+		await fs.rm(path.join(config.rootDir, 'tempdir', 'mainnet', 'tempfile2.js'));
 	});
 
 	it('should not check files in non-network directories', async () => {

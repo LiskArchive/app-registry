@@ -25,16 +25,16 @@ jest.mock("axios");
 describe('ChainID Validation tests', () => {
 
 	beforeAll(async () => {
-		// create a temporary directory and some files for testing
+		// Create a temporary directory and some files for testing
 		await fs.mkdir(path.join(config.rootDir, 'tempdir'));
 		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'docs'));
-		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet'));
-		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet', 'app.json'), JSON.stringify(validConfig.appConfig));
+		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainnet'));
+		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain'));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain', 'app.json'), JSON.stringify(validConfig.appConfig));
 	});
 
 	afterAll(async () => {
-		// remove the temporary directory and files created during testing
+		// Remove the temporary directory and files created during testing
 		await fs.rm(path.join(config.rootDir, 'tempdir'), { recursive: true });
 	});
 
@@ -45,14 +45,14 @@ describe('ChainID Validation tests', () => {
 			serviceURLs: [
 			],
 		};
-		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet2'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet2', 'app.json'), JSON.stringify(testAppJson));
+		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain2'));
+		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain2', 'app.json'), JSON.stringify(testAppJson));
 
 		// Test validation with the test app.json file
 		await expect(validateAllChainIDs(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
 
 		// Delete the test app.json file
-		await fs.rm(path.join(config.rootDir, 'tempdir', 'mainNet', 'testNet2', 'app.json'));
+		await fs.rm(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain2', 'app.json'));
 	});
 
 	it('should throw error when service URL API returns an error', async () => {

@@ -30,7 +30,7 @@ const validateAllChainIDs = async (directory) => {
 		for (appFile of appFiles) {
 			const data = require(appFile);
 
-			if(!data || !data.chainID || !data.serviceURLs || !data.serviceURLs[0] || !data.serviceURLs[0].http){
+			if (!data || !data.chainID || !data.serviceURLs || !data.serviceURLs[0] || !data.serviceURLs[0].http) {
 				throw new Error("Service URL or chain ID missing from app.json")
 			}
 
@@ -39,7 +39,7 @@ const validateAllChainIDs = async (directory) => {
 
 			const chainIDFromServiceURL = await getChainIDFromService(serviceURL + "/api/v3/network/status");
 			if (chainIDFromServiceURL != chainID) {
-				throw new Error("Chain ID mismatch from service URL")
+				throw new Error('Chain ID mismatch. \nService URL chain ID: ${chainIDFromServiceURL}. \napp.json chain ID: ${chainID}. \nPlease ensure that they match and try again.');
 			}
 		}
 

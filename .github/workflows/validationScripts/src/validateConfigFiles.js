@@ -31,12 +31,10 @@ async function validateConfigInDir(directory) {
 
 async function validateAllConfigFilesForDir(rootFolder) {
 	try {
-		const dirs = await getDirectories(rootFolder);
-
-		for (const dir of dirs) {
-			await validateConfigInDir(dir);
+		const appDirs = await getDirectories(rootFolder);
+		for (const appDir of appDirs) {
+			await validateConfigInDir(appDir);
 		}
-
 	} catch (err) {
 		throw new Error(`Error: ${err}`);
 	}

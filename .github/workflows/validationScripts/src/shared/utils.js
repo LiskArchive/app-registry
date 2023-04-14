@@ -18,23 +18,16 @@ const config = require('../../config');
 
 async function getNestedFilesByName(directory, filename) {
 	const entries = await fs.readdir(directory);
-	const subDirs = [];
 	const appJsonPaths = [];
-
 	for (const entry of entries) {
 		const entryPath = path.join(directory, entry);
 		const entryStat = await fs.stat(entryPath);
-
 		if (entryStat.isDirectory()) {
-			subDirs.push(entryPath);
+			const nestedFilePaths = await getNestedFilesByName(entryPath, filename);
+		        appJsonPaths.push(...nestedFilePaths);
 		} else if (entry === filename) {
 			appJsonPaths.push(entryPath);
 		}
-	}
-
-	for (const subDir of subDirs) {
-		const nestedPaths = await getNestedFilesByName(subDir, filename);
-		appJsonPaths.push(...nestedPaths);
 	}
 
 	return appJsonPaths;
@@ -62,15 +55,21 @@ async function getDirectories(directory) {
 
 async function getNetworkDirs(rootDir) {
 	const subDirs = await getDirectories(rootDir);
-	const networkDirs = subDirs.filter((filePath) => !config.nonNetworkDirs.some((ending) => filePath.endsWith(ending)))
+	const networkDirs = subDirs.filter((dirPath) => !config.nonNetworkDirs.some((nonNetworkDirName) => dirPath.endsWith(nonNetworkDirName)))
 
 	return networkDirs;
 }
 
+async function readJsonFile(filePath) {
+	const fileContent = await fs.readFile(filePath, 'utf-8');
+	const data = JSON.parse(fileContent);
+	return data;
+}
 
 
 module.exports = {
 	getNestedFilesByName: getNestedFilesByName,
 	getDirectories: getDirectories,
-	getNetworkDirs: getNetworkDirs
+	getNetworkDirs: getNetworkDirs,
+	readJsonFile: readJsonFile
 }
