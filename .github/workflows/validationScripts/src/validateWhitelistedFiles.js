@@ -15,7 +15,6 @@
 const fs = require('fs').promises;
 const path = require('path');
 const config = require('../config')
-const { getNetworkDirs } = require('./shared/utils')
 
 function isFileOnWhitelist(file) {
 	return config.whitelistedFiles.includes(file);
@@ -44,11 +43,9 @@ async function validateAllWhitelistedFilesForDir(directory) {
 	}
 }
 
-async function validateAllWhitelistedFiles(directory) {
-	const allowedDirs = await getNetworkDirs(directory);
-
-	for (const dir of allowedDirs) {
-		await validateAllWhitelistedFilesForDir(dir);
+async function validateAllWhitelistedFiles(networkDirs) {
+	for (const networkDir of networkDirs) {
+		await validateAllWhitelistedFilesForDir(networkDir);
 	}
 }
 

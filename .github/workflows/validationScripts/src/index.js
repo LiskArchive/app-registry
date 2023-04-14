@@ -16,20 +16,29 @@ const { validateAllSchemas } = require('./schemaValidation');
 const { validateAllChainIDs } = require('./validateChainID');
 const { validateAllWhitelistedFiles } = require('./validateWhitelistedFiles');
 const { validateAllConfigFiles } = require('./validateConfigFiles');
+const { getNetworkDirs, getNestedFilesByName } = require('./shared/utils')
 const config = require('../config');
 
 const validate = async () => {
+    // Get all network dirs for schema validation
+	const networkDirs = await getNetworkDirs(config.rootDir);
+
+    const files = [];
+    for (const networkDir of networkDirs) {
+        files.push(... await getNestedFilesByName(networkDir, [config.appJsonFilename, config.nativetokensJsonFilename]));
+    }
+
     // Validate schemas
-    await validateAllSchemas(config.rootDir);
+    await validateAllSchemas(files);
 
     // Check whitelisted Files
-    await validateAllWhitelistedFiles(config.rootDir);
+    await validateAllWhitelistedFiles(networkDirs);
 
     // Check Config files
-    await validateAllConfigFiles(config.rootDir);
+    await validateAllConfigFiles(networkDirs);
 
     // Validate chain IDs
-    await validateAllChainIDs(config.rootDir);
+    await validateAllChainIDs(files);
 }
 
 validate();

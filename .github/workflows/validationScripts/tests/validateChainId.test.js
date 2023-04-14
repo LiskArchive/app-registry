@@ -19,7 +19,10 @@ const serviceURLResponse = require('./constants/serviceURLResponse');
 const validConfig = require('./constants/validConfig')
 const fsUtil = require('./shared/fsUtil')
 
+let filesToTest;
+
 jest.mock("axios");
+
 
 describe('ChainID Validation tests', () => {
 
@@ -27,6 +30,7 @@ describe('ChainID Validation tests', () => {
 		// Create a temporary directory and some files for testing
 		await fsUtil.createTestEnvironment();
 		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(validConfig.appConfig));
+		filesToTest = await fsUtil.getJSONFilesFromNetwork();
 	});
 
 	afterAll(async () => {
@@ -39,7 +43,7 @@ describe('ChainID Validation tests', () => {
 		axios.get.mockImplementationOnce(() => Promise.reject(new Error('mock error')));
 
 		// Test validation
-		await expect(validateAllChainIDs(fsUtil.tempDataDir)).rejects.toThrow();
+		await expect(validateAllChainIDs(filesToTest)).rejects.toThrow();
 
 		// Restore axios mock
 		jest.resetAllMocks();
@@ -50,7 +54,7 @@ describe('ChainID Validation tests', () => {
 		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURL500Res));
 
 		// Test validation
-		await expect(validateAllChainIDs(fsUtil.tempDataDir)).rejects.toThrow();
+		await expect(validateAllChainIDs(filesToTest)).rejects.toThrow();
 
 		// Restore axios mock
 		jest.resetAllMocks();
@@ -61,7 +65,7 @@ describe('ChainID Validation tests', () => {
 		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
 
 		// Test validation
-		await expect(validateAllChainIDs(fsUtil.tempDataDir)).resolves.not.toThrow();
+		await expect(validateAllChainIDs(filesToTest)).resolves.not.toThrow();
 
 		// Restore axios mock
 		jest.resetAllMocks();
@@ -72,7 +76,7 @@ describe('ChainID Validation tests', () => {
 		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURLIncorrectRes));
 
 		// Test validation
-		await expect(validateAllChainIDs(fsUtil.tempDataDir)).rejects.toThrow();
+		await expect(validateAllChainIDs(filesToTest)).rejects.toThrow();
 
 		// Restore axios mock
 		jest.resetAllMocks();

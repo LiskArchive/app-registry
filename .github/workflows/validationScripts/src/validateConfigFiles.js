@@ -15,7 +15,7 @@
 const fs = require('fs').promises;
 const path = require('path');
 const config = require('../config');
-const { getNetworkDirs, getDirectories } = require('./shared/utils')
+const { getDirectories } = require('./shared/utils')
 
 async function validateConfigInDir(directory) {
 	try {
@@ -40,9 +40,7 @@ async function validateAllConfigFilesForDir(rootFolder) {
 	}
 }
 
-async function validateAllConfigFiles(directory) {
-	const networkDirs = await getNetworkDirs(directory);
-
+async function validateAllConfigFiles(networkDirs) {
 	for (const networkDir of networkDirs) {
 		await validateAllConfigFilesForDir(networkDir);
 	}

@@ -15,8 +15,7 @@
 const Ajv = require("ajv");
 const addFormats = require("ajv-formats");
 const config = require('../config');
-
-const { getNestedFilesByName, getNetworkDirs, readJsonFile} = require("./shared/utils")
+const { readJsonFile } = require("./shared/utils")
 
 const appSchema = require(config.appSchema);
 const nativeTokenSchema = require(config.nativeTokenSchema);
@@ -24,31 +23,28 @@ const nativeTokenSchema = require(config.nativeTokenSchema);
 const ajv = new Ajv()
 addFormats(ajv)
 
-const validateAllSchemas = async (directory) => {
+const validateAllSchemas = async (files) => {
 
-	// Get all network dirs for schema validation
-	const networkDirs = await getNetworkDirs(directory);
+	// Get all app.json files
+	const appFiles = files.filter((filename) => {
+		return filename.endsWith('app.json');
+	});
 
-	for (const networkDir of networkDirs) {
-		// Get all app.json files from network folders
-		const appFiles = await getNestedFilesByName(networkDir, config.appJsonFilename);
+	// Get all nativetokens.json files
+	const nativeTokenFiles = files.filter((filename) => {
+		return filename.endsWith('nativetokens.json');
+	});
 
-		// Validate all app files
-		await validateSchema(appSchema, appFiles);
-
-		// Get all nativetokens.json files from network folders
-		const nativeTokenFiles = await getNestedFilesByName(networkDir, config.nativetokensJsonFilename);
-
-		// Validate all nativetokens files
-		await validateSchema(nativeTokenSchema, nativeTokenFiles);
-	}
+	// Validate schemas
+	await validateSchema(appSchema, appFiles);
+	await validateSchema(nativeTokenSchema, nativeTokenFiles);
 }
 
 const validateSchema = async (schema, filePaths) => {
 	for (filePath of filePaths) {
 		const data = await readJsonFile(filePath);
 		const valid = ajv.validate(schema, data);
-
+	
 		if (!valid) {
 			throw new Error(JSON.stringify(ajv.errors));
 		}

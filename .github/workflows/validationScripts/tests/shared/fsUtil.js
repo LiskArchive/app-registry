@@ -32,6 +32,17 @@ const removeFileFromDocs = async (filename) => {
     await fs.rm(path.join(config.rootDir, 'tempdir', 'docs', filename));
 }
 
+const getJSONFilesFromNetwork = async () => {
+    const files = [];
+    files.push(path.join(config.rootDir, 'tempdir', 'mainnet', 'network', config.appJsonFilename));
+    files.push(path.join(config.rootDir, 'tempdir', 'mainnet', 'network', config.nativetokensJsonFilename));
+    return files;
+}
+
+const getNetworkDirs = () => {
+    return [path.join(config.rootDir, 'tempdir', 'mainnet')];
+}
+
 module.exports = {
     tempDataDir,
     createTestEnvironment,
@@ -40,4 +51,6 @@ module.exports = {
     removeFileFromNetwork,
     createFileInDocs,
     removeFileFromDocs,
+    getJSONFilesFromNetwork,
+    getNetworkDirs,
 }

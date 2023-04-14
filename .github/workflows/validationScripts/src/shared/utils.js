@@ -16,16 +16,16 @@ const fs = require('fs').promises;
 const path = require('path');
 const config = require('../../config');
 
-async function getNestedFilesByName(directory, filename) {
+async function getNestedFilesByName(directory, filenames) {
 	const entries = await fs.readdir(directory);
 	const appJsonPaths = [];
 	for (const entry of entries) {
 		const entryPath = path.join(directory, entry);
 		const entryStat = await fs.stat(entryPath);
 		if (entryStat.isDirectory()) {
-			const nestedFilePaths = await getNestedFilesByName(entryPath, filename);
+			const nestedFilePaths = await getNestedFilesByName(entryPath, filenames);
 		        appJsonPaths.push(...nestedFilePaths);
-		} else if (entry === filename) {
+		} else if (filenames.includes(entry)) {
 			appJsonPaths.push(entryPath);
 		}
 	}

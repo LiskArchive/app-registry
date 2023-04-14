@@ -31,18 +31,18 @@ describe('Whitelisted Files Tests', () => {
 	});
 
 	it('should allow whitelisted files and directories', async () => {
-		await expect(validateAllWhitelistedFiles(fsUtil.tempDataDir)).resolves.not.toThrow();
+		await expect(validateAllWhitelistedFiles(fsUtil.getNetworkDirs())).resolves.not.toThrow();
 	});
 
 	it('should throw an error for non-whitelisted files', async () => {
 		await fsUtil.createFileInNetwork('tempfile.js', 'console.log("hello world");');
-		await expect(validateAllWhitelistedFiles(fsUtil.tempDataDir)).rejects.toThrow();
+		await expect(validateAllWhitelistedFiles(fsUtil.getNetworkDirs())).rejects.toThrow();
 		await fsUtil.removeFileFromNetwork('tempfile.js');
 	});
 
 	it('should not check files in non-network directories', async () => {
 		await fsUtil.createFileInDocs('tempfile.js', 'console.log("hello world");');
-		await expect(validateAllWhitelistedFiles(fsUtil.tempDataDir)).resolves.not.toThrow();
+		await expect(validateAllWhitelistedFiles(fsUtil.getNetworkDirs())).resolves.not.toThrow();
 		await fsUtil.removeFileFromDocs('tempfile.js', 'console.log("hello world");');
 	});
 });
