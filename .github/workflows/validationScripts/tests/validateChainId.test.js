@@ -12,8 +12,6 @@
  * Removal or modification of this copyright notice is prohibited.
  */
 
-const fs = require('fs').promises;;
-const path = require('path');
 const config = require('../config');
 const axios = require('axios');
 const { validateAllChainIDs } = require('../src/validateChainID');
@@ -28,7 +26,7 @@ describe('ChainID Validation tests', () => {
 	beforeAll(async () => {
 		// Create a temporary directory and some files for testing
 		await fsUtil.createTestEnvironment();
-		await fsUtil.createFileInNetwork('app.json', JSON.stringify(validConfig.appConfig));
+		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(validConfig.appConfig));
 	});
 
 	afterAll(async () => {

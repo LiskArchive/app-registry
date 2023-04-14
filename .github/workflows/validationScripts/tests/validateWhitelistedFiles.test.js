@@ -14,14 +14,15 @@
 
 const { validateAllWhitelistedFiles } = require('../src/validateWhitelistedFiles');
 const validConfig = require('./constants/validConfig');
-const fsUtil = require('./shared/fsUtil')
+const fsUtil = require('./shared/fsUtil');
+const config = require('../config');
 
 describe('Whitelisted Files Tests', () => {
 	beforeAll(async () => {
 		// Create a temporary directory and some files for testing
 		await fsUtil.createTestEnvironment();
-		await fsUtil.createFileInNetwork('app.json', JSON.stringify(validConfig.appConfig));
-		await fsUtil.createFileInNetwork('nativetokens.json', JSON.stringify(validConfig.nativeTokenConfig));
+		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(validConfig.appConfig));
+		await fsUtil.createFileInNetwork(config.nativetokensJsonFilename, JSON.stringify(validConfig.nativeTokenConfig));
 	});
 
 	afterAll(async () => {

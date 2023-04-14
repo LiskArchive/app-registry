@@ -13,8 +13,9 @@
  */
 
 const { validateAllConfigFiles } = require('../src/validateConfigFiles');
-const validConfig = require('./constants/validConfig')
-const fsUtil = require('./shared/fsUtil')
+const validConfig = require('./constants/validConfig');
+const fsUtil = require('./shared/fsUtil');
+const config = require('../config');
 
 describe('Configs in network directories validation tests', () => {
 
@@ -29,22 +30,22 @@ describe('Configs in network directories validation tests', () => {
 	});
 
 	it('should not throw error when app.json and nativetokens.json is present in all network directories', async () => {
-		await fsUtil.createFileInNetwork('app.json', JSON.stringify(validConfig.appConfig));
-		await fsUtil.createFileInNetwork('nativetokens.json', JSON.stringify(validConfig.nativeTokenConfig));
+		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(validConfig.appConfig));
+		await fsUtil.createFileInNetwork(config.nativetokensJsonFilename, JSON.stringify(validConfig.nativeTokenConfig));
 		await expect(validateAllConfigFiles(fsUtil.tempDataDir)).resolves.not.toThrow();
-		await fsUtil.removeFileFromNetwork('app.json');
-		await fsUtil.removeFileFromNetwork('nativetokens.json');
+		await fsUtil.removeFileFromNetwork(config.appJsonFilename);
+		await fsUtil.removeFileFromNetwork(config.nativetokensJsonFilename);
 	});
 
 	it('should throw error when app.json is not present in any network directories', async () => {
-		await fsUtil.createFileInNetwork('nativetokens.json', JSON.stringify(validConfig.nativeTokenConfig));
+		await fsUtil.createFileInNetwork(config.nativetokensJsonFilename, JSON.stringify(validConfig.nativeTokenConfig));
 		await expect(validateAllConfigFiles(fsUtil.tempDataDir)).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork('nativetokens.json');
+		await fsUtil.removeFileFromNetwork(config.nativetokensJsonFilename);
 	});
 
 	it('should throw error when nativetokens.json is not present in any network directories', async () => {
-		await fsUtil.createFileInNetwork('app.json', JSON.stringify(validConfig.appConfig));
+		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(validConfig.appConfig));
 		await expect(validateAllConfigFiles(fsUtil.tempDataDir)).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork('app.json');
+		await fsUtil.removeFileFromNetwork(config.appJsonFilename);
 	});
 });
