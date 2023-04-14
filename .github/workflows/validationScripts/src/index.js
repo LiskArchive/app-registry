@@ -18,14 +18,18 @@ const { validateAllWhitelistedFiles } = require('./validateWhitelistedFiles');
 const { validateAllConfigFiles } = require('./validateConfigFiles');
 const config = require('../config');
 
-// Validate schemas
-validateAllSchemas(config.rootDir);
+const validate = async () => {
+    // Validate schemas
+    await validateAllSchemas(config.rootDir);
 
-// Check whitelisted Files
-validateAllWhitelistedFiles(config.rootDir);
+    // Check whitelisted Files
+    await validateAllWhitelistedFiles(config.rootDir);
 
-// Check Config files
-validateAllConfigFiles(config.rootDir);
+    // Check Config files
+    await validateAllConfigFiles(config.rootDir);
 
-// Validate chain IDs
-validateAllChainIDs(config.rootDir);
+    // Validate chain IDs
+    await validateAllChainIDs(config.rootDir);
+}
+
+validate();

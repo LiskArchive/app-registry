@@ -31,13 +31,13 @@ const validateAllSchemas = async (directory) => {
 
 	for (const networkDir of networkDirs) {
 		// Get all app.json files from network folders
-		const appFiles = await getNestedFilesByName(networkDir, 'app.json');
+		const appFiles = await getNestedFilesByName(networkDir, config.appJsonFilename);
 
 		// Validate all app files
 		await validateSchema(appSchema, appFiles);
 
 		// Get all nativetokens.json files from network folders
-		const nativeTokenFiles = await getNestedFilesByName(networkDir, 'nativetokens.json');
+		const nativeTokenFiles = await getNestedFilesByName(networkDir, config.nativetokensJsonFilename);
 
 		// Validate all nativetokens files
 		await validateSchema(nativeTokenSchema, nativeTokenFiles);

@@ -23,11 +23,15 @@ config.rootDir = path.join(__dirname, '../../../');
 config.nonNetworkDirs = ['.git', '.github', 'schema', 'docs']
 
 // Default schemas for app and native tokens
-config.appSchema = path.join(config.rootDir, './schema/app.json');
-config.nativeTokenSchema = path.join(config.rootDir, './schema/nativetokens.json');
+config.appSchema = path.join(config.rootDir, 'schema/app.json');
+config.nativeTokenSchema = path.join(config.rootDir, 'schema/nativetokens.json');
 
 // API suffix to get chain ID
 config.networkStatusAPIPath = "/api/v3/network/status";
+
+// Filenames
+config.appJsonFilename = "app.json";
+config.nativetokensJsonFilename = "nativetokens.json"
 
 // Files whitelisted
 config.whitelistedFiles = []
