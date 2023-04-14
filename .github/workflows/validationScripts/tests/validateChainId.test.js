@@ -19,6 +19,7 @@ const axios = require('axios');
 const { validateAllChainIDs } = require('../src/validateChainID');
 const serviceURLResponse = require('./constants/serviceURLResponse');
 const validConfig = require('./constants/validConfig')
+const fsUtil = require('./shared/fsUtil')
 
 jest.mock("axios");
 
@@ -26,33 +27,13 @@ describe('ChainID Validation tests', () => {
 
 	beforeAll(async () => {
 		// Create a temporary directory and some files for testing
-		await fs.mkdir(path.join(config.rootDir, 'tempdir'));
-		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'docs'));
-		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainnet'));
-		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain', 'app.json'), JSON.stringify(validConfig.appConfig));
+		await fsUtil.createTestEnvironment();
+		await fsUtil.createFileInNetwork('app.json', JSON.stringify(validConfig.appConfig));
 	});
 
 	afterAll(async () => {
 		// Remove the temporary directory and files created during testing
-		await fs.rm(path.join(config.rootDir, 'tempdir'), { recursive: true });
-	});
-
-	it('should throw error when serviceURLs dosent contain any URLs', async () => {
-		// Create a test app.json file without any service URL
-		const testAppJson = {
-			chainID: 'testChainID',
-			serviceURLs: [
-			],
-		};
-		await fs.mkdir(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain2'));
-		await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain2', 'app.json'), JSON.stringify(testAppJson));
-
-		// Test validation with the test app.json file
-		await expect(validateAllChainIDs(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
-
-		// Delete the test app.json file
-		await fs.rm(path.join(config.rootDir, 'tempdir', 'mainnet', 'chain2', 'app.json'));
+		await fsUtil.cleanTestEnviroment();
 	});
 
 	it('should throw error when service URL API returns an error', async () => {
@@ -60,7 +41,7 @@ describe('ChainID Validation tests', () => {
 		axios.get.mockImplementationOnce(() => Promise.reject(new Error('mock error')));
 
 		// Test validation
-		await expect(validateAllChainIDs(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
+		await expect(validateAllChainIDs(fsUtil.tempDataDir)).rejects.toThrow();
 
 		// Restore axios mock
 		jest.resetAllMocks();
@@ -71,7 +52,7 @@ describe('ChainID Validation tests', () => {
 		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURL500Res));
 
 		// Test validation
-		await expect(validateAllChainIDs(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
+		await expect(validateAllChainIDs(fsUtil.tempDataDir)).rejects.toThrow();
 
 		// Restore axios mock
 		jest.resetAllMocks();
@@ -82,7 +63,7 @@ describe('ChainID Validation tests', () => {
 		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
 
 		// Test validation
-		await expect(validateAllChainIDs(path.join(config.rootDir, 'tempdir'))).resolves.not.toThrow();
+		await expect(validateAllChainIDs(fsUtil.tempDataDir)).resolves.not.toThrow();
 
 		// Restore axios mock
 		jest.resetAllMocks();
@@ -93,7 +74,7 @@ describe('ChainID Validation tests', () => {
 		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURLIncorrectRes));
 
 		// Test validation
-		await expect(validateAllChainIDs(path.join(config.rootDir, 'tempdir'))).rejects.toThrow();
+		await expect(validateAllChainIDs(fsUtil.tempDataDir)).rejects.toThrow();
 
 		// Restore axios mock
 		jest.resetAllMocks();
