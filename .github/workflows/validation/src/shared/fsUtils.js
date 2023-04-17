@@ -16,7 +16,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const config = require('../../config');
 
-async function getNestedFilesByName(directory, filenames) {
+const getNestedFilesByName = async (directory, filenames) => {
 	const entries = await fs.readdir(directory);
 	const appJsonPaths = [];
 	for (const entry of entries) {
@@ -33,7 +33,7 @@ async function getNestedFilesByName(directory, filenames) {
 	return appJsonPaths;
 }
 
-async function getDirectories(directory) {
+const getDirectories = async (directory) => {
 	try {
 		const files = await fs.readdir(directory);
 		const subdirectories = [];
@@ -53,14 +53,14 @@ async function getDirectories(directory) {
 	}
 }
 
-async function getNetworkDirs(rootDir) {
+const getNetworkDirs = async (rootDir) => {
 	const subDirs = await getDirectories(rootDir);
 	const networkDirs = subDirs.filter((dirPath) => !config.nonNetworkDirs.some((entry) => dirPath.endsWith(entry)));
 
 	return networkDirs;
 }
 
-async function readJsonFile(filePath) {
+const readJsonFile = async (filePath) => {
 	const fileContent = await fs.readFile(filePath, 'utf-8');
 	const data = JSON.parse(fileContent);
 	return data;

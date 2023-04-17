@@ -14,10 +14,10 @@
 
 const axios = require('axios');
 
-const { readJsonFile } = require("./shared/utils")
+const { readJsonFile } = require("./shared/fsUtils")
 const config = require('../config');
 
-const validateAllServiceURLs = async (files) => {
+const validateAllChainIDs = async (files) => {
 
 	// Get all app.json files
 	const appFiles = files.filter((filename) => {
@@ -54,6 +54,8 @@ const getChainIDFromService = async (serviceURL) => {
 		throw new Error(`Error: ${error.message}`);
 	}
 }
+
+const validateAllServiceURLs = validateAllChainIDs;
 
 module.exports = {
 	validateAllServiceURLs,

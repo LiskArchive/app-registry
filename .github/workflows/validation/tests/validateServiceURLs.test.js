@@ -14,7 +14,7 @@
 
 const config = require('../config');
 const axios = require('axios');
-const { validateAllServiceURLs } = require('../src/validateChainID');
+const { validateAllServiceURLs } = require('../src/validateServiceURLs');
 const serviceURLResponse = require('./constants/serviceURLResponse');
 const validConfig = require('./constants/validConfig')
 const fsUtil = require('./shared/fsUtil')

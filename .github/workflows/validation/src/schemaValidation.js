@@ -12,14 +12,13 @@
  * Removal or modification of this copyright notice is prohibited.
  */
 
-const path = require('path');
 const Ajv = require("ajv");
 const addFormats = require("ajv-formats");
 const config = require('../config');
-const { readJsonFile } = require("./shared/utils")
+const { readJsonFile } = require("./shared/fsUtils")
 
-const appSchema = require(path.join(config.schemaDir,config.filename.APP_JSON));
-const nativeTokenSchema = require(path.join(config.schemaDir,config.filename.NATIVE_TOKENS));
+const appSchema = require(`${config.schemaDir}/${config.filename.APP_JSON}`);
+const nativeTokenSchema = require(`${config.schemaDir}/${config.filename.NATIVE_TOKENS}`);
 
 const ajv = new Ajv()
 addFormats(ajv)

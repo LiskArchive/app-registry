@@ -16,16 +16,16 @@ const fs = require('fs').promises;
 const path = require('path');
 const config = require('../config')
 
-function isFileOnWhitelist(file) {
+const isFileOnWhitelist = (file) => {
 	return config.whitelistedFiles.includes(file);
 }
 
-function isExtensionOnWhitelist(file) {
+const isExtensionOnWhitelist = (file) => {
 	const ext = path.extname(file);
 	return config.whitelistedExtentionsToValidate.includes(ext);
 }
 
-async function validateAllWhitelistedFilesForDir(directory) {
+const validateAllWhitelistedFilesForDir = async (directory) => {
 	try {
 		const files = await fs.readdir(directory);
 		for (const file of files) {
@@ -43,7 +43,7 @@ async function validateAllWhitelistedFilesForDir(directory) {
 	}
 }
 
-async function validateAllWhitelistedFiles(networkDirs) {
+const validateAllWhitelistedFiles = async (networkDirs) => {
 	for (const networkDir of networkDirs) {
 		await validateAllWhitelistedFilesForDir(networkDir);
 	}

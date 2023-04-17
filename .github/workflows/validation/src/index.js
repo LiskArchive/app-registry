@@ -13,10 +13,10 @@
  */
 
 const { validateAllSchemas } = require('./schemaValidation');
-const { validateAllServiceURLs } = require('./validateChainID');
+const { validateAllServiceURLs } = require('./validateServiceURLs');
 const { validateAllWhitelistedFiles } = require('./validateWhitelistedFiles');
 const { validateAllConfigFiles } = require('./validateConfigFiles');
-const { getNetworkDirs, getNestedFilesByName } = require('./shared/utils')
+const { getNetworkDirs, getNestedFilesByName } = require('./shared/fsUtils')
 const config = require('../config');
 
 const validate = async () => {
