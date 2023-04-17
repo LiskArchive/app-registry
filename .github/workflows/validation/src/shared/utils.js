@@ -55,7 +55,7 @@ async function getDirectories(directory) {
 
 async function getNetworkDirs(rootDir) {
 	const subDirs = await getDirectories(rootDir);
-	const networkDirs = subDirs.filter((dirPath) => !config.nonNetworkDirs.some((nonNetworkDirName) => dirPath.endsWith(nonNetworkDirName)))
+	const networkDirs = subDirs.filter((dirPath) => !config.nonNetworkDirs.some((entry) => dirPath.endsWith(entry)));
 
 	return networkDirs;
 }
@@ -68,8 +68,8 @@ async function readJsonFile(filePath) {
 
 
 module.exports = {
-	getNestedFilesByName: getNestedFilesByName,
-	getDirectories: getDirectories,
-	getNetworkDirs: getNetworkDirs,
-	readJsonFile: readJsonFile
+	getNestedFilesByName,
+	getDirectories,
+	getNetworkDirs,
+	readJsonFile,
 }

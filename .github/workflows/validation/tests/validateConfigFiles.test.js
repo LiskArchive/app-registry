@@ -30,22 +30,22 @@ describe('Configs in network directories validation tests', () => {
 	});
 
 	it('should not throw error when app.json and nativetokens.json is present in all network directories', async () => {
-		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(validConfig.appConfig));
-		await fsUtil.createFileInNetwork(config.nativetokensJsonFilename, JSON.stringify(validConfig.nativeTokenConfig));
+		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 		await expect(validateAllConfigFiles(fsUtil.getNetworkDirs())).resolves.not.toThrow();
-		await fsUtil.removeFileFromNetwork(config.appJsonFilename);
-		await fsUtil.removeFileFromNetwork(config.nativetokensJsonFilename);
+		await fsUtil.removeFileFromNetwork(config.filename.APP_JSON);
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 	});
 
 	it('should throw error when app.json is not present in any network directories', async () => {
-		await fsUtil.createFileInNetwork(config.nativetokensJsonFilename, JSON.stringify(validConfig.nativeTokenConfig));
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 		await expect(validateAllConfigFiles(fsUtil.getNetworkDirs())).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork(config.nativetokensJsonFilename);
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 	});
 
 	it('should throw error when nativetokens.json is not present in any network directories', async () => {
-		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(validConfig.appConfig));
+		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 		await expect(validateAllConfigFiles(fsUtil.getNetworkDirs())).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork(config.appJsonFilename);
+		await fsUtil.removeFileFromNetwork(config.filename.APP_JSON);
 	});
 });

@@ -13,7 +13,7 @@
  */
 
 const { validateAllSchemas } = require('./schemaValidation');
-const { validateAllChainIDs } = require('./validateChainID');
+const { validateAllServiceURLs } = require('./validateChainID');
 const { validateAllWhitelistedFiles } = require('./validateWhitelistedFiles');
 const { validateAllConfigFiles } = require('./validateConfigFiles');
 const { getNetworkDirs, getNestedFilesByName } = require('./shared/utils')
@@ -26,7 +26,7 @@ const validate = async () => {
 	// Get all app.json and nativetokens.json files
 	const files = [];
 	for (const networkDir of networkDirs) {
-		files.push(... await getNestedFilesByName(networkDir, [config.appJsonFilename, config.nativetokensJsonFilename]));
+		files.push(... await getNestedFilesByName(networkDir, Object.values(config.filename)));
 	}
 
 	// Validate schemas
@@ -38,8 +38,8 @@ const validate = async () => {
 	// Check for config files in all network directories
 	await validateAllConfigFiles(networkDirs);
 
-	// Validate chain IDs
-	await validateAllChainIDs(files);
+	// Validate serviceURLs
+	await validateAllServiceURLs(files);
 }
 
 validate();

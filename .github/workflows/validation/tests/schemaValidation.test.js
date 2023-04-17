@@ -34,83 +34,83 @@ describe('Schema Validation Tests', () => {
 	});
 
 	it('should validate correct schema', async () => {
-		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(validConfig.appConfig));
-		await fsUtil.createFileInNetwork(config.nativetokensJsonFilename, JSON.stringify(validConfig.nativeTokenConfig));
+		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 		await expect(validateAllSchemas(filesToTest)).resolves.not.toThrow();
-		await fsUtil.removeFileFromNetwork(config.appJsonFilename);
-		await fsUtil.removeFileFromNetwork(config.nativetokensJsonFilename);
+		await fsUtil.removeFileFromNetwork(config.filename.APP_JSON);
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 	});
 
 	it('should throw error while validating schema for app.json without background color', async () => {
-		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(invalidAppConfig.backgroundColorNotPresent));
+		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.backgroundColorNotPresent));
 		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork(config.appJsonFilename);
+		await fsUtil.removeFileFromNetwork(config.filename.APP_JSON);
 	});
 
 	it('should throw error while validating schema for app.json without chain ID', async () => {
-		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(invalidAppConfig.chainIDNotPresent));
+		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.chainIDNotPresent));
 		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork(config.appJsonFilename);
+		await fsUtil.removeFileFromNetwork(config.filename.APP_JSON);
 	});
 
 	it('should throw error while validating schema for app.json without chainName', async () => {
-		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(invalidAppConfig.chainNameNotPresent));
+		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.chainNameNotPresent));
 		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork(config.appJsonFilename);
+		await fsUtil.removeFileFromNetwork(config.filename.APP_JSON);
 	});
 
 	it('should throw error while validating schema for app.json without explorers', async () => {
-		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(invalidAppConfig.explorersNotPresent));
+		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.explorersNotPresent));
 		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork(config.appJsonFilename);
+		await fsUtil.removeFileFromNetwork(config.filename.APP_JSON);
 	});
 
 	it('should throw error while validating schema for app.json without genesis url', async () => {
-		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(invalidAppConfig.genesisURLNotPresent));
+		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.genesisURLNotPresent));
 		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork(config.appJsonFilename);
+		await fsUtil.removeFileFromNetwork(config.filename.APP_JSON);
 	});
 
 	it('should throw error while validating schema for app.json without logo', async () => {
-		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(invalidAppConfig.logoNotPresent));
+		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.logoNotPresent));
 		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork(config.appJsonFilename);
+		await fsUtil.removeFileFromNetwork(config.filename.APP_JSON);
 	});
 
 	it('should throw error while validating schema for app.json without network type', async () => {
-		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(invalidAppConfig.networkTypeNotPresent));
+		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.networkTypeNotPresent));
 		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork(config.appJsonFilename);
+		await fsUtil.removeFileFromNetwork(config.filename.APP_JSON);
 	});
 
 	it('should throw error while validating schema for app.json without project page', async () => {
-		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(invalidAppConfig.projectPageNotPresent));
+		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.projectPageNotPresent));
 		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork(config.appJsonFilename);
+		await fsUtil.removeFileFromNetwork(config.filename.APP_JSON);
 	});
 
 	it('should throw error while validating schema for app.json without service url', async () => {
-		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(invalidAppConfig.serviceURLsNotPresent));
+		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.serviceURLsNotPresent));
 		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork(config.appJsonFilename);
+		await fsUtil.removeFileFromNetwork(config.filename.APP_JSON);
 	});
 
 	it('should throw error while validating schema for app.json with incorrect Service url', async () => {
-		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(invalidAppConfig.serviceUrlIncorrect));
+		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.serviceUrlIncorrect));
 		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork(config.appJsonFilename);
+		await fsUtil.removeFileFromNetwork(config.filename.APP_JSON);
 	});
 
 	it('should throw error while validating schema for nativetokens.json with incorrect tokens type', async () => {
-		await fsUtil.createFileInNetwork(config.nativetokensJsonFilename, JSON.stringify(invalidNativeTokensConfig.tokensIncorrect));
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.tokensIncorrect));
 		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork(config.nativetokensJsonFilename);
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 	});
 
 	it('should throw error while validating schema for nativetokens.json without tokens', async () => {
-		await fsUtil.createFileInNetwork(config.nativetokensJsonFilename, JSON.stringify(invalidNativeTokensConfig.tokensNotPresent));
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.tokensNotPresent));
 		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork(config.nativetokensJsonFilename);
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 	});
 
 });

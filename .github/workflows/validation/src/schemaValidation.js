@@ -12,33 +12,17 @@
  * Removal or modification of this copyright notice is prohibited.
  */
 
+const path = require('path');
 const Ajv = require("ajv");
 const addFormats = require("ajv-formats");
 const config = require('../config');
 const { readJsonFile } = require("./shared/utils")
 
-const appSchema = require(config.appSchema);
-const nativeTokenSchema = require(config.nativeTokenSchema);
+const appSchema = require(path.join(config.schemaDir,config.filename.APP_JSON));
+const nativeTokenSchema = require(path.join(config.schemaDir,config.filename.NATIVE_TOKENS));
 
 const ajv = new Ajv()
 addFormats(ajv)
-
-const validateAllSchemas = async (files) => {
-
-	// Get all app.json files
-	const appFiles = files.filter((filename) => {
-		return filename.endsWith('app.json');
-	});
-
-	// Get all nativetokens.json files
-	const nativeTokenFiles = files.filter((filename) => {
-		return filename.endsWith('nativetokens.json');
-	});
-
-	// Validate schemas
-	await validateSchema(appSchema, appFiles);
-	await validateSchema(nativeTokenSchema, nativeTokenFiles);
-}
 
 const validateSchema = async (schema, filePaths) => {
 	for (filePath of filePaths) {
@@ -49,6 +33,23 @@ const validateSchema = async (schema, filePaths) => {
 			throw new Error(JSON.stringify(ajv.errors));
 		}
 	}
+}
+
+const validateAllSchemas = async (files) => {
+
+	// Get all app.json files
+	const appFiles = files.filter((filename) => {
+		return filename.endsWith(config.filename.APP_JSON);
+	});
+
+	// Get all nativetokens.json files
+	const nativeTokenFiles = files.filter((filename) => {
+		return filename.endsWith(config.filename.NATIVE_TOKENS);
+	});
+
+	// Validate schemas
+	await validateSchema(appSchema, appFiles);
+	await validateSchema(nativeTokenSchema, nativeTokenFiles);
 }
 
 module.exports = {

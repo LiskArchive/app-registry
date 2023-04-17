@@ -21,8 +21,8 @@ describe('Whitelisted Files Tests', () => {
 	beforeAll(async () => {
 		// Create a temporary directory and some files for testing
 		await fsUtil.createTestEnvironment();
-		await fsUtil.createFileInNetwork(config.appJsonFilename, JSON.stringify(validConfig.appConfig));
-		await fsUtil.createFileInNetwork(config.nativetokensJsonFilename, JSON.stringify(validConfig.nativeTokenConfig));
+		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 	});
 
 	afterAll(async () => {

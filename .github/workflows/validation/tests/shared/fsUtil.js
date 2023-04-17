@@ -34,8 +34,8 @@ const removeFileFromDocs = async (filename) => {
 
 const getJSONFilesFromNetwork = async () => {
     const files = [];
-    files.push(path.join(config.rootDir, 'tempdir', 'mainnet', 'network', config.appJsonFilename));
-    files.push(path.join(config.rootDir, 'tempdir', 'mainnet', 'network', config.nativetokensJsonFilename));
+    files.push(path.join(config.rootDir, 'tempdir', 'mainnet', 'network', config.filename.APP_JSON));
+    files.push(path.join(config.rootDir, 'tempdir', 'mainnet', 'network', config.filename.NATIVE_TOKENS));
     return files;
 }
 

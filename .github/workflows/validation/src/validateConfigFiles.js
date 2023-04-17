@@ -21,11 +21,11 @@ async function validateConfigInDir(directory) {
 	try {
 		const files = await fs.readdir(directory);
 
-		if (!files.includes('app.json') || !files.includes('nativetokens.json')) {
-			throw new Error(`Files 'app.json' and 'nativetokens.json' are not present in directory ${directory}.`);
+		if (!files.includes(config.filename.APP_JSON) || !files.includes(config.filename.NATIVE_TOKENS)) {
+			throw new Error(`Files '${config.filename.APP_JSON}' and '${config.filename.NATIVE_TOKENS}' are not present in directory ${directory}.`);
 		}
 	} catch (err) {
-		throw new Error(`Error reading directory ${directory}: ${err}`);
+		throw new Error(`Error reading directory: ${directory}.\n${err}`);
 	}
 }
 

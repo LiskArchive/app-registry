@@ -39,7 +39,7 @@ async function validateAllWhitelistedFilesForDir(directory) {
 			}
 		}
 	} catch (err) {
-		throw new Error(`Error reading directory ${directory}: ${err}`);
+		throw new Error(`Error reading directory: ${directory}.\n${err}`);
 	}
 }
 

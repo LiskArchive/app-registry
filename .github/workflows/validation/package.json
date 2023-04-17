@@ -7,7 +7,11 @@
   "license": "Apache-2.0",
   "keywords": [
 		"lisk",
-		"blockchain"
+		"blockchain",
+    "blockchain",
+		"registry",
+		"off-chain",
+		"metadata"
 	],
   "scripts": {
     "start": "node src/index.js",

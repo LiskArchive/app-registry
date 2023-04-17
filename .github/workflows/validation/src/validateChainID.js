@@ -15,19 +15,20 @@
 const axios = require('axios');
 
 const { readJsonFile } = require("./shared/utils")
+const config = require('../config');
 
-const validateAllChainIDs = async (files) => {
+const validateAllServiceURLs = async (files) => {
 
 	// Get all app.json files
 	const appFiles = files.filter((filename) => {
-		return filename.endsWith('app.json');
+		return filename.endsWith(config.filename.APP_JSON);
 	});
 	
 	for (appFile of appFiles) {
 		const data = await readJsonFile(appFile);
 		
 		if (!data || !data.chainID || !data.serviceURLs || !data.serviceURLs[0] || !data.serviceURLs[0].http) {
-			throw new Error("Service URL or chain ID missing from app.json")
+			throw new Error(`Service URL or chain ID missing from ${config.filename.APP_JSON}`)
 		}
 
 		const chainID = data.chainID;
@@ -55,5 +56,5 @@ const getChainIDFromService = async (serviceURL) => {
 }
 
 module.exports = {
-	validateAllChainIDs,
+	validateAllServiceURLs,
 }

@@ -1,5 +1,5 @@
 # Validation Scripts
-This repo provides a tool for validating schema structure, whitelisted files, config files and on chain information from data submitted to app registry.
+This repository provides tooling to ensure that every new PR contains the necessary files to validate the submitted metadata configurations against the standardized schema. It also ensures that the submitted metadata information also match the on-chain information using the Lisk Service URLs specified in the metadata.
 
 ## Installation
 Clone the app-registry repository:
