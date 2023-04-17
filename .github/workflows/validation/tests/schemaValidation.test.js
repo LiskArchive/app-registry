@@ -113,4 +113,89 @@ describe('Schema Validation Tests', () => {
 		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 	});
 
+	it('should throw error while validating schema for nativetokens.json with without token ID', async () => {
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.tokenIDNotPresent,
+			));
+		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
+	});
+
+	it('should throw error while validating schema for nativetokens.json without token name', async () => {
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.tokenNameNotPresent));
+		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
+	});
+
+	it('should throw error while validating schema for nativetokens.json without denom units', async () => {
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.denomUnitsNotPresent));
+		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
+	});
+
+	it('should throw error while validating schema for nativetokens.json with incorrect denomUnits.decimals', async () => {
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.denomUnitsDecimalsIncorrect));
+		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
+	});
+
+	it('should throw error while validating schema for nativetokens.json without displayUnits.decimals', async () => {
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.denomUnitsDecimalsNotPresent));
+		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
+	});
+
+	it('should throw error while validating schema for nativetokens.json without displayUnits.denom', async () => {
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.denomUnitsDenomNotPresent));
+		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
+	});
+
+	it('should throw error while validating schema for nativetokens.json without base denom', async () => {
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.baseDenomNotPresent));
+		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
+	});
+
+	it('should throw error while validating schema for nativetokens.json without display denom', async () => {
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.displayDenomNotPresent));
+		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
+	});
+
+	it('should throw error while validating schema for nativetokens.json without Symbol', async () => {
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.symbolNotPresent));
+		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
+	});
+
+	it('should throw error while validating schema for nativetokens.json without logo', async () => {
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.logoNotPresent));
+		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
+	});
+
+	it('should throw error while validating schema for nativetokens.json without PNG logo', async () => {
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.logoPngNotPresent));
+		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
+	});
+
+	it('should throw error while validating schema for nativetokens.json without SVG logo', async () => {
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.logoSvgNotPresent));
+		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
+	});
+
+	it('should throw error while validating schema for nativetokens.json with incorrect PNG logo URL', async () => {
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.logoPNGIncorrect));
+		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
+	});
+
+	it('should throw error while validating schema for nativetokens.json with incorrect SVG logo URL', async () => {
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.logoSVGIncorrect));
+		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
+		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
+	});
+
 });

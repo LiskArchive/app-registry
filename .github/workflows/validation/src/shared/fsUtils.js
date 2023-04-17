@@ -47,7 +47,7 @@ const getDirectories = async (directory) => {
 			}
 		}
 
-		return subdirectories.filter((subdirectory) => subdirectory !== null);
+		return subdirectories;
 	} catch (err) {
 		throw new Error(`Error getting subdirectories in ${directory}: ${err}`);
 	}
