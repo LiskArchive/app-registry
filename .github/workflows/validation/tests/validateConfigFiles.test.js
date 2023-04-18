@@ -14,7 +14,7 @@
 
 const { validateAllConfigFiles } = require('../src/validateConfigFiles');
 const validConfig = require('./constants/validConfig');
-const fsUtil = require('./helper/utils');
+const fsUtil = require('./helper/setup');
 const config = require('../config');
 
 describe('Configs in network directories validation tests', () => {

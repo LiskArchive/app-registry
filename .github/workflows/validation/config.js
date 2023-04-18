@@ -26,7 +26,8 @@ config.nonNetworkDirs = ['.git', '.github', 'schema', 'docs']
 config.schemaDir = path.join(config.rootDir, 'schema');
 
 // API suffix to get chain ID
-config.networkStatusAPIPath = "/api/v3/network/status";
+config.HTTP_API_NAMESPACE = "/api/v3/network/status";
+config.WS_API_NAMESPACE = "/rpc-ws";
 
 // Filenames
 config.filename = {

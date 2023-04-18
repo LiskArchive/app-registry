@@ -35,7 +35,6 @@ const validateSchema = async (schema, filePaths) => {
 }
 
 const validateAllSchemas = async (files) => {
-
 	// Get all app.json files
 	const appFiles = files.filter((filename) => {
 		return filename.endsWith(config.filename.APP_JSON);

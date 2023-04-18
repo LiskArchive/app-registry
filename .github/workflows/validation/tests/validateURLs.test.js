@@ -18,7 +18,7 @@ const { apiClient } = require('@liskhq/lisk-client');
 const { validateURLs } = require('../src/validateURLs');
 const serviceURLResponse = require('./constants/serviceURLResponse');
 const validConfig = require('./constants/validConfig')
-const fsUtil = require('./helper/utils')
+const fsUtil = require('./helper/setup')
 
 let filesToTest;
 
@@ -43,7 +43,7 @@ describe('URL Validation tests', () => {
 
 	it('should throw error when HTTP service URL API returns an error', async () => {
 		// Mock axios to return an error response
-		axios.get.mockImplementation(() => Promise.reject(new Error('mock error')));
+		axios.get.mockImplementation(() => Promise.reject(new Error(`mock error`)));
 		apiClient.createWSClient.mockImplementation(async (url) => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
 
 		// Test validation
@@ -56,7 +56,7 @@ describe('URL Validation tests', () => {
 	it('should throw error when ws service URL API returns an error', async () => {
 		// Mock axios to return an error response
 		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
-		apiClient.createWSClient.mockImplementation(async (url) => Promise.reject(new Error('mock error')));
+		apiClient.createWSClient.mockImplementation(async (url) => Promise.reject(new Error(`mock error`)));
 
 		// Test validation
 		await expect(validateURLs(filesToTest)).rejects.toThrow();

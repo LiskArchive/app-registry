@@ -39,7 +39,6 @@ const isFileWhitelisted = (filename, patterns) => {
 	return false;
 };
 
-
 const validateAllWhitelistedFilesForDir = async (directory, whitelistedFilePatterns) => {
 	try {
 		const files = await fs.readdir(directory);

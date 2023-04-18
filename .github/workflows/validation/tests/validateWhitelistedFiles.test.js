@@ -14,7 +14,7 @@
 
 const { validateAllWhitelistedFiles } = require('../src/validateWhitelistedFiles');
 const validConfig = require('./constants/validConfig');
-const fsUtil = require('./helper/utils');
+const fsUtil = require('./helper/setup');
 const config = require('../config');
 
 describe('Whitelisted Files Tests', () => {

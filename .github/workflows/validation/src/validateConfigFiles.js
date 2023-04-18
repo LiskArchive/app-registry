@@ -29,9 +29,9 @@ const validateConfigInDir = async (directory) => {
 	}
 }
 
-const validateAllConfigFilesForDir = async (rootFolder) => {
+const validateAllConfigFilesForDir = async (rootDir) => {
 	try {
-		const appDirs = await getDirectories(rootFolder);
+		const appDirs = await getDirectories(rootDir);
 		for (const appDir of appDirs) {
 			await validateConfigInDir(appDir);
 		}

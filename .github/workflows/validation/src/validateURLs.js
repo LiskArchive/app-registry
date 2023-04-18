@@ -33,7 +33,7 @@ const httpRequest = async (serviceURL) => {
 
 const wsRequest = async (serviceURL) => {
 	try {
-		const client = await apiClient.createWSClient(serviceURL + "/rpc-ws");
+		const client = await apiClient.createWSClient(serviceURL + config.WS_API_NAMESPACE);
 		const res = await client._channel.invoke('system_getNodeInfo', {});
 		return res;
 	} catch (error) {
@@ -68,7 +68,7 @@ const validateAppNodeUrls = async (serviceURLs, chainID) => {
 		// Validate ws app node URLs
 		const wsRes = await wsRequest(appNodeUrl);
 		if (chainID != wsRes.chainID) {
-			throw new Error('Chain ID mismatch in websocket URL. \nService URL chain ID: ${chainIDFromServiceURL}. \napp.json chain ID: ${chainID}. \nPlease ensure that they match and try again.');
+			throw new Error(`Chain ID mismatch in websocket URL. \nService URL chain ID: ${chainIDFromServiceURL}. \napp.json chain ID: ${chainID}. \nPlease ensure that they match and try again.`);
 		}
 	}
 }
@@ -78,16 +78,16 @@ const validateServiceURLs = async (serviceURLs, chainID) => {
 		const { http: httpServiceURL, ws: wsServiceUrl } = serviceURL;
 
 		// Validate HTTP service URLs
-		const httpRes = await httpRequest(httpServiceURL + "/api/v3/network/status");
+		const httpRes = await httpRequest(httpServiceURL + config.HTTP_API_NAMESPACE);
 		const chainIDFromServiceURL = httpRes.data.data.chainID;
 		if (chainIDFromServiceURL != chainID) {
-			throw new Error('Chain ID mismatch in HTTP URL. \nService URL chain ID: ${chainIDFromServiceURL}. \napp.json chain ID: ${chainID}. \nPlease ensure that they match and try again.');
+			throw new Error(`Chain ID mismatch in HTTP URL. \nService URL chain ID: ${chainIDFromServiceURL}. \napp.json chain ID: ${chainID}. \nPlease ensure that they match and try again.`);
 		}
 
 		// Validate ws service URLs
 		const wsRes = await wsRequest(wsServiceUrl);
 		if (wsRes.chainID != chainID) {
-			throw new Error('Chain ID mismatch in websocket URL. \nService URL chain ID: ${chainIDFromServiceURL}. \napp.json chain ID: ${chainID}. \nPlease ensure that they match and try again.');
+			throw new Error(`Chain ID mismatch in websocket URL. \nService URL chain ID: ${chainIDFromServiceURL}. \napp.json chain ID: ${chainID}. \nPlease ensure that they match and try again.`);
 		}
 
 	}
@@ -106,10 +106,6 @@ const validateURLs = async (files) => {
 	
 	for (appFile of appFiles) {
 		const data = await readJsonFile(appFile);
-		
-		if (!data || !data.chainID || !data.serviceURLs || !data.serviceURLs[0] || !data.serviceURLs[0].http || !data.logo) {
-			throw new Error(`Service URL, chain ID or logo missing from ${config.filename.APP_JSON}`)
-		}
 
 		// Validate service URLs
 		await validateServiceURLs(data.serviceURLs, data.chainID);
@@ -127,16 +123,8 @@ const validateURLs = async (files) => {
 	// Validate URLs for nativetokens.json file
 	for (nativetokenFile of nativetokenFiles) {
 		const data = await readJsonFile(nativetokenFile);
-		
-		if (!data || !data.tokens) {
-			throw new Error(`tokens missing from ${config.filename.NATIVE_TOKENS}`)
-		}
 
 		for(const token of data.tokens) {
-			if(!token.logo){
-				throw new Error(`logo missing from ${config.filename.NATIVE_TOKENS}`)
-			}
-
 			// Validate logo URLs
 			await validateLogoUrls(token.logo);
 		}
