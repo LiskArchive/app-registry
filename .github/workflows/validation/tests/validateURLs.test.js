@@ -26,7 +26,7 @@ jest.mock("axios");
 jest.mock("@liskhq/lisk-client");
 
 
-describe('ChainID Validation tests', () => {
+describe('URL Validation tests', () => {
 
 	beforeAll(async () => {
 		// Create a temporary directory and some files for testing
@@ -41,9 +41,10 @@ describe('ChainID Validation tests', () => {
 		await fsUtil.cleanTestEnviroment();
 	});
 
-	it('should throw error when service URL API returns an error', async () => {
+	it('should throw error when HTTP service URL API returns an error', async () => {
 		// Mock axios to return an error response
-		axios.get.mockImplementationOnce(() => Promise.reject(new Error('mock error')));
+		axios.get.mockImplementation(() => Promise.reject(new Error('mock error')));
+		apiClient.createWSClient.mockImplementation(async (url) => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
 
 		// Test validation
 		await expect(validateURLs(filesToTest)).rejects.toThrow();
@@ -52,9 +53,22 @@ describe('ChainID Validation tests', () => {
 		jest.resetAllMocks();
 	});
 
-	it('should throw error when service URL API returns status code other than 200', async () => {
+	it('should throw error when ws service URL API returns an error', async () => {
+		// Mock axios to return an error response
+		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
+		apiClient.createWSClient.mockImplementation(async (url) => Promise.reject(new Error('mock error')));
+
+		// Test validation
+		await expect(validateURLs(filesToTest)).rejects.toThrow();
+
+		// Restore axios mock
+		jest.resetAllMocks();
+	});
+
+	it('should throw error when HTTP service URL API returns status code other than 200', async () => {
 		// Mock axios to return an success response
-		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURL500Res));
+		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURL500Res));
+		apiClient.createWSClient.mockImplementation(async (url) => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
 
 		// Test validation
 		await expect(validateURLs(filesToTest)).rejects.toThrow();
@@ -64,17 +78,9 @@ describe('ChainID Validation tests', () => {
 	});
 
 	it('should not throw error when service URL API returns correct chain ID', async () => {
-		let x = {
-			_channel: {
-				invoke(a, b) {
-					return {chainID: '04000000'};
-				}
-			}
-		}
-
 		// Mock axios to return an success response
 		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
-		apiClient.createWSClient.mockImplementation(async (url) => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs))
+		apiClient.createWSClient.mockImplementation(async (url) => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
 
 		// Test validation
 		await expect(validateURLs(filesToTest)).resolves.not.toThrow();
@@ -83,9 +89,22 @@ describe('ChainID Validation tests', () => {
 		jest.resetAllMocks();
 	});
 
-	it('should throw error when service URL API returns incorrect chain ID', async () => {
+	it('should throw error when HTTP service URL API returns incorrect chain ID', async () => {
 		// Mock axios to return an success response
-		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURLIncorrectRes));
+		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLIncorrectRes));
+		apiClient.createWSClient.mockImplementation(async (url) => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs))
+
+		// Test validation
+		await expect(validateURLs(filesToTest)).rejects.toThrow();
+
+		// Restore axios mock
+		jest.resetAllMocks();
+	});
+
+	it('should throw error when ws service URL API returns incorrect chain ID', async () => {
+		// Mock axios to return an success response
+		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
+		apiClient.createWSClient.mockImplementation(async (url) => Promise.resolve(serviceURLResponse.serviceURLIncorrectResWs))
 
 		// Test validation
 		await expect(validateURLs(filesToTest)).rejects.toThrow();

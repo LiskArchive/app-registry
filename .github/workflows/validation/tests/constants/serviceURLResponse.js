@@ -137,6 +137,14 @@ const serviceURLIncorrectRes = {
     }
   }
 
+  const serviceURLIncorrectResWs = {
+    _channel: {
+      invoke(a, b) {
+        return {chainID: '04000000'};
+      }
+    }
+  }
+
 module.exports = {
     serviceURLSuccessRes,
     serviceURL500Res,
