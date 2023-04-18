@@ -24,7 +24,7 @@ const getNestedFilesByName = async (directory, filenames) => {
 		const entryStat = await fs.stat(entryPath);
 		if (entryStat.isDirectory()) {
 			const nestedFilePaths = await getNestedFilesByName(entryPath, filenames);
-		        appJsonPaths.push(...nestedFilePaths);
+			appJsonPaths.push(...nestedFilePaths);
 		} else if (filenames.includes(entry)) {
 			appJsonPaths.push(entryPath);
 		}
@@ -69,8 +69,19 @@ const readJsonFile = async (filePath) => {
 const readFileLinesToArray = async (filePath) => {
 	try {
 		const data = await fs.readFile(filePath, 'utf8');
-		const lines = data.split(/\r?\n/).filter(line => line.trim().length > 0);
-		return lines;
+		const lines = data.split(/\r?\n/);
+		const filteredLines = lines.filter((line) => {
+			// Ignore empty lines containing just spaces
+			if (/^\s*$/.test(line)) {
+				return false;
+			}
+			// Ignore comments starting with // or #
+			if (/^(\/\/|#)/.test(line)) {
+				return false;
+			}
+			return true;
+		});
+		return filteredLines;
 	} catch (error) {
 		console.error(`Error reading file: ${error}`);
 		return [];
