@@ -17,7 +17,7 @@ const config = require('../config');
 const invalidNativeTokensConfig = require ('./constants/invalidNativeTokensConfig')
 const invalidAppConfig = require('./constants/invalidAppConfig')
 const validConfig = require('./constants/validConfig')
-const fsUtil = require('./shared/fsUtil')
+const fsUtil = require('./helper/utils')
 
 let filesToTest;
 

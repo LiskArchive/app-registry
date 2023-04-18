@@ -14,14 +14,16 @@
 
 const config = require('../config');
 const axios = require('axios');
-const { validateAllServiceURLs } = require('../src/validateServiceURLs');
+const { apiClient } = require('@liskhq/lisk-client');
+const { validateURLs } = require('../src/validateURLs');
 const serviceURLResponse = require('./constants/serviceURLResponse');
 const validConfig = require('./constants/validConfig')
-const fsUtil = require('./shared/fsUtil')
+const fsUtil = require('./helper/utils')
 
 let filesToTest;
 
 jest.mock("axios");
+jest.mock("@liskhq/lisk-client");
 
 
 describe('ChainID Validation tests', () => {
@@ -30,6 +32,7 @@ describe('ChainID Validation tests', () => {
 		// Create a temporary directory and some files for testing
 		await fsUtil.createTestEnvironment();
 		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
+		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 		filesToTest = await fsUtil.getJSONFilesFromNetwork();
 	});
 
@@ -43,7 +46,7 @@ describe('ChainID Validation tests', () => {
 		axios.get.mockImplementationOnce(() => Promise.reject(new Error('mock error')));
 
 		// Test validation
-		await expect(validateAllServiceURLs(filesToTest)).rejects.toThrow();
+		await expect(validateURLs(filesToTest)).rejects.toThrow();
 
 		// Restore axios mock
 		jest.resetAllMocks();
@@ -54,18 +57,27 @@ describe('ChainID Validation tests', () => {
 		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURL500Res));
 
 		// Test validation
-		await expect(validateAllServiceURLs(filesToTest)).rejects.toThrow();
+		await expect(validateURLs(filesToTest)).rejects.toThrow();
 
 		// Restore axios mock
 		jest.resetAllMocks();
 	});
 
 	it('should not throw error when service URL API returns correct chain ID', async () => {
+		let x = {
+			_channel: {
+				invoke(a, b) {
+					return {chainID: '04000000'};
+				}
+			}
+		}
+
 		// Mock axios to return an success response
-		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
+		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
+		apiClient.createWSClient.mockImplementation(async (url) => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs))
 
 		// Test validation
-		await expect(validateAllServiceURLs(filesToTest)).resolves.not.toThrow();
+		await expect(validateURLs(filesToTest)).resolves.not.toThrow();
 
 		// Restore axios mock
 		jest.resetAllMocks();
@@ -76,7 +88,7 @@ describe('ChainID Validation tests', () => {
 		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURLIncorrectRes));
 
 		// Test validation
-		await expect(validateAllServiceURLs(filesToTest)).rejects.toThrow();
+		await expect(validateURLs(filesToTest)).rejects.toThrow();
 
 		// Restore axios mock
 		jest.resetAllMocks();

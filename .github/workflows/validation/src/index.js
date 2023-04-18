@@ -13,10 +13,10 @@
  */
 
 const { validateAllSchemas } = require('./schemaValidation');
-const { validateAllServiceURLs } = require('./validateServiceURLs');
+const { validateURLs } = require('./validateURLs');
 const { validateAllWhitelistedFiles } = require('./validateWhitelistedFiles');
 const { validateAllConfigFiles } = require('./validateConfigFiles');
-const { getNetworkDirs, getNestedFilesByName } = require('./shared/fsUtils')
+const { getNetworkDirs, getNestedFilesByName } = require('./utils/fs')
 const config = require('../config');
 
 const validate = async () => {
@@ -39,7 +39,9 @@ const validate = async () => {
 	await validateAllConfigFiles(networkDirs);
 
 	// Validate serviceURLs
-	await validateAllServiceURLs(files);
+	await validateURLs(files);
+
+	process.exit(0);
 }
 
 validate();

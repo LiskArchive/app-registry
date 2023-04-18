@@ -15,7 +15,7 @@
 const Ajv = require("ajv");
 const addFormats = require("ajv-formats");
 const config = require('../config');
-const { readJsonFile } = require("./shared/fsUtils")
+const { readJsonFile } = require("./utils/fs")
 
 const appSchema = require(`${config.schemaDir}/${config.filename.APP_JSON}`);
 const nativeTokenSchema = require(`${config.schemaDir}/${config.filename.NATIVE_TOKENS}`);

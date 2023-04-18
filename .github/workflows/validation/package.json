@@ -6,18 +6,19 @@
   "main": "src/index.js",
   "license": "Apache-2.0",
   "keywords": [
-		"lisk",
-		"blockchain",
+    "lisk",
     "blockchain",
-		"registry",
-		"off-chain",
-		"metadata"
-	],
+    "blockchain",
+    "registry",
+    "off-chain",
+    "metadata"
+  ],
   "scripts": {
     "start": "node src/index.js",
     "test": "jest"
   },
   "dependencies": {
+    "@liskhq/lisk-client": "^6.0.0-alpha.21",
     "ajv": "8.12.0",
     "ajv-formats": "2.1.1",
     "axios": "1.3.5"

@@ -15,7 +15,7 @@
 const fs = require('fs').promises;
 const path = require('path');
 const config = require('../config');
-const { getDirectories } = require('./shared/fsUtils')
+const { getDirectories } = require('./utils/fs')
 
 const validateConfigInDir = async (directory) => {
 	try {
