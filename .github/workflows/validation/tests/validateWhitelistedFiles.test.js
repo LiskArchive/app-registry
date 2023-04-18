@@ -12,7 +12,7 @@
  * Removal or modification of this copyright notice is prohibited.
  */
 
-const { validateAllWhitelistedFiles } = require('../src/validateWhitelistedFiles');
+const { validateAllWhitelistedFiles, isFileWhitelisted } = require('../src/validateWhitelistedFiles');
 const validConfig = require('./constants/validConfig');
 const fsUtil = require('./helper/setup');
 const config = require('../config');
@@ -46,3 +46,35 @@ describe('Whitelisted Files Tests', () => {
 		await fsUtil.removeFileFromDocs('tempfile.js', 'console.log("hello world");');
 	});
 });
+
+describe('isFileWhitelisted function', () => {
+	test('should return true when pattern is present at the end of filename', () => {
+	  const filename = 'app.json';
+	  const patterns = ['*.json', 'app.*'];
+	  expect(isFileWhitelisted(filename, patterns)).toBe(true);
+	});
+  
+	test('should return true when pattern with wildcard is present at the end of filename', () => {
+	  const filename = 'image.png';
+	  const patterns = ['*.png', '*.jpg'];
+	  expect(isFileWhitelisted(filename, patterns)).toBe(true);
+	});
+  
+	test('should return true when pattern with wildcard is present at the start of filename', () => {
+	  const filename = 'logo.svg';
+	  const patterns = ['*.svg', 'logo*'];
+	  expect(isFileWhitelisted(filename, patterns)).toBe(true);
+	});
+  
+	test('should return false when pattern is not present in filename', () => {
+	  const filename = 'file.txt';
+	  const patterns = ['*.json', 'app.*'];
+	  expect(isFileWhitelisted(filename, patterns)).toBe(false);
+	});
+  
+	test('should return false when no pattern is given', () => {
+	  const filename = 'app.json';
+	  const patterns = [];
+	  expect(isFileWhitelisted(filename, patterns)).toBe(false);
+	});
+  });

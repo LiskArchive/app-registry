@@ -67,4 +67,7 @@ const validateAllWhitelistedFiles = async (networkDirs) => {
 
 module.exports = {
 	validateAllWhitelistedFiles,
+
+	// Testing
+	isFileWhitelisted,
 }
