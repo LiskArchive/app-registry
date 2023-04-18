@@ -66,10 +66,22 @@ const readJsonFile = async (filePath) => {
 	return data;
 }
 
+const readFileLinesToArray = async (filePath) => {
+	try {
+		const data = await fs.readFile(filePath, 'utf8');
+		const lines = data.split(/\r?\n/);
+		return lines;
+	} catch (error) {
+		console.error(`Error reading file: ${error}`);
+		return [];
+	}
+}
+
 
 module.exports = {
 	getNestedFilesByName,
 	getDirectories,
 	getNetworkDirs,
 	readJsonFile,
+	readFileLinesToArray,
 }

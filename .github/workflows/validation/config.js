@@ -35,7 +35,6 @@ config.filename = {
 };
 
 // Files whitelisted
-config.whitelistedFiles = []
-config.whitelistedExtentionsToValidate = ['.js']
+config.whitelistedFilesPath = path.join(__dirname, 'whitelistedFiles');
 
 module.exports = config;

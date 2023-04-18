@@ -15,17 +15,32 @@
 const fs = require('fs').promises;
 const path = require('path');
 const config = require('../config')
+const { readFileLinesToArray } = require('./utils/fs')
 
-const isFileOnWhitelist = (file) => {
-	return config.whitelistedFiles.includes(file);
-}
+const isPatternMatch = (str, pattern) => {
+	if (pattern === '*') {
+		return true;
+	}
+	if (pattern.startsWith('*')) {
+		return str.endsWith(pattern.slice(1));
+	}
+	if (pattern.endsWith('*')) {
+		return str.startsWith(pattern.slice(0, -1));
+	}
+	return str === pattern;
+};
 
-const isExtensionOnWhitelist = (file) => {
-	const ext = path.extname(file);
-	return config.whitelistedExtentionsToValidate.includes(ext);
-}
+const isFileWhitelisted = (filename, patterns) => {
+	for (const pattern of patterns) {
+		if (isPatternMatch(filename, pattern)) {
+			return true;
+		}
+	}
+	return false;
+};
 
-const validateAllWhitelistedFilesForDir = async (directory) => {
+
+const validateAllWhitelistedFilesForDir = async (directory, whitelistedFilePatterns) => {
 	try {
 		const files = await fs.readdir(directory);
 		for (const file of files) {
@@ -33,8 +48,8 @@ const validateAllWhitelistedFilesForDir = async (directory) => {
 			const stat = await fs.stat(fullPath);
 
 			if (stat.isDirectory()) {
-				await validateAllWhitelistedFilesForDir(fullPath);
-			} else if (isExtensionOnWhitelist(file) && !isFileOnWhitelist(file)) {
+				await validateAllWhitelistedFilesForDir(fullPath, whitelistedFilePatterns);
+			} else if (!isFileWhitelisted(file, whitelistedFilePatterns)) {
 				throw new Error(`File ${fullPath} is not whitelisted.`);
 			}
 		}
@@ -44,8 +59,10 @@ const validateAllWhitelistedFilesForDir = async (directory) => {
 }
 
 const validateAllWhitelistedFiles = async (networkDirs) => {
+	const whitelistedFilePatterns = await readFileLinesToArray(config.whitelistedFilesPath);
+
 	for (const networkDir of networkDirs) {
-		await validateAllWhitelistedFilesForDir(networkDir);
+		await validateAllWhitelistedFilesForDir(networkDir, whitelistedFilePatterns);
 	}
 }
 

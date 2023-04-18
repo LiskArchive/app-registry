@@ -1,0 +1,6 @@
+.DS_Store
+.gitkeep
+app.json
+nativetokens.json
+*.png
+*.svg
