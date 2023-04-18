@@ -69,7 +69,7 @@ const readJsonFile = async (filePath) => {
 const readFileLinesToArray = async (filePath) => {
 	try {
 		const data = await fs.readFile(filePath, 'utf8');
-		const lines = data.split(/\r?\n/);
+		const lines = data.split(/\r?\n/).filter(line => line.trim().length > 0);
 		return lines;
 	} catch (error) {
 		console.error(`Error reading file: ${error}`);
