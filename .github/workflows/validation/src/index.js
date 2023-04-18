@@ -16,7 +16,7 @@ const { validateAllSchemas } = require('./schemaValidation');
 const { validateURLs } = require('./validateURLs');
 const { validateAllWhitelistedFiles } = require('./validateWhitelistedFiles');
 const { validateAllConfigFiles } = require('./validateConfigFiles');
-const { getNetworkDirs, getNestedFilesByName } = require('./utils/fs')
+const { getNetworkDirs, getNestedFilesByName } = require('./utils/fs');
 const config = require('../config');
 
 const validate = async () => {
@@ -25,8 +25,10 @@ const validate = async () => {
 
 	// Get all app.json and nativetokens.json files
 	const files = [];
-	for (const networkDir of networkDirs) {
-		files.push(... await getNestedFilesByName(networkDir, Object.values(config.filename)));
+	for (let i = 0; i < networkDirs.length; i++) {
+		/* eslint-disable no-await-in-loop */
+		files.push(...await getNestedFilesByName(networkDirs[i], Object.values(config.filename)));
+		/* eslint-enable no-await-in-loop */
 	}
 
 	// Validate schemas
@@ -42,6 +44,6 @@ const validate = async () => {
 	await validateURLs(files);
 
 	process.exit(0);
-}
+};
 
 validate();

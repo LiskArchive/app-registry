@@ -12,44 +12,43 @@
  * Removal or modification of this copyright notice is prohibited.
  */
 
-const Ajv = require("ajv");
-const addFormats = require("ajv-formats");
+const Ajv = require('ajv');
+const addFormats = require('ajv-formats');
 const config = require('../config');
-const { readJsonFile } = require("./utils/fs")
+const { readJsonFile } = require('./utils/fs');
 
-const appSchema = require(`${config.schemaDir}/${config.filename.APP_JSON}`);
-const nativeTokenSchema = require(`${config.schemaDir}/${config.filename.NATIVE_TOKENS}`);
+const appSchema = require(`${config.schemaDir}/${config.filename.APP_JSON}`); // eslint-disable-line import/no-dynamic-require
+const nativeTokenSchema = require(`${config.schemaDir}/${config.filename.NATIVE_TOKENS}`); // eslint-disable-line import/no-dynamic-require
 
-const ajv = new Ajv()
-addFormats(ajv)
+const ajv = new Ajv();
+addFormats(ajv);
 
 const validateSchema = async (schema, filePaths) => {
-	for (filePath of filePaths) {
+	for (let i = 0; i < filePaths.length; i++) {
+		/* eslint-disable no-await-in-loop */
+		const filePath = filePaths[i];
 		const data = await readJsonFile(filePath);
 		const valid = ajv.validate(schema, data);
-	
+
 		if (!valid) {
 			throw new Error(JSON.stringify(ajv.errors));
 		}
+		/* eslint-enable no-await-in-loop */
 	}
-}
+};
 
 const validateAllSchemas = async (files) => {
 	// Get all app.json files
-	const appFiles = files.filter((filename) => {
-		return filename.endsWith(config.filename.APP_JSON);
-	});
+	const appFiles = files.filter((filename) => filename.endsWith(config.filename.APP_JSON));
 
 	// Get all nativetokens.json files
-	const nativeTokenFiles = files.filter((filename) => {
-		return filename.endsWith(config.filename.NATIVE_TOKENS);
-	});
+	const nativeTokenFiles = files.filter((filename) => filename.endsWith(config.filename.NATIVE_TOKENS));
 
 	// Validate schemas
 	await validateSchema(appSchema, appFiles);
 	await validateSchema(nativeTokenSchema, nativeTokenFiles);
-}
+};
 
 module.exports = {
 	validateAllSchemas,
-}
+};

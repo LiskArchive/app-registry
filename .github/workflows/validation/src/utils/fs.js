@@ -19,7 +19,10 @@ const config = require('../../config');
 const getNestedFilesByName = async (directory, filenames) => {
 	const entries = await fs.readdir(directory);
 	const appJsonPaths = [];
-	for (const entry of entries) {
+
+	for (let i = 0; i < entries.length; i++) {
+		const entry = entries[i];
+		/* eslint-disable no-await-in-loop */
 		const entryPath = path.join(directory, entry);
 		const entryStat = await fs.stat(entryPath);
 		if (entryStat.isDirectory()) {
@@ -28,43 +31,47 @@ const getNestedFilesByName = async (directory, filenames) => {
 		} else if (filenames.includes(entry)) {
 			appJsonPaths.push(entryPath);
 		}
+		/* eslint-enable no-await-in-loop */
 	}
 
 	return appJsonPaths;
-}
+};
 
 const getDirectories = async (directory) => {
 	try {
 		const files = await fs.readdir(directory);
 		const subdirectories = [];
 
-		for (const file of files) {
+		for (let i = 0; i < files.length; i++) {
+			const file = files[i];
+			/* eslint-disable no-await-in-loop */
 			const filePath = path.join(directory, file);
 			const stat = await fs.stat(filePath);
 
 			if (stat.isDirectory()) {
 				subdirectories.push(filePath);
 			}
+			/* eslint-enable no-await-in-loop */
 		}
 
 		return subdirectories;
 	} catch (err) {
 		throw new Error(`Error getting subdirectories in ${directory}: ${err}`);
 	}
-}
+};
 
 const getNetworkDirs = async (rootDir) => {
 	const subDirs = await getDirectories(rootDir);
 	const networkDirs = subDirs.filter((dirPath) => config.networkDirs.some((entry) => dirPath.endsWith(entry)));
 
 	return networkDirs;
-}
+};
 
 const readJsonFile = async (filePath) => {
 	const fileContent = await fs.readFile(filePath, 'utf-8');
 	const data = JSON.parse(fileContent);
 	return data;
-}
+};
 
 const readFileLinesToArray = async (filePath) => {
 	try {
@@ -86,8 +93,7 @@ const readFileLinesToArray = async (filePath) => {
 		console.error(`Error reading file: ${error}`);
 		return [];
 	}
-}
-
+};
 
 module.exports = {
 	getNestedFilesByName,
@@ -95,4 +101,4 @@ module.exports = {
 	getNetworkDirs,
 	readJsonFile,
 	readFileLinesToArray,
-}
+};

@@ -13,9 +13,8 @@
  */
 
 const fs = require('fs').promises;
-const path = require('path');
 const config = require('../config');
-const { getDirectories } = require('./utils/fs')
+const { getDirectories } = require('./utils/fs');
 
 const validateConfigInDir = async (directory) => {
 	try {
@@ -27,25 +26,29 @@ const validateConfigInDir = async (directory) => {
 	} catch (err) {
 		throw new Error(`Error reading directory: ${directory}.\n${err}`);
 	}
-}
+};
 
 const validateAllConfigFilesForDir = async (rootDir) => {
 	try {
 		const appDirs = await getDirectories(rootDir);
-		for (const appDir of appDirs) {
-			await validateConfigInDir(appDir);
+		for (let i = 0; i < appDirs.length; i++) {
+			/* eslint-disable no-await-in-loop */
+			await validateConfigInDir(appDirs[i]);
+			/* eslint-enable no-await-in-loop */
 		}
 	} catch (err) {
 		throw new Error(`Error: ${err}`);
 	}
-}
+};
 
 const validateAllConfigFiles = async (networkDirs) => {
-	for (const networkDir of networkDirs) {
-		await validateAllConfigFilesForDir(networkDir);
+	for (let i = 0; i < networkDirs.length; i++) {
+		/* eslint-disable no-await-in-loop */
+		await validateAllConfigFilesForDir(networkDirs[i]);
+		/* eslint-enable no-await-in-loop */
 	}
-}
+};
 
 module.exports = {
 	validateAllConfigFiles,
-}
+};

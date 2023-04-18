@@ -15,7 +15,7 @@
 const axios = require('axios');
 const { apiClient } = require('@liskhq/lisk-client');
 
-const { readJsonFile } = require("./utils/fs")
+const { readJsonFile } = require('./utils/fs');
 const config = require('../config');
 
 const httpRequest = async (serviceURL) => {
@@ -23,13 +23,12 @@ const httpRequest = async (serviceURL) => {
 		const response = await axios.get(serviceURL);
 		if (response.status === 200) {
 			return response;
-		} else {
-			throw new Error(`Error: Service URL API returned status code ${response.status}`);
 		}
+		throw new Error(`Error: Service URL API returned status code ${response.status}`);
 	} catch (error) {
 		throw new Error(`Error: ${error.message}`);
 	}
-}
+};
 
 const wsRequest = async (serviceURL) => {
 	try {
@@ -39,72 +38,74 @@ const wsRequest = async (serviceURL) => {
 	} catch (error) {
 		throw new Error(`Error: ${error.message}`);
 	}
-}
+};
 
 const validateExplorerUrls = async (explorers) => {
-
-	for(const explorer of explorers) {
-		const {url: explorerURL, txnPage: explorerTxnPage} = explorer;
+	for (let i = 0; i < explorers.length; i++) {
+		const explorer = explorers[i];
+		/* eslint-disable no-await-in-loop */
+		const { url: explorerURL, txnPage: explorerTxnPage } = explorer;
 
 		await httpRequest(explorerURL);
 		await httpRequest(explorerTxnPage);
+		/* eslint-enable no-await-in-loop */
 	}
-}
+};
 
 const validateLogoUrls = async (logos) => {
-	const {png: pngURL, svg: svgURL} = logos;
+	const { png: pngURL, svg: svgURL } = logos;
 
-	if(pngURL)
-		await httpRequest(pngURL);
+	if (pngURL) await httpRequest(pngURL);
 
-	if(svgURL)
-		await httpRequest(svgURL);
-}
+	if (svgURL) await httpRequest(svgURL);
+};
 
 const validateAppNodeUrls = async (serviceURLs, chainID) => {
-	for(const serviceURL of serviceURLs) {
+	for (let i = 0; i < serviceURLs.length; i++) {
+		const serviceURL = serviceURLs[i];
+		/* eslint-disable no-await-in-loop */
 		const { url: appNodeUrl } = serviceURL;
 
 		// Validate ws app node URLs
 		const wsRes = await wsRequest(appNodeUrl);
-		if (chainID != wsRes.chainID) {
-			throw new Error(`Chain ID mismatch in websocket URL. \nService URL chain ID: ${chainIDFromServiceURL}. \napp.json chain ID: ${chainID}. \nPlease ensure that they match and try again.`);
+		if (chainID !== wsRes.chainID) {
+			throw new Error(`Chain ID mismatch in websocket URL. \nService URL chain ID: ${wsRes.chainID}. \napp.json chain ID: ${chainID}. \nPlease ensure that they match and try again.`);
 		}
+		/* eslint-enable no-await-in-loop */
 	}
-}
+};
 
 const validateServiceURLs = async (serviceURLs, chainID) => {
-	for(const serviceURL of serviceURLs) {
+	for (let i = 0; i < serviceURLs.length; i++) {
+		const serviceURL = serviceURLs[i];
+		/* eslint-disable no-await-in-loop */
 		const { http: httpServiceURL, ws: wsServiceUrl } = serviceURL;
 
 		// Validate HTTP service URLs
 		const httpRes = await httpRequest(httpServiceURL + config.HTTP_API_NAMESPACE);
 		const chainIDFromServiceURL = httpRes.data.data.chainID;
-		if (chainIDFromServiceURL != chainID) {
+		if (chainIDFromServiceURL !== chainID) {
 			throw new Error(`Chain ID mismatch in HTTP URL. \nService URL chain ID: ${chainIDFromServiceURL}. \napp.json chain ID: ${chainID}. \nPlease ensure that they match and try again.`);
 		}
 
 		// Validate ws service URLs
 		const wsRes = await wsRequest(wsServiceUrl);
-		if (wsRes.chainID != chainID) {
+		if (wsRes.chainID !== chainID) {
 			throw new Error(`Chain ID mismatch in websocket URL. \nService URL chain ID: ${chainIDFromServiceURL}. \napp.json chain ID: ${chainID}. \nPlease ensure that they match and try again.`);
 		}
-
+		/* eslint-enable no-await-in-loop */
 	}
-}
+};
 
 const validateURLs = async (files) => {
-
 	// Get all app.json files
-	const appFiles = files.filter((filename) => {
-		return filename.endsWith(config.filename.APP_JSON);
-	});
+	const appFiles = files.filter((filename) => filename.endsWith(config.filename.APP_JSON));
 
-	const nativetokenFiles = files.filter((filename) => {
-		return filename.endsWith(config.filename.NATIVE_TOKENS);
-	});
-	
-	for (appFile of appFiles) {
+	const nativetokenFiles = files.filter((filename) => filename.endsWith(config.filename.NATIVE_TOKENS));
+
+	for (let i = 0; i < appFiles.length; i++) {
+		const appFile = appFiles[i];
+		/* eslint-disable no-await-in-loop */
 		const data = await readJsonFile(appFile);
 
 		// Validate service URLs
@@ -118,20 +119,24 @@ const validateURLs = async (files) => {
 
 		// Validate appNodes URLs
 		await validateAppNodeUrls(data.appNodes, data.chainID);
+		/* eslint-enable no-await-in-loop */
 	}
 
 	// Validate URLs for nativetokens.json file
-	for (nativetokenFile of nativetokenFiles) {
+	for (let i = 0; i < nativetokenFiles.length; i++) {
+		const nativetokenFile = nativetokenFiles[i];
+		/* eslint-disable no-await-in-loop */
 		const data = await readJsonFile(nativetokenFile);
 
-		for(const token of data.tokens) {
+		for (let j = 0; j < data.tokens.length; j++) {
+			const token = data.tokens[j];
 			// Validate logo URLs
 			await validateLogoUrls(token.logo);
 		}
+		/* eslint-enable no-await-in-loop */
 	}
-}
-
+};
 
 module.exports = {
 	validateURLs,
-}
+};

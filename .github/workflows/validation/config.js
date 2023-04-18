@@ -12,7 +12,7 @@
  * Removal or modification of this copyright notice is prohibited.
  */
 
-const path = require("path");
+const path = require('path');
 
 const config = {};
 
@@ -26,13 +26,13 @@ config.networkDirs = ['devnet', 'alphanet', 'betanet', 'testnet', 'mainnet'];
 config.schemaDir = path.join(config.rootDir, 'schema');
 
 // API suffix to get chain ID
-config.HTTP_API_NAMESPACE = "/api/v3/network/status";
-config.WS_API_NAMESPACE = "/rpc-ws";
+config.HTTP_API_NAMESPACE = '/api/v3/network/status';
+config.WS_API_NAMESPACE = '/rpc-ws';
 
 // Filenames
 config.filename = {
-    APP_JSON: "app.json",
-    NATIVE_TOKENS: "nativetokens.json",
+	APP_JSON: 'app.json',
+	NATIVE_TOKENS: 'nativetokens.json',
 };
 
 // Files whitelisted

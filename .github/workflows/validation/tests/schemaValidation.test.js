@@ -14,10 +14,10 @@
 
 const { validateAllSchemas } = require('../src/schemaValidation');
 const config = require('../config');
-const invalidNativeTokensConfig = require ('./constants/invalidNativeTokensConfig')
-const invalidAppConfig = require('./constants/invalidAppConfig')
-const validConfig = require('./constants/validConfig')
-const setup = require('./helper/setup')
+const invalidNativeTokensConfig = require('./constants/invalidNativeTokensConfig');
+const invalidAppConfig = require('./constants/invalidAppConfig');
+const validConfig = require('./constants/validConfig');
+const setup = require('./helper/setup');
 
 let filesToTest;
 
@@ -34,26 +34,33 @@ describe('Schema Validation Tests', () => {
 	});
 
 	it('should validate correct schema', async () => {
+		/* eslint-disable max-len */
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 		await expect(validateAllSchemas(filesToTest)).resolves.not.toThrow();
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
+		/* eslint-enable max-len */
 	});
 
 	it('should throw error while validating schema for app.json without background color', async () => {
+		/* eslint-disable max-len */
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.backgroundColorNotPresent));
 		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
+		/* eslint-enable max-len */
 	});
 
 	it('should throw error while validating schema for app.json without chain ID', async () => {
+		/* eslint-disable max-len */
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.chainIDNotPresent));
 		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
+		/* eslint-enable max-len */
 	});
 
 	it('should throw error while validating schema for app.json without chainName', async () => {
+		/* eslint-disable max-len */
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.chainNameNotPresent));
 		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
@@ -115,7 +122,7 @@ describe('Schema Validation Tests', () => {
 
 	it('should throw error while validating schema for nativetokens.json with without token ID', async () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.tokenIDNotPresent,
-			));
+		));
 		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 	});
@@ -197,5 +204,4 @@ describe('Schema Validation Tests', () => {
 		await expect(validateAllSchemas(filesToTest)).rejects.toThrow();
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 	});
-
 });

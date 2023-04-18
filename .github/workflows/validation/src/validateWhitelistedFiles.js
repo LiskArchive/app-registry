@@ -14,8 +14,8 @@
 
 const fs = require('fs').promises;
 const path = require('path');
-const config = require('../config')
-const { readFileLinesToArray } = require('./utils/fs')
+const config = require('../config');
+const { readFileLinesToArray } = require('./utils/fs');
 
 const isPatternMatch = (str, pattern) => {
 	if (pattern === '*') {
@@ -31,7 +31,8 @@ const isPatternMatch = (str, pattern) => {
 };
 
 const isFileWhitelisted = (filename, patterns) => {
-	for (const pattern of patterns) {
+	for (let i = 0; i < patterns.length; i++) {
+		const pattern = patterns[i];
 		if (isPatternMatch(filename, pattern)) {
 			return true;
 		}
@@ -42,7 +43,9 @@ const isFileWhitelisted = (filename, patterns) => {
 const validateAllWhitelistedFilesForDir = async (directory, whitelistedFilePatterns) => {
 	try {
 		const files = await fs.readdir(directory);
-		for (const file of files) {
+		for (let i = 0; i < files.length; i++) {
+			const file = files[i];
+			/* eslint-disable no-await-in-loop */
 			const fullPath = path.join(directory, file);
 			const stat = await fs.stat(fullPath);
 
@@ -51,23 +54,27 @@ const validateAllWhitelistedFilesForDir = async (directory, whitelistedFilePatte
 			} else if (!isFileWhitelisted(file, whitelistedFilePatterns)) {
 				throw new Error(`File ${fullPath} is not whitelisted.`);
 			}
+			/* eslint-enable no-await-in-loop */
 		}
 	} catch (err) {
 		throw new Error(`Error reading directory: ${directory}.\n${err}`);
 	}
-}
+};
 
 const validateAllWhitelistedFiles = async (networkDirs) => {
 	const whitelistedFilePatterns = await readFileLinesToArray(config.whitelistedFilesPath);
 
-	for (const networkDir of networkDirs) {
+	for (let i = 0; i < networkDirs.length; i++) {
+		const networkDir = networkDirs[i];
+		/* eslint-disable no-await-in-loop */
 		await validateAllWhitelistedFilesForDir(networkDir, whitelistedFilePatterns);
+		/* eslint-enable no-await-in-loop */
 	}
-}
+};
 
 module.exports = {
 	validateAllWhitelistedFiles,
 
 	// Testing
 	isFileWhitelisted,
-}
+};
