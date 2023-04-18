@@ -20,7 +20,7 @@ const config = {};
 config.rootDir = path.join(__dirname, '../../../');
 
 // Directories not related to networks
-config.nonNetworkDirs = ['.git', '.github', 'schema', 'docs']
+config.networkDirs = ['devnet', 'alphanet', 'betanet', 'testnet', 'mainnet'];
 
 // Schema directory
 config.schemaDir = path.join(config.rootDir, 'schema');

@@ -55,7 +55,7 @@ const getDirectories = async (directory) => {
 
 const getNetworkDirs = async (rootDir) => {
 	const subDirs = await getDirectories(rootDir);
-	const networkDirs = subDirs.filter((dirPath) => !config.nonNetworkDirs.some((entry) => dirPath.endsWith(entry)));
+	const networkDirs = subDirs.filter((dirPath) => config.networkDirs.some((entry) => dirPath.endsWith(entry)));
 
 	return networkDirs;
 }

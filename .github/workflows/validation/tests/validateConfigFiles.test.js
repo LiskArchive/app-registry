@@ -14,38 +14,38 @@
 
 const { validateAllConfigFiles } = require('../src/validateConfigFiles');
 const validConfig = require('./constants/validConfig');
-const fsUtil = require('./helper/setup');
+const setup = require('./helper/setup');
 const config = require('../config');
 
 describe('Configs in network directories validation tests', () => {
 
 	beforeAll(async () => {
 		// Create a temporary directory and some files for testing
-		await fsUtil.createTestEnvironment();
+		await setup.createTestEnvironment();
 	});
 
 	afterAll(async () => {
 		// Remove the temporary directory and files created during testing
-		await fsUtil.cleanTestEnviroment();
+		await setup.cleanTestEnviroment();
 	});
 
 	it('should not throw error when app.json and nativetokens.json is present in all network directories', async () => {
-		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		await expect(validateAllConfigFiles(fsUtil.getNetworkDirs())).resolves.not.toThrow();
-		await fsUtil.removeFileFromNetwork(config.filename.APP_JSON);
-		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
+		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
+		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
+		await expect(validateAllConfigFiles(setup.getNetworkDirs())).resolves.not.toThrow();
+		await setup.removeFileFromNetwork(config.filename.APP_JSON);
+		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 	});
 
 	it('should throw error when app.json is not present in any network directories', async () => {
-		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		await expect(validateAllConfigFiles(fsUtil.getNetworkDirs())).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
+		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
+		await expect(validateAllConfigFiles(setup.getNetworkDirs())).rejects.toThrow();
+		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 	});
 
 	it('should throw error when nativetokens.json is not present in any network directories', async () => {
-		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		await expect(validateAllConfigFiles(fsUtil.getNetworkDirs())).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork(config.filename.APP_JSON);
+		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
+		await expect(validateAllConfigFiles(setup.getNetworkDirs())).rejects.toThrow();
+		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 	});
 });

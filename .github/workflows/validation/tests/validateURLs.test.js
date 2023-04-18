@@ -18,7 +18,7 @@ const { apiClient } = require('@liskhq/lisk-client');
 const { validateURLs } = require('../src/validateURLs');
 const serviceURLResponse = require('./constants/serviceURLResponse');
 const validConfig = require('./constants/validConfig')
-const fsUtil = require('./helper/setup')
+const setup = require('./helper/setup')
 
 let filesToTest;
 
@@ -30,15 +30,15 @@ describe('URL Validation tests', () => {
 
 	beforeAll(async () => {
 		// Create a temporary directory and some files for testing
-		await fsUtil.createTestEnvironment();
-		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		filesToTest = await fsUtil.getJSONFilesFromNetwork();
+		await setup.createTestEnvironment();
+		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
+		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
+		filesToTest = await setup.getJSONFilesFromNetwork();
 	});
 
 	afterAll(async () => {
 		// Remove the temporary directory and files created during testing
-		await fsUtil.cleanTestEnviroment();
+		await setup.cleanTestEnviroment();
 	});
 
 	it('should throw error when HTTP service URL API returns an error', async () => {

@@ -14,36 +14,36 @@
 
 const { validateAllWhitelistedFiles, isFileWhitelisted } = require('../src/validateWhitelistedFiles');
 const validConfig = require('./constants/validConfig');
-const fsUtil = require('./helper/setup');
+const setup = require('./helper/setup');
 const config = require('../config');
 
 describe('Whitelisted Files Tests', () => {
 	beforeAll(async () => {
 		// Create a temporary directory and some files for testing
-		await fsUtil.createTestEnvironment();
-		await fsUtil.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		await fsUtil.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
+		await setup.createTestEnvironment();
+		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
+		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 	});
 
 	afterAll(async () => {
 		// Remove the temporary directory and files created during testing
-		await fsUtil.cleanTestEnviroment();
+		await setup.cleanTestEnviroment();
 	});
 
 	it('should allow whitelisted files and directories', async () => {
-		await expect(validateAllWhitelistedFiles(fsUtil.getNetworkDirs())).resolves.not.toThrow();
+		await expect(validateAllWhitelistedFiles(setup.getNetworkDirs())).resolves.not.toThrow();
 	});
 
 	it('should throw an error for non-whitelisted files', async () => {
-		await fsUtil.createFileInNetwork('tempfile.js', 'console.log("hello world");');
-		await expect(validateAllWhitelistedFiles(fsUtil.getNetworkDirs())).rejects.toThrow();
-		await fsUtil.removeFileFromNetwork('tempfile.js');
+		await setup.createFileInNetwork('tempfile.js', 'console.log("hello world");');
+		await expect(validateAllWhitelistedFiles(setup.getNetworkDirs())).rejects.toThrow();
+		await setup.removeFileFromNetwork('tempfile.js');
 	});
 
 	it('should not check files in non-network directories', async () => {
-		await fsUtil.createFileInDocs('tempfile.js', 'console.log("hello world");');
-		await expect(validateAllWhitelistedFiles(fsUtil.getNetworkDirs())).resolves.not.toThrow();
-		await fsUtil.removeFileFromDocs('tempfile.js', 'console.log("hello world");');
+		await setup.createFileInDocs('tempfile.js', 'console.log("hello world");');
+		await expect(validateAllWhitelistedFiles(setup.getNetworkDirs())).resolves.not.toThrow();
+		await setup.removeFileFromDocs('tempfile.js', 'console.log("hello world");');
 	});
 });
 
