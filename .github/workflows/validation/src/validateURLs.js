@@ -90,7 +90,7 @@ const validateAppNodeUrls = async (appNodeInfos) => {
 		try {
 			await checkWebsocketConnection(appNodeUrl);
 		} catch (e) {
-			throw new Error(`Error establising connection with ws: ${appNodeUrl}`);
+			throw new Error(`Error establishing connection with node: ${appNodeUrl}`);
 		}
 		/* eslint-enable no-await-in-loop */
 	}
