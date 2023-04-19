@@ -20,7 +20,7 @@ const appConfig = {
 	explorers: [],
 	appNodes: [
 		{
-			url: 'ws://alphanet.liskdev.net:4002',
+			url: 'ws://devnet-service.liskdev.net:7887',
 			maintainer: 'Lightcurve GmbH',
 		},
 	],

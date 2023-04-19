@@ -14,6 +14,7 @@
 
 const axios = require('axios');
 const { apiClient } = require('@liskhq/lisk-client');
+const net = require('net');
 
 const { readJsonFile } = require('./utils/fs');
 const config = require('../config');
@@ -30,9 +31,9 @@ const httpRequest = async (url) => {
 	}
 };
 
-const wsRequest = async (url) => {
+const wsRequest = async (wsEndpoint) => {
 	try {
-		const client = await apiClient.createWSClient(url);
+		const client = await apiClient.createWSClient(wsEndpoint);
 		const res = await client._channel.invoke('system_getNodeInfo', {});
 		return res;
 	} catch (error) {
@@ -59,20 +60,39 @@ const validateLogoUrls = async (logos) => {
 	if (svgURL) await httpRequest(svgURL);
 };
 
-const validateAppNodeUrls = async (serviceURLs, chainID) => {
-	for (let i = 0; i < serviceURLs.length; i++) {
-		const serviceURL = serviceURLs[i];
-		/* eslint-disable no-await-in-loop */
-		const { url: appNodeUrl } = serviceURL;
+const checkWebsocketConnection = async (url) => {
+	const urlParts = url.split('://');
+	if (urlParts[0] !== 'ws' && urlParts[0] !== 'wss') {
+	  return Promise.reject(new Error('Invalid websocket URL'));
+	}
 
+	const [host,port] = urlParts[1].split(':');
+	return new Promise((resolve, reject) => {
+	  const socket = net.createConnection({ host, port }, () => {
+		socket.end();
+		resolve();
+	  });
+
+	  console.log(socket)
+  
+	  socket.on('error', (err) => {
+		socket.end();
+		reject(err);
+	  });
+	});
+  };
+
+const validateAppNodeUrls = async (appNodeInfos, chainID) => {
+	for (let i = 0; i < appNodeInfos.length; i++) {
+		const appNodeInfo = appNodeInfos[i];
+		/* eslint-disable no-await-in-loop */
+		const { url: appNodeUrl } = appNodeInfo;
 		// Validate ws app node URLs
-		const wsRes = await wsRequest(appNodeUrl + config.WS_API_NAMESPACE);
-		if (chainID !== wsRes.chainID) {
-			throw new Error(`Chain ID mismatch in websocket URL. \nService URL chain ID: ${wsRes.chainID}. \napp.json chain ID: ${chainID}. \nPlease ensure that they match and try again.`);
-		}
+		await checkWebsocketConnection(appNodeUrl);
 		/* eslint-enable no-await-in-loop */
 	}
 };
+
 
 const validateServiceURLs = async (serviceURLs, chainID) => {
 	for (let i = 0; i < serviceURLs.length; i++) {
