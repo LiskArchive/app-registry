@@ -63,36 +63,38 @@ const validateLogoUrls = async (logos) => {
 const checkWebsocketConnection = async (url) => {
 	const urlParts = url.split('://');
 	if (urlParts[0] !== 'ws' && urlParts[0] !== 'wss') {
-	  return Promise.reject(new Error('Invalid websocket URL'));
+		return Promise.reject(new Error('Invalid websocket URL'));
 	}
 
-	const [host,port] = urlParts[1].split(':');
+	const [host, port] = urlParts[1].split(':');
 	return new Promise((resolve, reject) => {
-	  const socket = net.createConnection({ host, port }, () => {
-		socket.end();
-		resolve();
-	  });
+		const socket = net.createConnection({ host, port }, () => {
+			socket.end();
+			resolve();
+		});
 
-	  console.log(socket)
-  
-	  socket.on('error', (err) => {
-		socket.end();
-		reject(err);
-	  });
+		socket.on('error', (err) => {
+			socket.end();
+			reject(err);
+		});
 	});
-  };
+};
 
-const validateAppNodeUrls = async (appNodeInfos, chainID) => {
+const validateAppNodeUrls = async (appNodeInfos) => {
 	for (let i = 0; i < appNodeInfos.length; i++) {
 		const appNodeInfo = appNodeInfos[i];
 		/* eslint-disable no-await-in-loop */
 		const { url: appNodeUrl } = appNodeInfo;
 		// Validate ws app node URLs
-		await checkWebsocketConnection(appNodeUrl);
+
+		try {
+			await checkWebsocketConnection(appNodeUrl);
+		} catch (e) {
+			throw new Error(`Error establising connection with ws: ${appNodeUrl}`);
+		}
 		/* eslint-enable no-await-in-loop */
 	}
 };
-
 
 const validateServiceURLs = async (serviceURLs, chainID) => {
 	for (let i = 0; i < serviceURLs.length; i++) {
@@ -137,7 +139,7 @@ const validateURLs = async (files) => {
 		await validateExplorerUrls(data.explorers);
 
 		// Validate appNodes URLs
-		await validateAppNodeUrls(data.appNodes, data.chainID);
+		await validateAppNodeUrls(data.appNodes);
 		/* eslint-enable no-await-in-loop */
 	}
 

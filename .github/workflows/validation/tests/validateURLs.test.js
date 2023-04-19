@@ -13,7 +13,6 @@
  */
 
 const axios = require('axios');
-const net = require('net');
 const { apiClient } = require('@liskhq/lisk-client');
 const config = require('../config');
 const { validateURLs } = require('../src/validateURLs');
@@ -25,7 +24,7 @@ let filesToTest;
 
 jest.mock('axios');
 jest.mock('@liskhq/lisk-client');
-jest.mock('net');
+// jest.mock('net');
 
 describe('URL Validation tests', () => {
 	beforeAll(async () => {
@@ -80,7 +79,7 @@ describe('URL Validation tests', () => {
 		jest.resetAllMocks();
 	});
 
-	xit('should not throw error when service URL API returns correct chain ID', async () => {
+	it('should not throw error when service URL API returns correct chain ID', async () => {
 		// Mock axios to return an success response
 		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
 
