@@ -18,21 +18,21 @@ const { apiClient } = require('@liskhq/lisk-client');
 const { readJsonFile } = require('./utils/fs');
 const config = require('../config');
 
-const httpRequest = async (serviceURL) => {
+const httpRequest = async (url) => {
 	try {
-		const response = await axios.get(serviceURL);
+		const response = await axios.get(url);
 		if (response.status === 200) {
 			return response;
 		}
-		throw new Error(`Error: Service URL API returned status code ${response.status}`);
+		throw new Error(`Error: URL '${url}' returned response with status code ${response.status}.`);
 	} catch (error) {
 		throw new Error(`Error: ${error.message}`);
 	}
 };
 
-const wsRequest = async (serviceURL) => {
+const wsRequest = async (url) => {
 	try {
-		const client = await apiClient.createWSClient(serviceURL + config.WS_API_NAMESPACE);
+		const client = await apiClient.createWSClient(url);
 		const res = await client._channel.invoke('system_getNodeInfo', {});
 		return res;
 	} catch (error) {
@@ -56,7 +56,6 @@ const validateLogoUrls = async (logos) => {
 	const { png: pngURL, svg: svgURL } = logos;
 
 	if (pngURL) await httpRequest(pngURL);
-
 	if (svgURL) await httpRequest(svgURL);
 };
 
@@ -67,7 +66,7 @@ const validateAppNodeUrls = async (serviceURLs, chainID) => {
 		const { url: appNodeUrl } = serviceURL;
 
 		// Validate ws app node URLs
-		const wsRes = await wsRequest(appNodeUrl);
+		const wsRes = await wsRequest(appNodeUrl + config.WS_API_NAMESPACE);
 		if (chainID !== wsRes.chainID) {
 			throw new Error(`Chain ID mismatch in websocket URL. \nService URL chain ID: ${wsRes.chainID}. \napp.json chain ID: ${chainID}. \nPlease ensure that they match and try again.`);
 		}
@@ -85,13 +84,13 @@ const validateServiceURLs = async (serviceURLs, chainID) => {
 		const httpRes = await httpRequest(httpServiceURL + config.HTTP_API_NAMESPACE);
 		const chainIDFromServiceURL = httpRes.data.data.chainID;
 		if (chainIDFromServiceURL !== chainID) {
-			throw new Error(`Chain ID mismatch in HTTP URL. \nService URL chain ID: ${chainIDFromServiceURL}. \napp.json chain ID: ${chainID}. \nPlease ensure that they match and try again.`);
+			throw new Error(`ChainID mismatch in HTTP URL: ${httpServiceURL}.\nService URL chainID: ${chainIDFromServiceURL}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`);
 		}
 
 		// Validate ws service URLs
-		const wsRes = await wsRequest(wsServiceUrl);
+		const wsRes = await wsRequest(wsServiceUrl + config.WS_API_NAMESPACE);
 		if (wsRes.chainID !== chainID) {
-			throw new Error(`Chain ID mismatch in websocket URL. \nService URL chain ID: ${chainIDFromServiceURL}. \napp.json chain ID: ${chainID}. \nPlease ensure that they match and try again.`);
+			throw new Error(`ChainID mismatch in WS URL: ${wsServiceUrl}.\nService URL chainID: ${chainIDFromServiceURL}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`);
 		}
 		/* eslint-enable no-await-in-loop */
 	}

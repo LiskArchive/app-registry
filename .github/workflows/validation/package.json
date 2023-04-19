@@ -16,8 +16,8 @@
   "scripts": {
     "start": "node src/index.js",
     "test": "jest",
-    "eslint": "eslint \"./**/*.js\"",
-    "eslint-fix": "eslint --fix \"./**/*.js\" "
+    "lint": "eslint \"./**/*.js\"",
+    "lint:fix": "eslint --fix \"./**/*.js\" "
   },
   "dependencies": {
     "@liskhq/lisk-client": "^6.0.0-alpha.21",

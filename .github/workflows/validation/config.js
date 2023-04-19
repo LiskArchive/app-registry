@@ -19,8 +19,8 @@ const config = {};
 // Root directory which holds networks
 config.rootDir = path.join(__dirname, '../../../');
 
-// Directories not related to networks
-config.networkDirs = ['devnet', 'alphanet', 'betanet', 'testnet', 'mainnet'];
+// Directories corresponding the known networks
+config.knownNetworks = ['devnet', 'alphanet', 'betanet', 'testnet', 'mainnet'];
 
 // Schema directory
 config.schemaDir = path.join(config.rootDir, 'schema');

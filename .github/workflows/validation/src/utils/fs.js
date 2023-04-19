@@ -56,13 +56,13 @@ const getDirectories = async (directory) => {
 
 		return subdirectories;
 	} catch (err) {
-		throw new Error(`Error getting subdirectories in ${directory}: ${err}`);
+		throw new Error(`Error getting subdirectories under path ${directory}.\n${err}`);
 	}
 };
 
 const getNetworkDirs = async (rootDir) => {
 	const subDirs = await getDirectories(rootDir);
-	const networkDirs = subDirs.filter((dirPath) => config.networkDirs.some((entry) => dirPath.endsWith(entry)));
+	const networkDirs = subDirs.filter((dirPath) => config.knownNetworks.some((entry) => dirPath.endsWith(entry)));
 
 	return networkDirs;
 };
