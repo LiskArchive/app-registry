@@ -85,8 +85,8 @@ const validateAppNodeUrls = async (appNodeInfos) => {
 		const appNodeInfo = appNodeInfos[i];
 		/* eslint-disable no-await-in-loop */
 		const { url: appNodeUrl } = appNodeInfo;
+		
 		// Validate ws app node URLs
-
 		try {
 			await checkWebsocketConnection(appNodeUrl);
 		} catch (e) {
