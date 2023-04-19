@@ -12,6 +12,7 @@
  * Removal or modification of this copyright notice is prohibited.
  */
 
+const net = require('net');
 const axios = require('axios');
 const { apiClient } = require('@liskhq/lisk-client');
 const config = require('../config');
@@ -85,8 +86,39 @@ describe('URL Validation tests', () => {
 
 		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
 
+		jest.spyOn(net, 'createConnection').mockReturnValueOnce({
+			on: jest.fn().mockImplementation((event, callback) => {
+				if (event === 'connect') {
+					callback(); // Call the "connect" event handler immediately
+				}
+			}),
+			end: jest.fn(),
+		});
+
 		// Test validation
 		await expect(validateURLs(filesToTest)).resolves.not.toThrow();
+
+		// Restore axios mock
+		jest.resetAllMocks();
+	});
+
+	it('should throw error when connection cant be established with app nodes ', async () => {
+		// Mock axios to return an success response
+		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
+
+		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
+
+		jest.spyOn(net, 'createConnection').mockReturnValueOnce({
+			on: jest.fn().mockImplementation((event, callback) => {
+				if (event === 'error') {
+					callback(new Error('Connection failed')); // Call the "error" event handler immediately with an error
+				}
+			}),
+			end: jest.fn(),
+		});
+
+		// Test validation
+		await expect(validateURLs(filesToTest)).rejects.toThrow();
 
 		// Restore axios mock
 		jest.resetAllMocks();

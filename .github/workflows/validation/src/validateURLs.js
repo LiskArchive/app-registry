@@ -68,7 +68,9 @@ const checkWebsocketConnection = async (url) => {
 
 	const [host, port] = urlParts[1].split(':');
 	return new Promise((resolve, reject) => {
-		const socket = net.createConnection({ host, port }, () => {
+		const socket = net.createConnection({ host, port });
+
+		socket.on('connect', () => {
 			socket.end();
 			resolve();
 		});
@@ -85,7 +87,7 @@ const validateAppNodeUrls = async (appNodeInfos) => {
 		const appNodeInfo = appNodeInfos[i];
 		/* eslint-disable no-await-in-loop */
 		const { url: appNodeUrl } = appNodeInfo;
-		
+
 		// Validate ws app node URLs
 		try {
 			await checkWebsocketConnection(appNodeUrl);
