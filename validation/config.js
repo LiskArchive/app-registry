@@ -17,7 +17,7 @@ const path = require('path');
 const config = {};
 
 // Root directory which holds networks
-config.rootDir = path.join(__dirname, '../../../');
+config.rootDir = path.join(__dirname, '../');
 
 // Directories corresponding the known networks
 config.knownNetworks = ['devnet', 'alphanet', 'betanet', 'testnet', 'mainnet'];

@@ -17,7 +17,7 @@ jobs:
           dir_names: 'true'
       - name: Install dependencies
         run: |
-          npm install --registry=https://npm.lisk.com/
+          cd validation && npm install --registry=https://npm.lisk.com/
       - name: Run Validation scripts
         run: |
-          npm run start -- ${{ steps.dirs.outputs.all_changed_and_modified_files }}
+          cd validation && npm run start -- ${{ steps.dirs.outputs.all_changed_and_modified_files }}
