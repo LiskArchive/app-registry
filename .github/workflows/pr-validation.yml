@@ -14,7 +14,12 @@ jobs:
         id: dirs
         uses: tj-actions/changed-files@v35
         with:
-          dir_names: 'true'
+          files: |
+            alphanet
+            betanet
+            devnet
+            mainnet
+            testnet
       - name: Install dependencies
         run: |
           cd validation && npm ci --registry=https://npm.lisk.com/
