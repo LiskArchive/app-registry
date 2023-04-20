@@ -1,12 +1,12 @@
-name: PR Validation
+name: Pull Request Validation Workflow
 on: [pull_request]
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v3
-      - name: Set up node
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16'
@@ -17,7 +17,13 @@ jobs:
           dir_names: 'true'
       - name: Install dependencies
         run: |
-          cd validation && npm install --registry=https://npm.lisk.com/
-      - name: Run Validation scripts
+          cd validation && npm ci --registry=https://npm.lisk.com/
+      - name: Lint code
+        run: |
+          cd validation && npm run lint
+      - name: Run tests
+        run: |
+          cd validation && npm test
+      - name: Run validation scripts
         run: |
           cd validation && npm run start -- ${{ steps.dirs.outputs.all_changed_and_modified_files }}

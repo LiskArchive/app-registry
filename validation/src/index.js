@@ -30,16 +30,17 @@ const validate = async () => {
 	const changedDirs = [...uniqueDirs];
 
 	// Get all network dirs for schema validation
-	const networkDirs = await getNetworkDirs(config.rootDir);
+	const allNetworkDirs = await getNetworkDirs(config.rootDir);
 
 	// If no dirs are changed then check all files
-	const filteredNetworks = changedDirs.length > 0 ? networkDirs.filter(network => changedDirs.some(dir => network.includes(dir))) : networkDirs;
+	const selectedNetworkDirs = changedDirs.length > 0
+		? allNetworkDirs.filter(network => changedDirs.some(dir => network.includes(dir))) : allNetworkDirs;
 
 	// Get all app.json and nativetokens.json files
 	const files = [];
-	for (let i = 0; i < filteredNetworks.length; i++) {
+	for (let i = 0; i < selectedNetworkDirs.length; i++) {
 		/* eslint-disable no-await-in-loop */
-		files.push(...await getNestedFilesByName(filteredNetworks[i], Object.values(config.filename)));
+		files.push(...await getNestedFilesByName(selectedNetworkDirs[i], Object.values(config.filename)));
 		/* eslint-enable no-await-in-loop */
 	}
 
@@ -47,10 +48,10 @@ const validate = async () => {
 	await validateAllSchemas(files);
 
 	// Check whitelisted files in all network directories
-	await validateAllWhitelistedFiles(filteredNetworks);
+	await validateAllWhitelistedFiles(selectedNetworkDirs);
 
 	// Check for config files in all network directories
-	await validateAllConfigFiles(filteredNetworks);
+	await validateAllConfigFiles(selectedNetworkDirs);
 
 	// Validate serviceURLs
 	await validateURLs(files);
