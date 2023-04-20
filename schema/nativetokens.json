@@ -40,7 +40,7 @@
                 }
             }
         },
-        "tokenLogoURI ": {
+        "tokenLogoURI": {
             "type": "object",
             "required": [
                 "png",

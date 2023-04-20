@@ -70,7 +70,7 @@
         }
     },
     "$defs": {
-        "appNode ": {
+        "appNode": {
             "type": "object",
             "required": [
                 "url",
@@ -106,7 +106,7 @@
                 }
             }
         },
-        "logoURI ": {
+        "logoURI": {
             "type": "object",
             "required": [
                 "png",
