@@ -17,40 +17,51 @@ const { validateAllSchemas } = require('./schemaValidation');
 const { validateURLs } = require('./validateURLs');
 const { validateAllWhitelistedFiles } = require('./validateWhitelistedFiles');
 const { validateAllConfigFiles } = require('./validateConfigFiles');
+const { validateFilePaths } = require('./validateFilePaths');
 const { getNetworkDirs } = require('./utils/fs');
 const config = require('../config');
 
 const validate = async () => {
-	// Get all network dirs for schema validation
-	const allNetworkDirs = await getNetworkDirs(config.rootDir);
-
 	// Get all modified files
-	const filesChanged = process.argv.slice(2);
+	const allChangedFiles = process.argv.slice(2);
 
-	// Get all network dirs changed
-	const uniqueDirs = new Set();
-	for (let i = 0; i < filesChanged.length; i++) {
-		const firstDir = filesChanged[i].split('/')[0];
-		uniqueDirs.add(firstDir);
+	// Get all app dir addeed or modified inside network dirs
+	const changedAppDirs = new Set();
+	for (let i = 0; i < allChangedFiles.length; i++) {
+		const dir = allChangedFiles[i].split('/').slice(0, 2).join('/');
+		if (dir.trim() && config.knownNetworks.includes(dir.split('/')[0])) {
+			changedAppDirs.add(path.resolve(dir));
+		}
 	}
-	const selectedNetworkDirs = allNetworkDirs.filter(network => uniqueDirs.has(network));
 
-	// Filter all changed app.json and nativetokens.json files
-	const files = filesChanged.filter(
-		(fileName) => (path.basename(fileName) === config.filename.APP_JSON || path.basename(fileName) === config.filename.NATIVE_TOKENS))
-		.map((fileName) => path.join(config.rootDir, fileName));
+	// Filter all changed app.json and nativetokens.json files except from Schema dir
+	const changedAppFiles = allChangedFiles.filter(
+		(fileName) => {
+			const baseName = path.basename(fileName);
+			const fullPath = path.join(config.rootDir, fileName);
+			const isSchemaFile = fullPath.includes(config.schemaDir);
 
-	// Validate schemas
-	await validateAllSchemas(files);
+			const isAppOrNativeTokens = baseName === config.filename.APP_JSON || baseName === config.filename.NATIVE_TOKENS;
+			const isSchemaAppOrNativeTokens = isSchemaFile && isAppOrNativeTokens;
 
-	// Check whitelisted files in all network directories
-	await validateAllWhitelistedFiles(selectedNetworkDirs);
+			return isAppOrNativeTokens && !isSchemaAppOrNativeTokens;
+		},
+	).map((fileName) => path.join(config.rootDir, fileName));
 
-	// Check for config files in all network directories
-	await validateAllConfigFiles(selectedNetworkDirs);
+	// Validate if app.json and nativetoken.json is present anywhere except networkDir/appName/
+	await validateFilePaths(changedAppFiles);
+
+	// Validate all app.json and nativetoken.json schemas
+	await validateAllSchemas(changedAppFiles);
+
+	// Check whitelisted files in all changed network directories
+	await validateAllWhitelistedFiles(changedAppDirs);
+
+	// Check for config files in all changed apps in networks directories
+	await validateAllConfigFiles(changedAppDirs);
 
 	// Validate serviceURLs
-	await validateURLs(files);
+	await validateURLs(changedAppFiles);
 
 	process.exit(0);
 };

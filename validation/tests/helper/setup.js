@@ -40,6 +40,8 @@ const getJSONFilesFromNetwork = async () => {
 
 const getNetworkDirs = () => [path.join(config.rootDir, 'tempdir', 'mainnet')];
 
+const getAppDirs = () => [path.join(config.rootDir, 'tempdir', 'mainnet', 'network')];
+
 module.exports = {
 	tempDataDir,
 	createTestEnvironment,
@@ -50,4 +52,5 @@ module.exports = {
 	removeFileFromDocs,
 	getJSONFilesFromNetwork,
 	getNetworkDirs,
+	getAppDirs,
 };

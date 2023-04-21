@@ -14,9 +14,8 @@
 
 const fs = require('fs').promises;
 const config = require('../config');
-const { getDirectories } = require('./utils/fs');
 
-const validateConfigInDir = async (directory) => {
+const validateAllConfigFilesForDir = async (directory) => {
 	try {
 		const files = await fs.readdir(directory);
 
@@ -25,19 +24,6 @@ const validateConfigInDir = async (directory) => {
 		}
 	} catch (err) {
 		throw new Error(`Error reading directory: ${directory}.\n${err}`);
-	}
-};
-
-const validateAllConfigFilesForDir = async (rootDir) => {
-	try {
-		const appDirs = await getDirectories(rootDir);
-		for (let i = 0; i < appDirs.length; i++) {
-			/* eslint-disable no-await-in-loop */
-			await validateConfigInDir(appDirs[i]);
-			/* eslint-enable no-await-in-loop */
-		}
-	} catch (err) {
-		throw new Error(`Error: ${err}`);
 	}
 };
 

@@ -32,7 +32,7 @@ describe('Configs in network directories validation tests', () => {
 		/* eslint-disable max-len */
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		await expect(validateAllConfigFiles(setup.getNetworkDirs())).resolves.not.toThrow();
+		await expect(validateAllConfigFiles(setup.getAppDirs())).resolves.not.toThrow();
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 		/* eslint-enable max-len */
@@ -41,14 +41,14 @@ describe('Configs in network directories validation tests', () => {
 	it('should throw error when app.json is not present in any network directories', async () => {
 		/* eslint-disable-next-line max-len */
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		await expect(validateAllConfigFiles(setup.getNetworkDirs())).rejects.toThrow();
+		await expect(validateAllConfigFiles(setup.getAppDirs())).rejects.toThrow();
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 	});
 
 	it('should throw error when nativetokens.json is not present in any network directories', async () => {
 		/* eslint-disable-next-line max-len */
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		await expect(validateAllConfigFiles(setup.getNetworkDirs())).rejects.toThrow();
+		await expect(validateAllConfigFiles(setup.getAppDirs())).rejects.toThrow();
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 	});
 });

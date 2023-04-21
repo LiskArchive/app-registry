@@ -1,7 +1,7 @@
 const backgroundColorNotPresent = {
 	title: 'Lisk - Alphanet',
 	description: 'Metadata configuration for the Lisk blockchain (mainchain) in alphanet',
-	chainName: 'Lisk',
+	chainName: 'network',
 	chainID: '03000000',
 	networkType: 'alphanet',
 	genesisURL: 'https://downloads.lisk.com/lisk/alphanet/genesis_block.json.tar.gz',
@@ -28,7 +28,7 @@ const backgroundColorNotPresent = {
 const chainIDNotPresent = {
 	title: 'Lisk - Alphanet',
 	description: 'Metadata configuration for the Lisk blockchain (mainchain) in alphanet',
-	chainName: 'Lisk',
+	chainName: 'network',
 	networkType: 'alphanet',
 	genesisURL: 'https://downloads.lisk.com/lisk/alphanet/genesis_block.json.tar.gz',
 	projectPage: 'https://lisk.com',
@@ -82,7 +82,7 @@ const chainNameNotPresent = {
 const explorersNotPresent = {
 	title: 'Lisk - Alphanet',
 	description: 'Metadata configuration for the Lisk blockchain (mainchain) in alphanet',
-	chainName: 'Lisk',
+	chainName: 'network',
 	chainID: '03000000',
 	networkType: 'alphanet',
 	genesisURL: 'https://downloads.lisk.com/lisk/alphanet/genesis_block.json.tar.gz',
@@ -109,7 +109,7 @@ const explorersNotPresent = {
 const genesisURLNotPresent = {
 	title: 'Lisk - Alphanet',
 	description: 'Metadata configuration for the Lisk blockchain (mainchain) in alphanet',
-	chainName: 'Lisk',
+	chainName: 'network',
 	chainID: '03000000',
 	networkType: 'alphanet',
 	projectPage: 'https://lisk.com',
@@ -136,7 +136,7 @@ const genesisURLNotPresent = {
 const logoNotPresent = {
 	title: 'Lisk - Alphanet',
 	description: 'Metadata configuration for the Lisk blockchain (mainchain) in alphanet',
-	chainName: 'Lisk',
+	chainName: 'network',
 	chainID: '03000000',
 	networkType: 'alphanet',
 	genesisURL: 'https://downloads.lisk.com/lisk/alphanet/genesis_block.json.tar.gz',
@@ -160,7 +160,7 @@ const logoNotPresent = {
 const networkTypeNotPresent = {
 	title: 'Lisk - Alphanet',
 	description: 'Metadata configuration for the Lisk blockchain (mainchain) in alphanet',
-	chainName: 'Lisk',
+	chainName: 'network',
 	chainID: '03000000',
 	genesisURL: 'https://downloads.lisk.com/lisk/alphanet/genesis_block.json.tar.gz',
 	projectPage: 'https://lisk.com',
@@ -187,7 +187,7 @@ const networkTypeNotPresent = {
 const projectPageNotPresent = {
 	title: 'Lisk - Alphanet',
 	description: 'Metadata configuration for the Lisk blockchain (mainchain) in alphanet',
-	chainName: 'Lisk',
+	chainName: 'network',
 	chainID: '03000000',
 	networkType: 'alphanet',
 	genesisURL: 'https://downloads.lisk.com/lisk/alphanet/genesis_block.json.tar.gz',
@@ -214,7 +214,7 @@ const projectPageNotPresent = {
 const serviceUrlIncorrect = {
 	title: 'Lisk - Alphanet',
 	description: 'Metadata configuration for the Lisk blockchain (mainchain) in alphanet',
-	chainName: 'Lisk',
+	chainName: 'network',
 	chainID: '03000000',
 	networkType: 'alphanet',
 	genesisURL: 'https://downloads.lisk.com/lisk/alphanet/genesis_block.json.tar.gz',
@@ -242,7 +242,7 @@ const serviceUrlIncorrect = {
 const serviceURLsNotPresent = {
 	title: 'Lisk - Alphanet',
 	description: 'Metadata configuration for the Lisk blockchain (mainchain) in alphanet',
-	chainName: 'Lisk',
+	chainName: 'network',
 	chainID: '03000000',
 	networkType: 'alphanet',
 	genesisURL: 'https://downloads.lisk.com/lisk/alphanet/genesis_block.json.tar.gz',

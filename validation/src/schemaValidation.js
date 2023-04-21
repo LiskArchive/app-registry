@@ -12,6 +12,7 @@
  * Removal or modification of this copyright notice is prohibited.
  */
 
+const path = require('path');
 const Ajv = require('ajv');
 const addFormats = require('ajv-formats');
 const config = require('../config');
@@ -22,6 +23,20 @@ const nativeTokenSchema = require(`${config.schemaDir}/${config.filename.NATIVE_
 
 const ajv = new Ajv();
 addFormats(ajv);
+
+const validateChainName = async (filePaths) => {
+	for (let i = 0; i < filePaths.length; i++) {
+		/* eslint-disable no-await-in-loop */
+		const filePath = filePaths[i];
+		const data = await readJsonFile(filePath);
+		const parentDirName = path.basename(path.dirname(filePath));
+
+		if (data.chainName !== parentDirName) {
+			throw new Error('Parent dir name dosent match chain name.');
+		}
+		/* eslint-enable no-await-in-loop */
+	}
+};
 
 const validateSchema = async (schema, filePaths) => {
 	for (let i = 0; i < filePaths.length; i++) {
@@ -47,6 +62,9 @@ const validateAllSchemas = async (files) => {
 	// Validate schemas
 	await validateSchema(appSchema, appFiles);
 	await validateSchema(nativeTokenSchema, nativeTokenFiles);
+
+	// Validate if dir name is same as network name
+	await validateChainName(appFiles);
 };
 
 module.exports = {
