@@ -33,8 +33,7 @@ const validate = async () => {
 		const firstDir = filesChanged[i].split('/')[0];
 		uniqueDirs.add(firstDir);
 	}
-	const changedDirs = [...uniqueDirs];
-	const SelectedNetworkDirs = allNetworkDirs.filter(network => changedDirs.some(dir => network.includes(dir)));
+	const selectedNetworkDirs = allNetworkDirs.filter(network => uniqueDirs.has(network));
 
 	// Filter all changed app.json and nativetokens.json files
 	const files = filesChanged.filter(
@@ -45,10 +44,10 @@ const validate = async () => {
 	await validateAllSchemas(files);
 
 	// Check whitelisted files in all network directories
-	await validateAllWhitelistedFiles(SelectedNetworkDirs);
+	await validateAllWhitelistedFiles(selectedNetworkDirs);
 
 	// Check for config files in all network directories
-	await validateAllConfigFiles(SelectedNetworkDirs);
+	await validateAllConfigFiles(selectedNetworkDirs);
 
 	// Validate serviceURLs
 	await validateURLs(files);
