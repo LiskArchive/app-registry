@@ -54,7 +54,7 @@ const validate = async () => {
 	await validateAllSchemas(changedAppFiles);
 
 	// Check whitelisted files in all changed network directories
-	await validateAllWhitelistedFiles(changedAppDirs);
+	await validateAllWhitelistedFiles(allChangedFiles);
 
 	// Check for config files in all changed apps in networks directories
 	await validateAllConfigFiles(changedAppDirs);

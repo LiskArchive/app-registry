@@ -40,34 +40,18 @@ const isFileWhitelisted = (filename, patterns) => {
 	return false;
 };
 
-const validateAllWhitelistedFilesForDir = async (directory, whitelistedFilePatterns) => {
-	try {
-		const files = await fs.readdir(directory);
-		for (let i = 0; i < files.length; i++) {
-			const file = files[i];
-			/* eslint-disable no-await-in-loop */
-			const fullPath = path.join(directory, file);
-			const stat = await fs.stat(fullPath);
-
-			if (stat.isDirectory()) {
-				await validateAllWhitelistedFilesForDir(fullPath, whitelistedFilePatterns);
-			} else if (!isFileWhitelisted(file, whitelistedFilePatterns)) {
-				throw new Error(`File ${fullPath} is not whitelisted.`);
-			}
-			/* eslint-enable no-await-in-loop */
-		}
-	} catch (err) {
-		throw new Error(`Error reading directory: ${directory}.\n${err}`);
-	}
-};
-
-const validateAllWhitelistedFiles = async (networkDirs) => {
+const validateAllWhitelistedFiles = async (filePaths) => {
 	const whitelistedFilePatterns = await readFileLinesToArray(config.whitelistedFilesPath);
 
-	for (let i = 0; i < networkDirs.length; i++) {
-		const networkDir = networkDirs[i];
+	for (let i = 0; i < filePaths.length; i++) {
+		const filePath = path.resolve(config.rootDir, filePaths[i]);
+
 		/* eslint-disable no-await-in-loop */
-		await validateAllWhitelistedFilesForDir(networkDir, whitelistedFilePatterns);
+		const stat = await fs.stat(filePath);
+
+		if (stat.isFile() && !isFileWhitelisted(path.basename(filePath), whitelistedFilePatterns)) {
+			throw new Error(`File ${filePath} is not whitelisted.`);
+		}
 		/* eslint-enable no-await-in-loop */
 	}
 };

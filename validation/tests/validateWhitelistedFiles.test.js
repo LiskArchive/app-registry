@@ -31,19 +31,15 @@ describe('Whitelisted Files Tests', () => {
 	});
 
 	it('should allow whitelisted files and directories', async () => {
-		await expect(validateAllWhitelistedFiles(setup.getNetworkDirs())).resolves.not.toThrow();
+		await expect(validateAllWhitelistedFiles(setup.getJSONFilesFromNetwork())).resolves.not.toThrow();
 	});
 
 	it('should throw an error for non-whitelisted files', async () => {
 		await setup.createFileInNetwork('tempfile.js', 'console.log("hello world");');
-		await expect(validateAllWhitelistedFiles(setup.getNetworkDirs())).rejects.toThrow();
-		await setup.removeFileFromNetwork('tempfile.js');
-	});
+		const files = [setup.getFileFromNetwork('tempfile.js')];
 
-	it('should not check files in non-network directories', async () => {
-		await setup.createFileInDocs('tempfile.js', 'console.log("hello world");');
-		await expect(validateAllWhitelistedFiles(setup.getNetworkDirs())).resolves.not.toThrow();
-		await setup.removeFileFromDocs('tempfile.js', 'console.log("hello world");');
+		await expect(validateAllWhitelistedFiles(files)).rejects.toThrow();
+		await setup.removeFileFromNetwork('tempfile.js');
 	});
 });
 
