@@ -34,7 +34,7 @@ describe('URL Validation tests', () => {
 		await setup.createTestEnvironment();
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		filesToTest = await setup.getJSONFilesFromNetwork();
+		filesToTest = setup.getJSONFilesFromNetwork();
 		/* eslint-enable max-len */
 	});
 

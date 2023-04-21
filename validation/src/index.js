@@ -17,8 +17,7 @@ const { validateAllSchemas } = require('./schemaValidation');
 const { validateURLs } = require('./validateURLs');
 const { validateAllWhitelistedFiles } = require('./validateWhitelistedFiles');
 const { validateAllConfigFiles } = require('./validateConfigFiles');
-const { validateFilePaths } = require('./validateFilePaths');
-const { getNetworkDirs } = require('./utils/fs');
+const { validateFilePaths } = require('./validateConfigFilePaths');
 const config = require('../config');
 
 const validate = async () => {

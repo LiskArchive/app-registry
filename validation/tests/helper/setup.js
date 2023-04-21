@@ -31,10 +31,17 @@ const removeFileFromDocs = async (filename) => {
 	await fs.rm(path.join(config.rootDir, 'tempdir', 'docs', filename));
 };
 
-const getJSONFilesFromNetwork = async () => {
+const getJSONFilesFromNetwork = () => {
 	const files = [];
 	files.push(path.join(config.rootDir, 'tempdir', 'mainnet', 'network', config.filename.APP_JSON));
 	files.push(path.join(config.rootDir, 'tempdir', 'mainnet', 'network', config.filename.NATIVE_TOKENS));
+	return files;
+};
+
+const getJSONFilesFromDocs = () => {
+	const files = [];
+	files.push(path.join(config.rootDir, 'tempdir', 'docs', config.filename.APP_JSON));
+	files.push(path.join(config.rootDir, 'tempdir', 'docs', config.filename.NATIVE_TOKENS));
 	return files;
 };
 
@@ -51,6 +58,7 @@ module.exports = {
 	createFileInDocs,
 	removeFileFromDocs,
 	getJSONFilesFromNetwork,
+	getJSONFilesFromDocs,
 	getNetworkDirs,
 	getAppDirs,
 };
