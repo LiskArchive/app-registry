@@ -17,14 +17,14 @@ const { validateAllSchemas } = require('./schemaValidation');
 const { validateURLs } = require('./validateURLs');
 const { validateAllWhitelistedFiles } = require('./validateWhitelistedFiles');
 const { validateAllConfigFiles } = require('./validateConfigFiles');
-const { validateFilePaths } = require('./validateConfigFilePaths');
+const { validateConfigFilePaths } = require('./validateConfigFilePaths');
 const config = require('../config');
 
 const validate = async () => {
 	// Get all modified files
 	const allChangedFiles = process.argv.slice(2);
 
-	// Get all app dir addeed or modified inside network dirs
+	// Get all app dir added or modified inside network dirs
 	const changedAppDirs = new Set();
 	for (let i = 0; i < allChangedFiles.length; i++) {
 		const dir = allChangedFiles[i].split('/').slice(0, 2).join('/');
@@ -48,7 +48,7 @@ const validate = async () => {
 	).map((fileName) => path.join(config.rootDir, fileName));
 
 	// Validate if app.json and nativetoken.json is present anywhere except networkDir/appName/
-	await validateFilePaths(changedAppFiles);
+	await validateConfigFilePaths(changedAppFiles);
 
 	// Validate all app.json and nativetoken.json schemas
 	await validateAllSchemas(changedAppFiles);

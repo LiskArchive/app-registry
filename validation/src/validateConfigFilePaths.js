@@ -15,7 +15,7 @@
 const path = require('path');
 const config = require('../config');
 
-const validateFilePaths = async (filePaths) => {
+const validateConfigFilePaths = async (filePaths) => {
 	try {
 		for (let i = 0; i < filePaths.length; i++) {
 			/* eslint-disable no-await-in-loop */
@@ -33,5 +33,5 @@ const validateFilePaths = async (filePaths) => {
 };
 
 module.exports = {
-	validateFilePaths,
+	validateConfigFilePaths,
 };

@@ -12,7 +12,7 @@
  * Removal or modification of this copyright notice is prohibited.
  */
 
-const { validateFilePaths } = require('../src/validateConfigFilePaths');
+const { validateConfigFilePaths } = require('../src/validateConfigFilePaths');
 const config = require('../config');
 const validConfig = require('./constants/validConfig');
 const setup = require('./helper/setup');
@@ -32,7 +32,7 @@ describe('Schema Validation Tests', () => {
 		/* eslint-disable max-len */
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		await expect(validateFilePaths(setup.getJSONFilesFromNetwork())).resolves.not.toThrow();
+		await expect(validateConfigFilePaths(setup.getJSONFilesFromNetwork())).resolves.not.toThrow();
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 		/* eslint-enable max-len */
@@ -42,7 +42,7 @@ describe('Schema Validation Tests', () => {
 		/* eslint-disable max-len */
 		await setup.createFileInDocs(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 		await setup.createFileInDocs(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		await expect(validateFilePaths(setup.getJSONFilesFromDocs())).rejects.toThrow();
+		await expect(validateConfigFilePaths(setup.getJSONFilesFromDocs())).rejects.toThrow();
 		await setup.removeFileFromDocs(config.filename.APP_JSON);
 		await setup.removeFileFromDocs(config.filename.NATIVE_TOKENS);
 		/* eslint-enable max-len */

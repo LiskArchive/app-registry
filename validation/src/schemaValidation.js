@@ -32,7 +32,7 @@ const validateChainName = async (filePaths) => {
 		const parentDirName = path.basename(path.dirname(filePath));
 
 		if (data.chainName !== parentDirName) {
-			throw new Error('Parent dir name dosent match chain name.');
+			throw new Error(`Parent dir name doesn't match chain name.`);
 		}
 		/* eslint-enable no-await-in-loop */
 	}
