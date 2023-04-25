@@ -26,7 +26,7 @@
             "symbol": "LSK",
             "logo": {
                 "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/devnet/Lisk/images/tokens/lisk.png",
-        "svg": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/devnet/Lisk/images/tokens/lisk.svg"
+                "svg": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/devnet/Lisk/images/tokens/lisk.svg"
             }
         }
     ]
