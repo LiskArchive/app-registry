@@ -31,7 +31,7 @@ const validate = async () => {
 		if (dir.trim() && config.knownNetworks.includes(dir.split('/')[0])) {
 			changedAppDirs.add(path.resolve(dir));
 		} else {
-			throw new Error('Added/Updated a file not belonging to network directory.');
+			throw new Error(`Added/Updated a file not belonging to network directory. filepath:${allChangedFiles[i]}`);
 		}
 	}
 
