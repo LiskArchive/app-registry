@@ -21,7 +21,7 @@
             "displayDenom": "col",
             "symbol": "COL",
             "logo": {
-                "png": "https://lisk-qa.ams3.digitaloceanspaces.com/colecti.png",
+                "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/alphanet/Colecti/images/tokens/lisk.png",
                 "svg": ""
             }
         }

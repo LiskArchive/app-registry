@@ -21,7 +21,7 @@
             "displayDenom": "envt",
             "symbol": "ENVT",
             "logo": {
-                "png": "https://media.lisk.com/init/enevti_logo_0dbeff61b1.png",
+                "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/devnet/Enevti/images/tokens/lisk.png",
                 "svg": ""
             }
         }

@@ -7,7 +7,7 @@
     "genesisURL": "",
     "projectPage": "https://colecti.com/",
     "logo": {
-        "png": "https://lisk-qa.ams3.digitaloceanspaces.com/colecti.png",
+        "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/alphanet/Colecti/images/application/lisk.png",
         "svg": ""
     },
     "backgroundColor": "#d4ff00",
