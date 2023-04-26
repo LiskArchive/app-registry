@@ -9,7 +9,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version-file: ".nvmrc"
       - name: Get changed directories
         id: dirs
         uses: tj-actions/changed-files@v35
