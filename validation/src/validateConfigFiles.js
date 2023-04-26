@@ -15,7 +15,7 @@
 const fs = require('fs').promises;
 const config = require('../config');
 
-const validateAllConfigFilesForDir = async (directory) => {
+const validateAllConfigFilesInDir = async (directory) => {
 	try {
 		const files = await fs.readdir(directory);
 
@@ -30,7 +30,7 @@ const validateAllConfigFilesForDir = async (directory) => {
 const validateAllConfigFiles = async (networkDirs) => {
 	for (let i = 0; i < networkDirs.length; i++) {
 		/* eslint-disable no-await-in-loop */
-		await validateAllConfigFilesForDir(networkDirs[i]);
+		await validateAllConfigFilesInDir(networkDirs[i]);
 		/* eslint-enable no-await-in-loop */
 	}
 };

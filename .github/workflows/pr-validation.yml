@@ -15,7 +15,7 @@ jobs:
         uses: tj-actions/changed-files@v35
       - name: Install dependencies
         run: |
-          cd validation && npm ci --registry=https://npm.lisk.com/
+          cd validation && npm ci
       - name: Lint code
         run: |
           cd validation && npm run lint

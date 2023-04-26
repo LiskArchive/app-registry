@@ -18,14 +18,14 @@ const config = require('../config');
 const validateConfigFilePaths = async (filePaths) => {
 	try {
 		for (let i = 0; i < filePaths.length; i++) {
-			/* eslint-disable no-await-in-loop */
 			const filePath = filePaths[i];
-			const grandparentDir = path.basename(path.dirname(path.dirname(filePath)));
+			const currentDir = path.dirname(filePath);
+			const parentDir = path.dirname(currentDir);
+			const grandparentDir = path.basename(parentDir);
 
 			if (!config.knownNetworks.includes(grandparentDir)) {
-				throw new Error(`File ${filePath} is not present in known networks directory`);
+				throw new Error(`File (${filePath}) does not belong to a known network.`);
 			}
-			/* eslint-enable no-await-in-loop */
 		}
 	} catch (err) {
 		throw new Error(`Error: ${err}`);
