@@ -7,8 +7,8 @@
     "genesisURL": "https://downloads.lisk.com/lisk/alphanet/genesis_block.json.tar.gz",
     "projectPage": "https://lisk.com",
     "logo": {
-        "png": "https://lisk-qa.ams3.digitaloceanspaces.com/lisk.png",
-        "svg": "https://lisk-qa.ams3.digitaloceanspaces.com/lisk.svg"
+        "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/alphanet/Lisk/images/application/lisk.png",
+        "svg": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/alphanet/Lisk/images/application/lisk.svg"
     },
     "backgroundColor": "#f7f9fb",
     "serviceURLs": [

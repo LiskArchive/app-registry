@@ -25,7 +25,7 @@ describe('Schema Validation Tests', () => {
 	beforeAll(async () => {
 		// Create a temporary directory and some files for testing
 		await setup.createTestEnvironment();
-		filesToTest = await setup.getJSONFilesFromNetwork();
+		filesToTest = setup.getJSONFilesFromNetwork();
 	});
 
 	afterAll(async () => {

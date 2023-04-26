@@ -1,0 +1,27 @@
+name: Pull Request Validation Workflow
+on: [pull_request]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+      - name: Get changed directories
+        id: dirs
+        uses: tj-actions/changed-files@v35
+      - name: Install dependencies
+        run: |
+          cd validation && npm ci
+      - name: Lint code
+        run: |
+          cd validation && npm run lint
+      - name: Run tests
+        run: |
+          cd validation && npm test
+      - name: Run validation scripts
+        run: |
+          cd validation && npm run start -- ${{ steps.dirs.outputs.all_changed_and_modified_files }}

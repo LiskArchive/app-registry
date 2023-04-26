@@ -1,7 +1,7 @@
 const appConfig = {
 	title: 'Lisk - Alphanet',
 	description: 'Metadata configuration for the Lisk blockchain (mainchain) in alphanet',
-	chainName: 'Lisk',
+	chainName: 'network',
 	chainID: '03000000',
 	networkType: 'alphanet',
 	genesisURL: 'https://downloads.lisk.com/lisk/alphanet/genesis_block.json.tar.gz',

@@ -7,7 +7,7 @@
     "genesisURL": "",
     "projectPage": "https://enevti.com",
     "logo": {
-        "png": "https://media.lisk.com/init/enevti_logo_0dbeff61b1.png",
+        "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/devnet/Enevti/images/application/enevti.png",
         "svg": ""
     },
     "backgroundColor": "#cf2e2e",

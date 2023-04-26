@@ -12,12 +12,12 @@
  * Removal or modification of this copyright notice is prohibited.
  */
 
-const { validateAllConfigFiles } = require('../src/validateConfigFiles');
+const { validateConfigFilePaths } = require('../src/validateConfigFilePaths');
+const config = require('../config');
 const validConfig = require('./constants/validConfig');
 const setup = require('./helper/setup');
-const config = require('../config');
 
-describe('Configs in network directories validation tests', () => {
+describe('Schema Validation Tests', () => {
 	beforeAll(async () => {
 		// Create a temporary directory and some files for testing
 		await setup.createTestEnvironment();
@@ -28,27 +28,23 @@ describe('Configs in network directories validation tests', () => {
 		await setup.cleanTestEnviroment();
 	});
 
-	it('should not throw error when app.json and nativetokens.json is present in all network directories', async () => {
+	it('Should not throw if config files are present in network dir', async () => {
 		/* eslint-disable max-len */
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		await expect(validateAllConfigFiles(setup.getNetworkDirs())).resolves.not.toThrow();
+		await expect(validateConfigFilePaths(setup.getJSONFilesFromNetwork())).resolves.not.toThrow();
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 		/* eslint-enable max-len */
 	});
 
-	it('should throw error when app.json is not present in any network directories', async () => {
-		/* eslint-disable-next-line max-len */
-		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		await expect(validateAllConfigFiles(setup.getNetworkDirs())).rejects.toThrow();
-		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
-	});
-
-	it('should throw error when nativetokens.json is not present in any network directories', async () => {
-		/* eslint-disable-next-line max-len */
-		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		await expect(validateAllConfigFiles(setup.getNetworkDirs())).rejects.toThrow();
-		await setup.removeFileFromNetwork(config.filename.APP_JSON);
+	it('Should throw if config files are present in non network dir', async () => {
+		/* eslint-disable max-len */
+		await setup.createFileInDocs(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
+		await setup.createFileInDocs(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
+		await expect(validateConfigFilePaths(setup.getJSONFilesFromDocs())).rejects.toThrow();
+		await setup.removeFileFromDocs(config.filename.APP_JSON);
+		await setup.removeFileFromDocs(config.filename.NATIVE_TOKENS);
+		/* eslint-enable max-len */
 	});
 });
