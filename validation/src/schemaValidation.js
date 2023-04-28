@@ -24,7 +24,7 @@ const nativeTokenSchema = require(`${config.schemaDir}/${config.filename.NATIVE_
 const ajv = new Ajv();
 addFormats(ajv);
 
-const validateChainName = async (filePaths) => {
+const validateChainName = async (filePaths, validationErrors) => {
 	for (let i = 0; i < filePaths.length; i++) {
 		/* eslint-disable no-await-in-loop */
 		const filePath = filePaths[i];
@@ -32,13 +32,13 @@ const validateChainName = async (filePaths) => {
 		const parentDirName = path.basename(path.dirname(filePath));
 
 		if (data.chainName.toLowerCase() !== parentDirName.toLowerCase()) {
-			throw new Error(`Parent directory name doesn't match the chainName in ${filePaths[i]}.`);
+			validationErrors.push(new Error(`Parent directory name doesn't match the chainName in ${filePaths[i]}.`));
 		}
 		/* eslint-enable no-await-in-loop */
 	}
 };
 
-const validateSchema = async (schema, filePaths) => {
+const validateSchema = async (schema, filePaths, validationErrors) => {
 	for (let i = 0; i < filePaths.length; i++) {
 		/* eslint-disable no-await-in-loop */
 		const filePath = filePaths[i];
@@ -46,13 +46,13 @@ const validateSchema = async (schema, filePaths) => {
 		const valid = ajv.validate(schema, data);
 
 		if (!valid) {
-			throw new Error(JSON.stringify(ajv.errors));
+			validationErrors.push(new Error(JSON.stringify(ajv.errors)));
 		}
 		/* eslint-enable no-await-in-loop */
 	}
 };
 
-const validateAllSchemas = async (files) => {
+const validateAllSchemas = async (files, validationErrors) => {
 	// Get all app.json files
 	const appFiles = files.filter((filename) => filename.endsWith(config.filename.APP_JSON));
 
@@ -60,11 +60,11 @@ const validateAllSchemas = async (files) => {
 	const nativeTokenFiles = files.filter((filename) => filename.endsWith(config.filename.NATIVE_TOKENS));
 
 	// Validate schemas
-	await validateSchema(appSchema, appFiles);
-	await validateSchema(nativeTokenSchema, nativeTokenFiles);
+	await validateSchema(appSchema, appFiles, validationErrors);
+	await validateSchema(nativeTokenSchema, nativeTokenFiles, validationErrors);
 
 	// Validate if dir name is same as network name
-	await validateChainName(appFiles);
+	await validateChainName(appFiles, validationErrors);
 };
 
 module.exports = {

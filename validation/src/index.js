@@ -21,6 +21,8 @@ const { validateConfigFilePaths } = require('./validateConfigFilePaths');
 const config = require('../config');
 
 const validate = async () => {
+	const validationErrors = [];
+
 	// Get all modified files
 	const allChangedFiles = process.argv.slice(2);
 
@@ -31,7 +33,7 @@ const validate = async () => {
 		if (dir.trim() && config.knownNetworks.includes(dir.split('/')[0])) {
 			changedAppDirs.add(path.resolve(dir));
 		} else {
-			throw new Error(`File (${allChangedFiles[i]}) does not belong to a known network.`);
+			validationErrors.push(new Error(`File (${allChangedFiles[i]}) does not belong to a known network.`));
 		}
 	}
 
@@ -50,19 +52,23 @@ const validate = async () => {
 	).map((fileName) => path.join(config.rootDir, fileName));
 
 	// Validate if app.json and nativetoken.json is present anywhere except networkDir/appName/
-	await validateConfigFilePaths(changedAppFiles);
+	await validateConfigFilePaths(changedAppFiles, validationErrors);
 
 	// Validate all app.json and nativetoken.json schemas
-	await validateAllSchemas(changedAppFiles);
+	await validateAllSchemas(changedAppFiles, validationErrors);
 
 	// Check whitelisted files in all changed network directories
-	await validateAllWhitelistedFiles(allChangedFiles);
+	await validateAllWhitelistedFiles(allChangedFiles, validationErrors);
 
 	// Check for config files in all changed apps in networks directories
-	await validateAllConfigFiles(changedAppDirs);
+	await validateAllConfigFiles(changedAppDirs, validationErrors);
 
 	// Validate serviceURLs
-	await validateURLs(changedAppFiles);
+	await validateURLs(changedAppFiles, validationErrors);
+
+	if (validationErrors.length > 0) {
+		throw new Error(validationErrors);
+	}
 
 	process.exit(0);
 };
