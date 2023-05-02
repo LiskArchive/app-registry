@@ -33,7 +33,7 @@ describe('Configs in network directories validation tests', () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 
-		let validationErrors = [];
+		const validationErrors = [];
 		await validateAllConfigFiles(setup.getAppDirs(), validationErrors);
 		expect(validationErrors.length).toBe(0);
 
@@ -46,7 +46,7 @@ describe('Configs in network directories validation tests', () => {
 		/* eslint-disable-next-line max-len */
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 
-		let validationErrors = [];
+		const validationErrors = [];
 		await validateAllConfigFiles(setup.getAppDirs(), validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -56,8 +56,8 @@ describe('Configs in network directories validation tests', () => {
 	it('should have validation errors when nativetokens.json is not present in any network directories', async () => {
 		/* eslint-disable-next-line max-len */
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllConfigFiles(setup.getAppDirs(), validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 

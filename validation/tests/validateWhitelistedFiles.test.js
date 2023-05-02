@@ -31,7 +31,7 @@ describe('Whitelisted Files Tests', () => {
 	});
 
 	it('should not have validation errors for whitelisted files and directories', async () => {
-		let validationErrors = [];
+		const validationErrors = [];
 		await validateAllWhitelistedFiles(setup.getJSONFilesFromNetwork(), validationErrors);
 		expect(validationErrors.length).toBe(0);
 	});
@@ -40,7 +40,7 @@ describe('Whitelisted Files Tests', () => {
 		await setup.createFileInNetwork('tempfile.js', 'console.log("hello world");');
 		const files = [setup.getFileFromNetwork('tempfile.js')];
 
-		let validationErrors = [];
+		const validationErrors = [];
 		await validateAllWhitelistedFiles(files, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 

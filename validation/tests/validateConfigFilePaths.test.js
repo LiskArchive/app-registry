@@ -32,11 +32,11 @@ describe('Schema Validation Tests', () => {
 		/* eslint-disable max-len */
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateConfigFilePaths(setup.getJSONFilesFromNetwork(), validationErrors);
 		expect(validationErrors.length).toBe(0);
-		
+
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 		/* eslint-enable max-len */
@@ -46,8 +46,8 @@ describe('Schema Validation Tests', () => {
 		/* eslint-disable max-len */
 		await setup.createFileInDocs(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 		await setup.createFileInDocs(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateConfigFilePaths(setup.getJSONFilesFromDocs(), validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 

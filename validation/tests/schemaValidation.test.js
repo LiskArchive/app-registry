@@ -38,7 +38,7 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 
-		let validationErrors = [];
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBe(0);
 
@@ -52,10 +52,10 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.backgroundColorNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 
-		let validationErrors = [];
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
-		
+
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 		/* eslint-enable max-len */
@@ -65,8 +65,8 @@ describe('Schema Validation Tests', () => {
 		/* eslint-disable max-len */
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.chainIDNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -79,8 +79,8 @@ describe('Schema Validation Tests', () => {
 		/* eslint-disable max-len */
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.chainNameNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -91,8 +91,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for app.json without explorers', async () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.explorersNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -103,8 +103,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for app.json without genesis url', async () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.genesisURLNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -115,8 +115,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for app.json without logo', async () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.logoNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -127,8 +127,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for app.json without network type', async () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.networkTypeNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -139,8 +139,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for app.json without project page', async () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.projectPageNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -151,8 +151,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for app.json without service url', async () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.serviceURLsNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -163,8 +163,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for app.json with incorrect Service url', async () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.serviceUrlIncorrect));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -175,8 +175,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for nativetokens.json with incorrect tokens type', async () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.tokensIncorrect));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -187,8 +187,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for nativetokens.json without tokens', async () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.tokensNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -201,7 +201,7 @@ describe('Schema Validation Tests', () => {
 		));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 
-		let validationErrors = [];
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -212,8 +212,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for nativetokens.json without token name', async () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.tokenNameNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -224,8 +224,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for nativetokens.json without denom units', async () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.denomUnitsNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -236,8 +236,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for nativetokens.json with incorrect denomUnits.decimals', async () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.denomUnitsDecimalsIncorrect));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -248,8 +248,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for nativetokens.json without displayUnits.decimals', async () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.denomUnitsDecimalsNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -260,8 +260,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for nativetokens.json without displayUnits.denom', async () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.denomUnitsDenomNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -272,8 +272,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for nativetokens.json without base denom', async () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.baseDenomNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -284,8 +284,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for nativetokens.json without display denom', async () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.displayDenomNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -296,8 +296,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for nativetokens.json without Symbol', async () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.symbolNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -308,8 +308,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for nativetokens.json without PNG logo', async () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.logoPngNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -320,8 +320,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for nativetokens.json without SVG logo', async () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.logoSvgNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -332,8 +332,8 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for nativetokens.json with incorrect PNG logo URL', async () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.logoPNGIncorrect));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -344,11 +344,11 @@ describe('Schema Validation Tests', () => {
 	it('should have validation errors while validating schema for nativetokens.json with incorrect SVG logo URL', async () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.logoSVGIncorrect));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		
-		let validationErrors = [];
+
+		const validationErrors = [];
 		await validateAllSchemas(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
-		
+
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 	});

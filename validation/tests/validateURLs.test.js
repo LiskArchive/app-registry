@@ -50,7 +50,7 @@ describe('URL Validation tests', () => {
 		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
 
 		// Test validation
-		let validationErrors = [];
+		const validationErrors = [];
 		await validateURLs(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -64,7 +64,7 @@ describe('URL Validation tests', () => {
 		apiClient.createWSClient.mockImplementation(async () => Promise.reject(new Error('mock error')));
 
 		// Test validation
-		let validationErrors = [];
+		const validationErrors = [];
 		await validateURLs(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -78,7 +78,7 @@ describe('URL Validation tests', () => {
 		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
 
 		// Test validation
-		let validationErrors = [];
+		const validationErrors = [];
 		await validateURLs(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -102,7 +102,7 @@ describe('URL Validation tests', () => {
 		});
 
 		// Test validation
-		let validationErrors = [];
+		const validationErrors = [];
 		await validateURLs(filesToTest, validationErrors);
 		expect(validationErrors.length).toBe(0);
 
@@ -126,7 +126,7 @@ describe('URL Validation tests', () => {
 		});
 
 		// Test validation
-		let validationErrors = [];
+		const validationErrors = [];
 		await validateURLs(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -141,7 +141,7 @@ describe('URL Validation tests', () => {
 		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
 
 		// Test validation
-		let validationErrors = [];
+		const validationErrors = [];
 		await validateURLs(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
@@ -156,7 +156,7 @@ describe('URL Validation tests', () => {
 		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLIncorrectResWs));
 
 		// Test validation
-		let validationErrors = [];
+		const validationErrors = [];
 		await validateURLs(filesToTest, validationErrors);
 		expect(validationErrors.length).toBeGreaterThan(0);
 
