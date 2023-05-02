@@ -23,8 +23,11 @@ const config = require('../config');
 const validate = async () => {
 	const validationErrors = [];
 
+	// Check if organization auther modified code
+	const doesAutherBelongToOrg = process.argv[2];
+
 	// Get all modified files
-	const allChangedFiles = process.argv.slice(2);
+	const allChangedFiles = process.argv.slice(3);
 
 	// Get all app dir added or modified inside network dirs
 	const changedAppDirs = new Set();
@@ -66,7 +69,7 @@ const validate = async () => {
 	// Validate serviceURLs
 	await validateURLs(changedAppFiles, validationErrors);
 
-	if (validationErrors.length > 0) {
+	if (validationErrors.length > 0 && !doesAutherBelongToOrg) {
 		throw new Error(validationErrors.join('\n'));
 	}
 
