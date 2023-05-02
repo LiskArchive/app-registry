@@ -28,7 +28,7 @@ const validateConfigFilePaths = async (filePaths, validationErrors) => {
 			}
 		}
 	} catch (err) {
-		throw new Error(`Error: ${err}`);
+		validationErrors.push(new Error(`Error: ${err}`));
 	}
 };
 

@@ -19,7 +19,7 @@ const createFileInNetwork = async (filename, data) => {
 	await fs.writeFile(path.join(config.rootDir, 'tempdir', 'mainnet', 'network', filename), data);
 };
 
-const getFileFromNetwork = async (filename) => path.join(config.rootDir, 'tempdir', 'mainnet', 'network', filename);
+const getFileFromNetwork = (filename) => path.join(config.rootDir, 'tempdir', 'mainnet', 'network', filename);
 
 const removeFileFromNetwork = async (filename) => {
 	await fs.rm(path.join(config.rootDir, 'tempdir', 'mainnet', 'network', filename));

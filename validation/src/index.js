@@ -67,7 +67,7 @@ const validate = async () => {
 	await validateURLs(changedAppFiles, validationErrors);
 
 	if (validationErrors.length > 0) {
-		throw new Error(validationErrors);
+		throw new Error(validationErrors.join('\n'));
 	}
 
 	process.exit(0);

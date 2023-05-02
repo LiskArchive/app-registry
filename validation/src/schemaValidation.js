@@ -31,8 +31,10 @@ const validateChainName = async (filePaths, validationErrors) => {
 		const data = await readJsonFile(filePath);
 		const parentDirName = path.basename(path.dirname(filePath));
 
-		if (data.chainName.toLowerCase() !== parentDirName.toLowerCase()) {
-			validationErrors.push(new Error(`Parent directory name doesn't match the chainName in ${filePaths[i]}.`));
+		if(data && data.chainName){
+			if (data.chainName.toLowerCase() !== parentDirName.toLowerCase()) {
+				validationErrors.push(new Error(`Parent directory name doesn't match the chainName in ${filePaths[i]}.`));
+			}
 		}
 		/* eslint-enable no-await-in-loop */
 	}
