@@ -23,7 +23,7 @@ const config = require('../config');
 const validate = async () => {
 	const validationErrors = [];
 
-	// Check if organization auther modified code
+	// Check if organization author modified code
 	const doesAutherBelongToOrg = process.argv[2];
 
 	// Get all modified files
@@ -71,6 +71,8 @@ const validate = async () => {
 
 	if (validationErrors.length > 0 && !doesAutherBelongToOrg) {
 		throw new Error(validationErrors.join('\n'));
+	} else if (validationErrors.length > 0) {
+		console.warn(validationErrors.join('\n'));
 	}
 
 	process.exit(0);

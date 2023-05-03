@@ -50,13 +50,13 @@ const validateExplorerUrls = async (explorers, validationErrors) => {
 		try {
 			await httpRequest(explorerURL);
 		} catch (error) {
-			validationErrors.push(new Error(error));
+			validationErrors.push(new Error(`Error: ${error}`));
 		}
 
 		try {
 			await httpRequest(explorerTxnPage);
 		} catch (error) {
-			validationErrors.push(new Error(error));
+			validationErrors.push(new Error(`Error: ${error}`));
 		}
 		/* eslint-enable no-await-in-loop */
 	}
@@ -69,7 +69,7 @@ const validateLogoUrls = async (logos, validationErrors) => {
 		try {
 			await httpRequest(pngURL);
 		} catch (error) {
-			validationErrors.push(new Error(error));
+			validationErrors.push(new Error(`Error: ${error}`));
 		}
 	}
 
@@ -77,7 +77,7 @@ const validateLogoUrls = async (logos, validationErrors) => {
 		try {
 			await httpRequest(svgURL);
 		} catch (error) {
-			validationErrors.push(new Error(error));
+			validationErrors.push(new Error(`Error: ${error}`));
 		}
 	}
 };
@@ -134,7 +134,7 @@ const validateServiceURLs = async (serviceURLs, chainID, validationErrors) => {
 				validationErrors.push(new Error(`ChainID mismatch in HTTP URL: ${httpServiceURL}.\nService URL chainID: ${chainIDFromServiceURL}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
 			}
 		} catch (error) {
-			validationErrors.push(new Error(error));
+			validationErrors.push(new Error(`Error: ${error}`));
 		}
 
 		// Validate ws service URLs
@@ -144,7 +144,7 @@ const validateServiceURLs = async (serviceURLs, chainID, validationErrors) => {
 				validationErrors.push(new Error(`ChainID mismatch in WS URL: ${wsServiceUrl}.\nService URL chainID: ${wsRes.chainID}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
 			}
 		} catch (error) {
-			validationErrors.push(new Error(error));
+			validationErrors.push(new Error(`Error: ${error}`));
 		}
 		/* eslint-enable no-await-in-loop */
 	}
