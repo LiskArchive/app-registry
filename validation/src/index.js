@@ -24,7 +24,7 @@ const validate = async () => {
 	const validationErrors = [];
 
 	// Check if the PR author is from the @LiskHQ/platform team
-	const isAuthorFromDevTeam = process.argv[2];
+	const isAuthorFromDevTeam = process.argv[2] === 'true';
 
 	// Get all modified files
 	const allChangedFiles = process.argv.slice(3);
@@ -35,7 +35,7 @@ const validate = async () => {
 		const dir = allChangedFiles[i].split('/').slice(0, 2).join('/');
 		if (dir.trim() && config.knownNetworks.includes(dir.split('/')[0])) {
 			changedAppDirs.add(path.resolve(dir));
-		} else if (isAuthorFromDevTeam === 'false') {
+		} else if (!isAuthorFromDevTeam) {
 			validationErrors.push(new Error(`File (${allChangedFiles[i]}) does not belong to a known network.`));
 		}
 	}
@@ -61,7 +61,7 @@ const validate = async () => {
 	await validateAllSchemas(changedAppFiles, validationErrors);
 
 	// Check if any non-whitelisted files are modified
-	if (isAuthorFromDevTeam === 'false') {
+	if (!isAuthorFromDevTeam) {
 		await validateAllWhitelistedFiles(allChangedFiles, validationErrors);
 	}
 
