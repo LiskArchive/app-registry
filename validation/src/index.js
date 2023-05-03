@@ -23,8 +23,8 @@ const config = require('../config');
 const validate = async () => {
 	const validationErrors = [];
 
-	// Check if organization author modified code
-	const doesAutherBelongToOrg = process.argv[2];
+	// Check if the PR author is from the @LiskHQ/platform team
+	const isAuthorFromDevTeam = process.argv[2];
 
 	// Get all modified files
 	const allChangedFiles = process.argv.slice(3);
@@ -35,7 +35,7 @@ const validate = async () => {
 		const dir = allChangedFiles[i].split('/').slice(0, 2).join('/');
 		if (dir.trim() && config.knownNetworks.includes(dir.split('/')[0])) {
 			changedAppDirs.add(path.resolve(dir));
-		} else {
+		} else if (isAuthorFromDevTeam === 'false') {
 			validationErrors.push(new Error(`File (${allChangedFiles[i]}) does not belong to a known network.`));
 		}
 	}
@@ -60,8 +60,10 @@ const validate = async () => {
 	// Validate all app.json and nativetoken.json schemas
 	await validateAllSchemas(changedAppFiles, validationErrors);
 
-	// Check whitelisted files in all changed network directories
-	await validateAllWhitelistedFiles(allChangedFiles, validationErrors);
+	// Check if any non-whitelisted files are modified
+	if (isAuthorFromDevTeam === 'false') {
+		await validateAllWhitelistedFiles(allChangedFiles, validationErrors);
+	}
 
 	// Check for config files in all changed apps in networks directories
 	await validateAllConfigFiles(changedAppDirs, validationErrors);
@@ -69,10 +71,8 @@ const validate = async () => {
 	// Validate serviceURLs
 	await validateURLs(changedAppFiles, validationErrors);
 
-	if (validationErrors.length > 0 && !doesAutherBelongToOrg) {
+	if (validationErrors.length > 0) {
 		throw new Error(validationErrors.join('\n'));
-	} else if (validationErrors.length > 0) {
-		console.warn(validationErrors.join('\n'));
 	}
 
 	process.exit(0);

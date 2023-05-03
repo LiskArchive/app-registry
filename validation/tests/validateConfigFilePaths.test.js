@@ -28,7 +28,7 @@ describe('Schema Validation Tests', () => {
 		await setup.cleanTestEnviroment();
 	});
 
-	it('Should not have validation errors if config files are present in network dir', async () => {
+	it('should not have validation errors if config files are present in network dir', async () => {
 		/* eslint-disable max-len */
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
@@ -42,7 +42,7 @@ describe('Schema Validation Tests', () => {
 		/* eslint-enable max-len */
 	});
 
-	it('Should have validation errors if config files are present in non network dir', async () => {
+	it('should have validation errors if config files are present in non network dir', async () => {
 		/* eslint-disable max-len */
 		await setup.createFileInDocs(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 		await setup.createFileInDocs(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
