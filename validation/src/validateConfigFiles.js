@@ -27,12 +27,14 @@ const validateAllConfigFilesInDir = async (directory, validationErrors) => {
 	}
 };
 
-const validateAllConfigFiles = async (networkDirs, validationErrors) => {
+const validateAllConfigFiles = async (networkDirs) => {
+	const validationErrors = [];
 	for (let i = 0; i < networkDirs.length; i++) {
 		/* eslint-disable no-await-in-loop */
 		await validateAllConfigFilesInDir(networkDirs[i], validationErrors);
 		/* eslint-enable no-await-in-loop */
 	}
+	return validationErrors;
 };
 
 module.exports = {

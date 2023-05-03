@@ -150,7 +150,9 @@ const validateServiceURLs = async (serviceURLs, chainID, validationErrors) => {
 	}
 };
 
-const validateURLs = async (files, validationErrors) => {
+const validateURLs = async (files) => {
+	const validationErrors = [];
+
 	// Get all app.json files
 	const appFiles = files.filter((filename) => filename.endsWith(config.filename.APP_JSON));
 
@@ -182,14 +184,16 @@ const validateURLs = async (files, validationErrors) => {
 		const data = await readJsonFile(nativetokenFile);
 
 		if (data.tokens) {
-			for (let j = 0; j < data.tokens.length; j++) {
-				const token = data.tokens[j];
+			// eslint-disable-next-line no-restricted-syntax
+			for (const token of data.tokens) {
 				// Validate logo URLs
 				await validateLogoUrls(token.logo, validationErrors);
 			}
 		}
 		/* eslint-enable no-await-in-loop */
 	}
+
+	return validationErrors;
 };
 
 module.exports = {

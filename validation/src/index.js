@@ -21,7 +21,7 @@ const { validateConfigFilePaths } = require('./validateConfigFilePaths');
 const config = require('../config');
 
 const validate = async () => {
-	const validationErrors = [];
+	let validationErrors = [];
 
 	// Check if the PR author is from the @LiskHQ/platform team
 	const isAuthorFromDevTeam = process.argv[2] === 'true';
@@ -55,21 +55,25 @@ const validate = async () => {
 	).map((fileName) => path.join(config.rootDir, fileName));
 
 	// Validate if app.json and nativetoken.json is present anywhere except networkDir/appName/
-	await validateConfigFilePaths(changedAppFiles, validationErrors);
+	const configFileErrors = await validateConfigFilePaths(changedAppFiles);
 
 	// Validate all app.json and nativetoken.json schemas
-	await validateAllSchemas(changedAppFiles, validationErrors);
+	const schemaErrors = await validateAllSchemas(changedAppFiles);
+
+	// Check for config files in all changed apps in networks directories
+	const validateConfigFilesErrors = await validateAllConfigFiles(changedAppDirs);
+
+	// Validate serviceURLs
+	const urlErrors = await validateURLs(changedAppFiles);
+
+	// Merge all validation errors
+	validationErrors = [...configFileErrors, ...schemaErrors, ...validateConfigFilesErrors, ...urlErrors];
 
 	// Check if any non-whitelisted files are modified
 	if (!isAuthorFromDevTeam) {
-		await validateAllWhitelistedFiles(allChangedFiles, validationErrors);
+		const whitelistedFilesErrors = await validateAllWhitelistedFiles(allChangedFiles);
+		validationErrors = [...configFileErrors, ...schemaErrors, ...validateConfigFilesErrors, ...urlErrors, ...whitelistedFilesErrors];
 	}
-
-	// Check for config files in all changed apps in networks directories
-	await validateAllConfigFiles(changedAppDirs, validationErrors);
-
-	// Validate serviceURLs
-	await validateURLs(changedAppFiles, validationErrors);
 
 	if (validationErrors.length > 0) {
 		throw new Error(validationErrors.join('\n'));

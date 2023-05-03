@@ -40,7 +40,8 @@ const isFileWhitelisted = (filename, patterns) => {
 	return false;
 };
 
-const validateAllWhitelistedFiles = async (filePaths, validationErrors) => {
+const validateAllWhitelistedFiles = async (filePaths) => {
+	const validationErrors = [];
 	const whitelistedFilePatterns = await readFileLinesToArray(config.whitelistedFilesPath);
 
 	for (let i = 0; i < filePaths.length; i++) {
@@ -54,6 +55,8 @@ const validateAllWhitelistedFiles = async (filePaths, validationErrors) => {
 		}
 		/* eslint-enable no-await-in-loop */
 	}
+
+	return validationErrors;
 };
 
 module.exports = {

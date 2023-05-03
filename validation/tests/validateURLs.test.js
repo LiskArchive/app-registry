@@ -50,9 +50,8 @@ describe('URL Validation tests', () => {
 		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
 
 		// Test validation
-		const validationErrors = [];
-		await validateURLs(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const urlErrors = await validateURLs(filesToTest);
+		expect(urlErrors.length).toBeGreaterThan(0);
 
 		// Restore axios mock
 		jest.resetAllMocks();
@@ -64,9 +63,8 @@ describe('URL Validation tests', () => {
 		apiClient.createWSClient.mockImplementation(async () => Promise.reject(new Error('mock error')));
 
 		// Test validation
-		const validationErrors = [];
-		await validateURLs(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const urlErrors = await validateURLs(filesToTest);
+		expect(urlErrors.length).toBeGreaterThan(0);
 
 		// Restore axios mock
 		jest.resetAllMocks();
@@ -78,9 +76,8 @@ describe('URL Validation tests', () => {
 		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
 
 		// Test validation
-		const validationErrors = [];
-		await validateURLs(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const urlErrors = await validateURLs(filesToTest);
+		expect(urlErrors.length).toBeGreaterThan(0);
 
 		// Restore axios mock
 		jest.resetAllMocks();
@@ -102,9 +99,8 @@ describe('URL Validation tests', () => {
 		});
 
 		// Test validation
-		const validationErrors = [];
-		await validateURLs(filesToTest, validationErrors);
-		expect(validationErrors.length).toBe(0);
+		const urlErrors = await validateURLs(filesToTest);
+		expect(urlErrors.length).toBe(0);
 
 		// Restore axios mock
 		jest.resetAllMocks();
@@ -126,9 +122,8 @@ describe('URL Validation tests', () => {
 		});
 
 		// Test validation
-		const validationErrors = [];
-		await validateURLs(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const urlErrors = await validateURLs(filesToTest);
+		expect(urlErrors.length).toBeGreaterThan(0);
 
 		// Restore axios mock
 		jest.resetAllMocks();
@@ -141,9 +136,8 @@ describe('URL Validation tests', () => {
 		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
 
 		// Test validation
-		const validationErrors = [];
-		await validateURLs(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const urlErrors = await validateURLs(filesToTest);
+		expect(urlErrors.length).toBeGreaterThan(0);
 
 		// Restore axios mock
 		jest.resetAllMocks();
@@ -156,9 +150,8 @@ describe('URL Validation tests', () => {
 		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLIncorrectResWs));
 
 		// Test validation
-		const validationErrors = [];
-		await validateURLs(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const urlErrors = await validateURLs(filesToTest);
+		expect(urlErrors.length).toBeGreaterThan(0);
 
 		// Restore axios mock
 		jest.resetAllMocks();

@@ -38,9 +38,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBe(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBe(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -52,9 +51,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.backgroundColorNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -66,9 +64,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.chainIDNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -80,9 +77,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.chainNameNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -92,9 +88,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.explorersNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -104,9 +99,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.genesisURLNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -116,9 +110,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.logoNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -128,9 +121,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.networkTypeNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -140,9 +132,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.projectPageNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -152,9 +143,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.serviceURLsNotPresent));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -164,9 +154,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(invalidAppConfig.serviceUrlIncorrect));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -176,9 +165,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.tokensIncorrect));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -188,9 +176,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.tokensNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -201,9 +188,8 @@ describe('Schema Validation Tests', () => {
 		));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -213,9 +199,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.tokenNameNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -225,9 +210,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.denomUnitsNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -237,9 +221,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.denomUnitsDecimalsIncorrect));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -249,9 +232,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.denomUnitsDecimalsNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -261,9 +243,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.denomUnitsDenomNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -273,9 +254,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.baseDenomNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -285,9 +265,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.displayDenomNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -297,9 +276,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.symbolNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -309,9 +287,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.logoPngNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -321,9 +298,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.logoSvgNotPresent));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -333,9 +309,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.logoPNGIncorrect));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
@@ -345,9 +320,8 @@ describe('Schema Validation Tests', () => {
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidNativeTokensConfig.logoSVGIncorrect));
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 
-		const validationErrors = [];
-		await validateAllSchemas(filesToTest, validationErrors);
-		expect(validationErrors.length).toBeGreaterThan(0);
+		const schemaErrors = await validateAllSchemas(filesToTest);
+		expect(schemaErrors.length).toBeGreaterThan(0);
 
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
