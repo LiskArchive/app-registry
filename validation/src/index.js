@@ -72,7 +72,7 @@ const validate = async () => {
 	// Check if any non-whitelisted files are modified
 	if (!isAuthorFromDevTeam) {
 		const whitelistedFilesErrors = await validateAllWhitelistedFiles(allChangedFiles);
-		validationErrors = [...configFileErrors, ...schemaErrors, ...validateConfigFilesErrors, ...urlErrors, ...whitelistedFilesErrors];
+		validationErrors = [...validationErrors, ...whitelistedFilesErrors];
 	}
 
 	if (validationErrors.length > 0) {

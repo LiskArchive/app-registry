@@ -24,7 +24,9 @@ const nativeTokenSchema = require(`${config.schemaDir}/${config.filename.NATIVE_
 const ajv = new Ajv();
 addFormats(ajv);
 
-const validateChainName = async (filePaths, validationErrors) => {
+const validateChainName = async (filePaths) => {
+	const validationErrors = [];
+
 	for (let i = 0; i < filePaths.length; i++) {
 		/* eslint-disable no-await-in-loop */
 		const filePath = filePaths[i];
@@ -37,9 +39,13 @@ const validateChainName = async (filePaths, validationErrors) => {
 		}
 		/* eslint-enable no-await-in-loop */
 	}
+
+	return validationErrors;
 };
 
-const validateSchema = async (schema, filePaths, validationErrors) => {
+const validateSchema = async (schema, filePaths) => {
+	const validationErrors = [];
+
 	for (let i = 0; i < filePaths.length; i++) {
 		/* eslint-disable no-await-in-loop */
 		const filePath = filePaths[i];
@@ -51,11 +57,11 @@ const validateSchema = async (schema, filePaths, validationErrors) => {
 		}
 		/* eslint-enable no-await-in-loop */
 	}
+
+	return validationErrors;
 };
 
 const validateAllSchemas = async (files) => {
-	const validationErrors = [];
-
 	// Get all app.json files
 	const appFiles = files.filter((filename) => filename.endsWith(config.filename.APP_JSON));
 
@@ -63,13 +69,13 @@ const validateAllSchemas = async (files) => {
 	const nativeTokenFiles = files.filter((filename) => filename.endsWith(config.filename.NATIVE_TOKENS));
 
 	// Validate schemas
-	await validateSchema(appSchema, appFiles, validationErrors);
-	await validateSchema(nativeTokenSchema, nativeTokenFiles, validationErrors);
+	const appSchemaValidationErrors = await validateSchema(appSchema, appFiles);
+	const nativeTokensSchemaValidationErrors = await validateSchema(nativeTokenSchema, nativeTokenFiles);
 
 	// Validate if dir name is same as network name
-	await validateChainName(appFiles, validationErrors);
+	const chainNameValidationErrors = await validateChainName(appFiles);
 
-	return validationErrors;
+	return [...appSchemaValidationErrors, ...nativeTokensSchemaValidationErrors, ...chainNameValidationErrors];
 };
 
 module.exports = {

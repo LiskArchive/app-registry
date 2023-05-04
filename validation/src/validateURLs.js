@@ -41,7 +41,9 @@ const wsRequest = async (wsEndpoint) => {
 	}
 };
 
-const validateExplorerUrls = async (explorers, validationErrors) => {
+const validateExplorerUrls = async (explorers) => {
+	const validationErrors = [];
+
 	for (let i = 0; i < explorers.length; i++) {
 		const explorer = explorers[i];
 		/* eslint-disable no-await-in-loop */
@@ -60,9 +62,12 @@ const validateExplorerUrls = async (explorers, validationErrors) => {
 		}
 		/* eslint-enable no-await-in-loop */
 	}
+
+	return validationErrors;
 };
 
-const validateLogoUrls = async (logos, validationErrors) => {
+const validateLogoUrls = async (logos) => {
+	const validationErrors = [];
 	const { png: pngURL, svg: svgURL } = logos;
 
 	if (pngURL) {
@@ -80,6 +85,8 @@ const validateLogoUrls = async (logos, validationErrors) => {
 			validationErrors.push(new Error(`Error: ${error}`));
 		}
 	}
+
+	return validationErrors;
 };
 
 const checkWebsocketConnection = async (url) => {
@@ -104,7 +111,9 @@ const checkWebsocketConnection = async (url) => {
 	});
 };
 
-const validateAppNodeUrls = async (appNodeInfos, validationErrors) => {
+const validateAppNodeUrls = async (appNodeInfos) => {
+	const validationErrors = [];
+
 	for (let i = 0; i < appNodeInfos.length; i++) {
 		const appNodeInfo = appNodeInfos[i];
 		/* eslint-disable no-await-in-loop */
@@ -118,9 +127,13 @@ const validateAppNodeUrls = async (appNodeInfos, validationErrors) => {
 		}
 		/* eslint-enable no-await-in-loop */
 	}
+
+	return validationErrors;
 };
 
-const validateServiceURLs = async (serviceURLs, chainID, validationErrors) => {
+const validateServiceURLs = async (serviceURLs, chainID) => {
+	const validationErrors = [];
+
 	for (let i = 0; i < serviceURLs.length; i++) {
 		const serviceURL = serviceURLs[i];
 		/* eslint-disable no-await-in-loop */
@@ -139,7 +152,7 @@ const validateServiceURLs = async (serviceURLs, chainID, validationErrors) => {
 
 		// Validate ws service URLs
 		try {
-			const wsRes = await wsRequest(wsServiceUrl + config.WS_API_NAMESPACE, validationErrors);
+			const wsRes = await wsRequest(wsServiceUrl + config.WS_API_NAMESPACE);
 			if (wsRes.chainID !== chainID) {
 				validationErrors.push(new Error(`ChainID mismatch in WS URL: ${wsServiceUrl}.\nService URL chainID: ${wsRes.chainID}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
 			}
@@ -148,10 +161,12 @@ const validateServiceURLs = async (serviceURLs, chainID, validationErrors) => {
 		}
 		/* eslint-enable no-await-in-loop */
 	}
+
+	return validationErrors;
 };
 
 const validateURLs = async (files) => {
-	const validationErrors = [];
+	let validationErrors = [];
 
 	// Get all app.json files
 	const appFiles = files.filter((filename) => filename.endsWith(config.filename.APP_JSON));
@@ -164,17 +179,20 @@ const validateURLs = async (files) => {
 		const data = await readJsonFile(appFile);
 
 		// Validate service URLs
-		await validateServiceURLs(data.serviceURLs, data.chainID, validationErrors);
+		const serviceURLValidationErrors = await validateServiceURLs(data.serviceURLs, data.chainID);
 
 		// Validate logo URLs
-		await validateLogoUrls(data.logo, validationErrors);
+		const logoValidationErrors = await validateLogoUrls(data.logo);
 
 		// Validate explorer URLs
-		await validateExplorerUrls(data.explorers, validationErrors);
+		const explorerURLValidationErrors = await validateExplorerUrls(data.explorers);
 
 		// Validate appNodes URLs
-		await validateAppNodeUrls(data.appNodes, validationErrors);
+		const appNodeURLValidationErrors = await validateAppNodeUrls(data.appNodes);
 		/* eslint-enable no-await-in-loop */
+
+		validationErrors = [...validationErrors, ...serviceURLValidationErrors, ...logoValidationErrors,
+			...explorerURLValidationErrors, ...appNodeURLValidationErrors];
 	}
 
 	// Validate URLs for nativetokens.json file
@@ -187,7 +205,8 @@ const validateURLs = async (files) => {
 			// eslint-disable-next-line no-restricted-syntax
 			for (const token of data.tokens) {
 				// Validate logo URLs
-				await validateLogoUrls(token.logo, validationErrors);
+				const logoValidationErrors = await validateLogoUrls(token.logo);
+				validationErrors = [...validationErrors, ...logoValidationErrors];
 			}
 		}
 		/* eslint-enable no-await-in-loop */
