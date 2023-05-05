@@ -43,44 +43,47 @@ describe('URL Validation tests', () => {
 		await setup.cleanTestEnviroment();
 	});
 
-	it('should throw error when HTTP service URL API returns an error', async () => {
+	it('should have validation errors when HTTP service URL API returns an error', async () => {
 		// Mock axios to return an error response
 		axios.get.mockImplementation(() => Promise.reject(new Error('mock error')));
 
 		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
 
 		// Test validation
-		await expect(validateURLs(filesToTest)).rejects.toThrow();
+		const urlErrors = await validateURLs(filesToTest);
+		expect(urlErrors.length).toBeGreaterThan(0);
 
 		// Restore axios mock
 		jest.resetAllMocks();
 	});
 
-	it('should throw error when ws service URL API returns an error', async () => {
+	it('should have validation errors when ws service URL API returns an error', async () => {
 		// Mock axios to return an error response
 		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
 		apiClient.createWSClient.mockImplementation(async () => Promise.reject(new Error('mock error')));
 
 		// Test validation
-		await expect(validateURLs(filesToTest)).rejects.toThrow();
+		const urlErrors = await validateURLs(filesToTest);
+		expect(urlErrors.length).toBeGreaterThan(0);
 
 		// Restore axios mock
 		jest.resetAllMocks();
 	});
 
-	it('should throw error when HTTP service URL API returns status code other than 200', async () => {
+	it('should have validation errors when HTTP service URL API returns status code other than 200', async () => {
 		// Mock axios to return an success response
 		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURL500Res));
 		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
 
 		// Test validation
-		await expect(validateURLs(filesToTest)).rejects.toThrow();
+		const urlErrors = await validateURLs(filesToTest);
+		expect(urlErrors.length).toBeGreaterThan(0);
 
 		// Restore axios mock
 		jest.resetAllMocks();
 	});
 
-	it('should not throw error when service URL API returns correct chain ID', async () => {
+	it('should not have validation errors when service URL API returns correct chain ID', async () => {
 		// Mock axios to return an success response
 		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
 
@@ -96,13 +99,14 @@ describe('URL Validation tests', () => {
 		});
 
 		// Test validation
-		await expect(validateURLs(filesToTest)).resolves.not.toThrow();
+		const urlErrors = await validateURLs(filesToTest);
+		expect(urlErrors.length).toBe(0);
 
 		// Restore axios mock
 		jest.resetAllMocks();
 	});
 
-	it('should throw error when connection cant be established with app nodes ', async () => {
+	it('should have validation errors when connection cant be established with app nodes ', async () => {
 		// Mock axios to return an success response
 		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
 
@@ -118,33 +122,36 @@ describe('URL Validation tests', () => {
 		});
 
 		// Test validation
-		await expect(validateURLs(filesToTest)).rejects.toThrow();
+		const urlErrors = await validateURLs(filesToTest);
+		expect(urlErrors.length).toBeGreaterThan(0);
 
 		// Restore axios mock
 		jest.resetAllMocks();
 	});
 
-	it('should throw error when HTTP service URL API returns incorrect chain ID', async () => {
+	it('should have validation errors when HTTP service URL API returns incorrect chain ID', async () => {
 		// Mock axios to return an success response
 		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLIncorrectRes));
 
 		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
 
 		// Test validation
-		await expect(validateURLs(filesToTest)).rejects.toThrow();
+		const urlErrors = await validateURLs(filesToTest);
+		expect(urlErrors.length).toBeGreaterThan(0);
 
 		// Restore axios mock
 		jest.resetAllMocks();
 	});
 
-	it('should throw error when ws service URL API returns incorrect chain ID', async () => {
+	it('should have validation errors when ws service URL API returns incorrect chain ID', async () => {
 		// Mock axios to return an success response
 		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
 
 		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLIncorrectResWs));
 
 		// Test validation
-		await expect(validateURLs(filesToTest)).rejects.toThrow();
+		const urlErrors = await validateURLs(filesToTest);
+		expect(urlErrors.length).toBeGreaterThan(0);
 
 		// Restore axios mock
 		jest.resetAllMocks();

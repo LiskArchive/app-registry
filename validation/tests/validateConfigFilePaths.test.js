@@ -28,21 +28,27 @@ describe('Schema Validation Tests', () => {
 		await setup.cleanTestEnviroment();
 	});
 
-	it('Should not throw if config files are present in network dir', async () => {
+	it('should not have validation errors if config files are present in network dir', async () => {
 		/* eslint-disable max-len */
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		await expect(validateConfigFilePaths(setup.getJSONFilesFromNetwork())).resolves.not.toThrow();
+
+		const configFilePathsErrors = await validateConfigFilePaths(setup.getJSONFilesFromNetwork());
+		expect(configFilePathsErrors.length).toBe(0);
+
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 		/* eslint-enable max-len */
 	});
 
-	it('Should throw if config files are present in non network dir', async () => {
+	it('should have validation errors if config files are present in non network dir', async () => {
 		/* eslint-disable max-len */
 		await setup.createFileInDocs(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 		await setup.createFileInDocs(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		await expect(validateConfigFilePaths(setup.getJSONFilesFromDocs())).rejects.toThrow();
+
+		const configFilePathsErrors = await validateConfigFilePaths(setup.getJSONFilesFromDocs());
+		expect(configFilePathsErrors.length).toBeGreaterThan(0);
+
 		await setup.removeFileFromDocs(config.filename.APP_JSON);
 		await setup.removeFileFromDocs(config.filename.NATIVE_TOKENS);
 		/* eslint-enable max-len */

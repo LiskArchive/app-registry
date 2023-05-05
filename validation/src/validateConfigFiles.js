@@ -16,23 +16,30 @@ const fs = require('fs').promises;
 const config = require('../config');
 
 const validateAllConfigFilesInDir = async (directory) => {
+	const validationErrors = [];
+
 	try {
 		const files = await fs.readdir(directory);
 
 		if (!files.includes(config.filename.APP_JSON) || !files.includes(config.filename.NATIVE_TOKENS)) {
-			throw new Error(`Files '${config.filename.APP_JSON}' and '${config.filename.NATIVE_TOKENS}' are not present in directory ${directory}.`);
+			validationErrors.push(new Error(`Files '${config.filename.APP_JSON}' and '${config.filename.NATIVE_TOKENS}' are not present in directory ${directory}.`));
 		}
 	} catch (err) {
-		throw new Error(`Error reading directory: ${directory}.\n${err}`);
+		validationErrors.push(new Error(`Error reading directory: ${directory}.\n${err}`));
 	}
+
+	return validationErrors;
 };
 
 const validateAllConfigFiles = async (networkDirs) => {
+	let validationErrors = [];
 	for (let i = 0; i < networkDirs.length; i++) {
 		/* eslint-disable no-await-in-loop */
-		await validateAllConfigFilesInDir(networkDirs[i]);
+		const configFilesValidationError = await validateAllConfigFilesInDir(networkDirs[i]);
+		validationErrors = [...validationErrors, ...configFilesValidationError];
 		/* eslint-enable no-await-in-loop */
 	}
+	return validationErrors;
 };
 
 module.exports = {

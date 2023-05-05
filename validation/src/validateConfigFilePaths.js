@@ -16,20 +16,24 @@ const path = require('path');
 const config = require('../config');
 
 const validateConfigFilePaths = async (filePaths) => {
-	try {
-		for (let i = 0; i < filePaths.length; i++) {
+	const validationErrors = [];
+
+	for (let i = 0; i < filePaths.length; i++) {
+		try {
 			const filePath = filePaths[i];
 			const currentDir = path.dirname(filePath);
 			const parentDir = path.dirname(currentDir);
 			const grandparentDir = path.basename(parentDir);
 
 			if (!config.knownNetworks.includes(grandparentDir)) {
-				throw new Error(`File (${filePath}) does not belong to a known network.`);
+				validationErrors.push(new Error(`File (${filePath}) does not belong to a known network.`));
 			}
+		} catch (err) {
+			validationErrors.push(new Error(`Error: ${err}`));
 		}
-	} catch (err) {
-		throw new Error(`Error: ${err}`);
 	}
+
+	return validationErrors;
 };
 
 module.exports = {
