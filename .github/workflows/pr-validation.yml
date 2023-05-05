@@ -6,6 +6,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - uses: tspascoal/get-user-teams-membership@v2
+        id: checkUserMember
+        with:
+          username: ${{ github.actor }}
+          organization: 'LiskHQ'
+          team: 'platform'
+          GITHUB_TOKEN: ${{ secrets.READ_ACCESS_TOKEN }}
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -24,4 +31,4 @@ jobs:
           cd validation && npm test
       - name: Run validation scripts
         run: |
-          cd validation && npm run start -- ${{ steps.dirs.outputs.all_changed_and_modified_files }}
+          cd validation && npm run start -- ${{ steps.checkUserMember.outputs.isTeamMember }} ${{ steps.dirs.outputs.all_changed_and_modified_files }}

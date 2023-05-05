@@ -1,0 +1,27 @@
+{
+    "title": "Colecti - Betanet",
+    "description": "Metadata configuration for the Colecti blockchain (sidechain) in devnet.",
+    "chainName": "Colecti",
+    "chainID": "02000002",
+    "networkType": "betanet",
+    "genesisURL": "",
+    "projectPage": "https://colecti.com/",
+    "logo": {
+        "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/devnet/Colecti/images/application/colecti.png",
+        "svg": ""
+    },
+    "backgroundColor": "#d4ff00",
+    "serviceURLs": [
+        {
+            "http": "http://devnet-colecti-service.liskdev.net:9901",
+            "ws": "ws://devnet-colecti-service.liskdev.net:9901"
+        }
+    ],
+    "explorers": [],
+    "appNodes": [
+        {
+            "url": "ws://devnet-colecti-service.liskdev.net:7887",
+            "maintainer": "Lightcurve GmbH"
+        }
+    ]
+}

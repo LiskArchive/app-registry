@@ -25,20 +25,27 @@ const ajv = new Ajv();
 addFormats(ajv);
 
 const validateChainName = async (filePaths) => {
+	const validationErrors = [];
+
 	for (let i = 0; i < filePaths.length; i++) {
 		/* eslint-disable no-await-in-loop */
 		const filePath = filePaths[i];
 		const data = await readJsonFile(filePath);
 		const parentDirName = path.basename(path.dirname(filePath));
 
-		if (data.chainName.toLowerCase() !== parentDirName.toLowerCase()) {
-			throw new Error(`Parent directory name doesn't match the chainName in ${filePaths[i]}.`);
+		const chainNameFromFile = data && data.chainName ? data.chainName.toLowerCase() : undefined;
+		if (chainNameFromFile !== parentDirName.toLowerCase()) {
+			validationErrors.push(new Error(`Parent directory name doesn't match the chainName in ${filePaths[i]}.`));
 		}
 		/* eslint-enable no-await-in-loop */
 	}
+
+	return validationErrors;
 };
 
 const validateSchema = async (schema, filePaths) => {
+	const validationErrors = [];
+
 	for (let i = 0; i < filePaths.length; i++) {
 		/* eslint-disable no-await-in-loop */
 		const filePath = filePaths[i];
@@ -46,10 +53,12 @@ const validateSchema = async (schema, filePaths) => {
 		const valid = ajv.validate(schema, data);
 
 		if (!valid) {
-			throw new Error(JSON.stringify(ajv.errors));
+			validationErrors.push(new Error(JSON.stringify(ajv.errors)));
 		}
 		/* eslint-enable no-await-in-loop */
 	}
+
+	return validationErrors;
 };
 
 const validateAllSchemas = async (files) => {
@@ -60,11 +69,13 @@ const validateAllSchemas = async (files) => {
 	const nativeTokenFiles = files.filter((filename) => filename.endsWith(config.filename.NATIVE_TOKENS));
 
 	// Validate schemas
-	await validateSchema(appSchema, appFiles);
-	await validateSchema(nativeTokenSchema, nativeTokenFiles);
+	const appSchemaValidationErrors = await validateSchema(appSchema, appFiles);
+	const nativeTokensSchemaValidationErrors = await validateSchema(nativeTokenSchema, nativeTokenFiles);
 
 	// Validate if dir name is same as network name
-	await validateChainName(appFiles);
+	const chainNameValidationErrors = await validateChainName(appFiles);
+
+	return [...appSchemaValidationErrors, ...nativeTokensSchemaValidationErrors, ...chainNameValidationErrors];
 };
 
 module.exports = {

@@ -28,27 +28,36 @@ describe('Configs in network directories validation tests', () => {
 		await setup.cleanTestEnviroment();
 	});
 
-	it('should not throw error when app.json and nativetokens.json is present in all network directories', async () => {
+	it('should not have validation errors when app.json and nativetokens.json is present in all network directories', async () => {
 		/* eslint-disable max-len */
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		await expect(validateAllConfigFiles(setup.getAppDirs())).resolves.not.toThrow();
+
+		const configFileErrors = await validateAllConfigFiles(setup.getAppDirs());
+		expect(configFileErrors.length).toBe(0);
+
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 		/* eslint-enable max-len */
 	});
 
-	it('should throw error when app.json is not present in any network directories', async () => {
+	it('should have validation errors when app.json is not present in any network directories', async () => {
 		/* eslint-disable-next-line max-len */
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(validConfig.nativeTokenConfig));
-		await expect(validateAllConfigFiles(setup.getAppDirs())).rejects.toThrow();
+
+		const configFileErrors = await validateAllConfigFiles(setup.getAppDirs());
+		expect(configFileErrors.length).toBeGreaterThan(0);
+
 		await setup.removeFileFromNetwork(config.filename.NATIVE_TOKENS);
 	});
 
-	it('should throw error when nativetokens.json is not present in any network directories', async () => {
+	it('should have validation errors when nativetokens.json is not present in any network directories', async () => {
 		/* eslint-disable-next-line max-len */
 		await setup.createFileInNetwork(config.filename.APP_JSON, JSON.stringify(validConfig.appConfig));
-		await expect(validateAllConfigFiles(setup.getAppDirs())).rejects.toThrow();
+
+		const configFileErrors = await validateAllConfigFiles(setup.getAppDirs());
+		expect(configFileErrors.length).toBeGreaterThan(0);
+
 		await setup.removeFileFromNetwork(config.filename.APP_JSON);
 	});
 });

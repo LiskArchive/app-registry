@@ -21,8 +21,13 @@ const { validateConfigFilePaths } = require('./validateConfigFilePaths');
 const config = require('../config');
 
 const validate = async () => {
+	let validationErrors = [];
+
+	// Check if the PR author is from the @LiskHQ/platform team
+	const isAuthorFromDevTeam = process.argv[2] === 'true';
+
 	// Get all modified files
-	const allChangedFiles = process.argv.slice(2);
+	const allChangedFiles = process.argv.slice(3);
 
 	// Get all app dir added or modified inside network dirs
 	const changedAppDirs = new Set();
@@ -30,8 +35,8 @@ const validate = async () => {
 		const dir = allChangedFiles[i].split('/').slice(0, 2).join('/');
 		if (dir.trim() && config.knownNetworks.includes(dir.split('/')[0])) {
 			changedAppDirs.add(path.resolve(dir));
-		} else {
-			throw new Error(`File (${allChangedFiles[i]}) does not belong to a known network.`);
+		} else if (!isAuthorFromDevTeam) {
+			validationErrors.push(new Error(`File (${allChangedFiles[i]}) does not belong to a known network.`));
 		}
 	}
 
@@ -50,19 +55,29 @@ const validate = async () => {
 	).map((fileName) => path.join(config.rootDir, fileName));
 
 	// Validate if app.json and nativetoken.json is present anywhere except networkDir/appName/
-	await validateConfigFilePaths(changedAppFiles);
+	const configFileErrors = await validateConfigFilePaths(changedAppFiles);
 
 	// Validate all app.json and nativetoken.json schemas
-	await validateAllSchemas(changedAppFiles);
-
-	// Check whitelisted files in all changed network directories
-	await validateAllWhitelistedFiles(allChangedFiles);
+	const schemaErrors = await validateAllSchemas(changedAppFiles);
 
 	// Check for config files in all changed apps in networks directories
-	await validateAllConfigFiles(changedAppDirs);
+	const validateConfigFilesErrors = await validateAllConfigFiles(changedAppDirs);
 
 	// Validate serviceURLs
-	await validateURLs(changedAppFiles);
+	const urlErrors = await validateURLs(changedAppFiles);
+
+	// Merge all validation errors
+	validationErrors = [...configFileErrors, ...schemaErrors, ...validateConfigFilesErrors, ...urlErrors];
+
+	// Check if any non-whitelisted files are modified
+	if (!isAuthorFromDevTeam) {
+		const whitelistedFilesErrors = await validateAllWhitelistedFiles(allChangedFiles);
+		validationErrors = [...validationErrors, ...whitelistedFilesErrors];
+	}
+
+	if (validationErrors.length > 0) {
+		throw new Error(validationErrors.join('\n'));
+	}
 
 	process.exit(0);
 };
