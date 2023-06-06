@@ -1,0 +1,26 @@
+{
+    "title": "Dex - Devnet",
+    "description": "Metadata configuration for the Dex blockchain (sidechain) in devnet.",
+    "chainName": "Dex",
+    "chainID": "04000011",
+    "networkType": "devnet",
+    "genesisURL": "https://github.com/LiskHQ/lisk-dex-core/raw/development/config/default/genesis_block.blob",
+    "projectPage": "https://github.com/LiskHQ/lisk-dex-core",
+    "logo": {
+        "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/devnet/Dex/images/application/dex.png",
+        "svg": ""
+    },
+    "serviceURLs": [
+        {
+            "http": "http://devnet-dex-service.liskdev.net:9901",
+            "ws": "ws://devnet-dex-service.liskdev.net:9901"
+        }
+    ],
+    "explorers": [],
+    "appNodes": [
+        {
+            "url": "ws://devnet-dex-service.liskdev.net:7887",
+            "maintainer": "Lightcurve GmbH"
+        }
+    ]
+}
