@@ -1,5 +1,7 @@
 ![Logo](./docs/assets/banner_app_registry.png)
 
+### Accept me
+
 # Lisk Application Registry
 
 Welcome to the Lisk Application Registry. The repository contains off-chain metadata for applications developed based on the Lisk SDK and any other applications that are compatible with the Lisk Protocol.
