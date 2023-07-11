@@ -13,11 +13,32 @@
  */
 
 const axios = require('axios');
-const { apiClient } = require('@liskhq/lisk-client');
+const https = require('https');
 const net = require('net');
+const io = require('socket.io-client');
 
 const { readJsonFile } = require('./utils/fs');
 const config = require('../config');
+
+const agent = new https.Agent({
+	rejectUnauthorized: true,
+});
+
+const httpsRequest = async (url) => {
+	if (new URL(url).protocol !== 'https:') {
+		throw new Error(`Unsecured service URL provided ${url}.`);
+	}
+
+	try {
+		const response = await axios.get(url, { httpsAgent: agent });
+		if (response.status === 200) {
+			return response;
+		}
+		throw new Error(`Error: URL '${url}' returned response with status code ${response.status}.`);
+	} catch (error) {
+		throw new Error(`Error: ${error.message}`);
+	}
+};
 
 const httpRequest = async (url) => {
 	try {
@@ -31,14 +52,24 @@ const httpRequest = async (url) => {
 	}
 };
 
-const wsRequest = async (wsEndpoint) => {
-	try {
-		const client = await apiClient.createWSClient(wsEndpoint);
-		const res = await client._channel.invoke('system_getNodeInfo', {});
-		return res;
-	} catch (error) {
-		throw new Error(`Error: ${error.message}`);
+const wsRequest = (wsEndpoint, wsMethod, wsParams) => {
+	if (new URL(wsEndpoint).protocol !== 'wss:') {
+		throw new Error(`Unsecured service websocket URL provided ${wsEndpoint}.`);
 	}
+
+	return new Promise((resolve, reject) => {
+		const socket = io(wsEndpoint, { forceNew: true, transports: ['websocket'], agent });
+
+		socket.emit('request', { method: wsMethod, params: wsParams }, answer => {
+			socket.close();
+			resolve(answer.result.data);
+		});
+
+		socket.on('error', (err) => {
+			socket.close();
+			reject(err);
+		});
+	});
 };
 
 const validateExplorerUrls = async (explorers) => {
@@ -137,14 +168,14 @@ const validateServiceURLs = async (serviceURLs, chainID) => {
 	for (let i = 0; i < serviceURLs.length; i++) {
 		const serviceURL = serviceURLs[i];
 		/* eslint-disable no-await-in-loop */
-		const { http: httpServiceURL, ws: wsServiceUrl } = serviceURL;
+		const { https: httpsServiceURL, wss: wssServiceUrl } = serviceURL;
 
 		// Validate HTTP service URLs
 		try {
-			const httpRes = await httpRequest(httpServiceURL + config.HTTP_API_NAMESPACE);
+			const httpRes = await httpsRequest(httpsServiceURL + config.HTTP_API_NAMESPACE);
 			const chainIDFromServiceURL = httpRes.data.data.chainID;
 			if (chainIDFromServiceURL !== chainID) {
-				validationErrors.push(new Error(`ChainID mismatch in HTTP URL: ${httpServiceURL}.\nService URL chainID: ${chainIDFromServiceURL}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
+				validationErrors.push(new Error(`ChainID mismatch in HTTP URL: ${httpsServiceURL}.\nService URL chainID: ${chainIDFromServiceURL}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
 			}
 		} catch (error) {
 			validationErrors.push(new Error(`Error: ${error}`));
@@ -152,9 +183,9 @@ const validateServiceURLs = async (serviceURLs, chainID) => {
 
 		// Validate ws service URLs
 		try {
-			const wsRes = await wsRequest(wsServiceUrl + config.WS_API_NAMESPACE);
+			const wsRes = await wsRequest(wssServiceUrl + config.WS_API_NAMESPACE, config.WS_NETWORK_STATUS_API, {});
 			if (wsRes.chainID !== chainID) {
-				validationErrors.push(new Error(`ChainID mismatch in WS URL: ${wsServiceUrl}.\nService URL chainID: ${wsRes.chainID}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
+				validationErrors.push(new Error(`ChainID mismatch in WS URL: ${wssServiceUrl}.\nService URL chainID: ${wsRes.chainID}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
 			}
 		} catch (error) {
 			validationErrors.push(new Error(`Error: ${error}`));

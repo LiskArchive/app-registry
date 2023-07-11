@@ -27,7 +27,8 @@ config.schemaDir = path.join(config.rootDir, 'schema');
 
 // API suffix to get chain ID
 config.HTTP_API_NAMESPACE = '/api/v3/network/status';
-config.WS_API_NAMESPACE = '/rpc-ws';
+config.WS_API_NAMESPACE = '/rpc-v3';
+config.WS_NETWORK_STATUS_API = 'get.network.status';
 
 // Filenames
 config.filename = {

@@ -1,5 +1,6 @@
 const appConfig = {
 	title: 'Lisk - Alphanet',
+	displayName: 'Lisk Testnet',
 	description: 'Metadata configuration for the Lisk blockchain (mainchain) in alphanet',
 	chainName: 'network',
 	chainID: '03000000',
@@ -13,8 +14,8 @@ const appConfig = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			http: 'https://alphanet-service.liskdev.net',
-			ws: 'wss://alphanet-service.liskdev.net',
+			https: 'https://alphanet-service.liskdev.net',
+			wss: 'wss://testnet.lisk.com',
 		},
 	],
 	explorers: [],

@@ -12,8 +12,8 @@ const backgroundColorNotPresent = {
 	},
 	serviceURLs: [
 		{
-			http: 'https://alphanet-service.liskdev.net',
-			ws: 'wss://alphanet-service.liskdev.net',
+			https: 'https://alphanet-service.liskdev.net',
+			wss: 'wss://alphanet-service.liskdev.net',
 		},
 	],
 	explorers: [],
@@ -39,8 +39,8 @@ const chainIDNotPresent = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			http: 'https://alphanet-service.liskdev.net',
-			ws: 'wss://alphanet-service.liskdev.net',
+			https: 'https://alphanet-service.liskdev.net',
+			wss: 'wss://alphanet-service.liskdev.net',
 		},
 	],
 	explorers: [],
@@ -66,8 +66,8 @@ const chainNameNotPresent = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			http: 'https://alphanet-service.liskdev.net',
-			ws: 'wss://alphanet-service.liskdev.net',
+			https: 'https://alphanet-service.liskdev.net',
+			wss: 'wss://alphanet-service.liskdev.net',
 		},
 	],
 	explorers: [],
@@ -94,8 +94,8 @@ const explorersNotPresent = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			http: 'https://alphanet-service.liskdev.net',
-			ws: 'wss://alphanet-service.liskdev.net',
+			https: 'https://alphanet-service.liskdev.net',
+			wss: 'wss://alphanet-service.liskdev.net',
 		},
 	],
 	appNodes: [
@@ -120,8 +120,8 @@ const genesisURLNotPresent = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			http: 'https://alphanet-service.liskdev.net',
-			ws: 'wss://alphanet-service.liskdev.net',
+			https: 'https://alphanet-service.liskdev.net',
+			wss: 'wss://alphanet-service.liskdev.net',
 		},
 	],
 	explorers: [],
@@ -144,8 +144,8 @@ const logoNotPresent = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			http: 'https://alphanet-service.liskdev.net',
-			ws: 'wss://alphanet-service.liskdev.net',
+			https: 'https://alphanet-service.liskdev.net',
+			wss: 'wss://alphanet-service.liskdev.net',
 		},
 	],
 	explorers: [],
@@ -171,8 +171,8 @@ const networkTypeNotPresent = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			http: 'https://alphanet-service.liskdev.net',
-			ws: 'wss://alphanet-service.liskdev.net',
+			https: 'https://alphanet-service.liskdev.net',
+			wss: 'wss://alphanet-service.liskdev.net',
 		},
 	],
 	explorers: [],
@@ -198,8 +198,8 @@ const projectPageNotPresent = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			http: 'https://alphanet-service.liskdev.net',
-			ws: 'wss://alphanet-service.liskdev.net',
+			https: 'https://alphanet-service.liskdev.net',
+			wss: 'wss://alphanet-service.liskdev.net',
 		},
 	],
 	explorers: [],
@@ -226,8 +226,8 @@ const serviceUrlIncorrect = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			http: 'Incorrect serviceURL',
-			ws: 'wss://alphanet-service.liskdev.net',
+			https: 'Incorrect serviceURL',
+			wss: 'wss://alphanet-service.liskdev.net',
 		},
 	],
 	explorers: [],
