@@ -13,12 +13,11 @@
  */
 
 const path = require('path');
-const net = require('net');
 
 const { readJsonFile } = require('./utils/fs');
 const config = require('../config');
 
-const { httpRequest, httpsRequest, wsRequest, wssRequest } = require('./utils/request');
+const { httpRequest, httpsRequest, wsRequest, wssRequest, requestInfoFromLiskNode } = require('./utils/request');
 
 const validateExplorerUrls = async (explorers) => {
 	const validationErrors = [];
@@ -68,29 +67,7 @@ const validateLogoUrls = async (logos) => {
 	return validationErrors;
 };
 
-const checkWebsocketConnection = async (url) => {
-	const urlParts = url.split('://');
-	if (urlParts[0] !== 'ws' && urlParts[0] !== 'wss') {
-		return Promise.reject(new Error('Invalid websocket URL'));
-	}
-
-	const [host, port] = urlParts[1].split(':');
-	return new Promise((resolve, reject) => {
-		const socket = net.createConnection({ host, port });
-
-		socket.on('connect', () => {
-			socket.end();
-			resolve();
-		});
-
-		socket.on('error', (err) => {
-			socket.end();
-			reject(err);
-		});
-	});
-};
-
-const validateAppNodeUrls = async (appNodeInfos) => {
+const validateAppNodeUrls = async (appNodeInfos, chainID) => {
 	const validationErrors = [];
 
 	for (let i = 0; i < appNodeInfos.length; i++) {
@@ -100,7 +77,10 @@ const validateAppNodeUrls = async (appNodeInfos) => {
 
 		// Validate ws app node URLs
 		try {
-			await checkWebsocketConnection(appNodeUrl);
+			const nodeSystemInfo = await requestInfoFromLiskNode(appNodeUrl);
+			if (nodeSystemInfo.chainID !== chainID) {
+				validationErrors.push(new Error(`ChainID mismatch on node: ${appNodeUrl}.\nNode chainID: ${nodeSystemInfo.chainID}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
+			}
 		} catch (e) {
 			validationErrors.push(new Error(`Error establishing connection with node: ${appNodeUrl}.`));
 		}
@@ -219,7 +199,7 @@ const validateURLs = async (files) => {
 		const explorerURLValidationErrors = await validateExplorerUrls(data.explorers);
 
 		// Validate appNodes URLs
-		const appNodeURLValidationErrors = await validateAppNodeUrls(data.appNodes);
+		const appNodeURLValidationErrors = await validateAppNodeUrls(data.appNodes, data.chainID);
 		/* eslint-enable no-await-in-loop */
 
 		validationErrors = [...validationErrors, ...serviceURLValidationErrors, ...logoValidationErrors,

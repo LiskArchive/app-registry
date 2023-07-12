@@ -15,7 +15,9 @@
 const axios = require('axios');
 const https = require('https');
 const io = require('socket.io-client');
+const { apiClient } = require('@liskhq/lisk-client');
 const pemtools = require('pemtools');
+const config = require('../../config');
 
 const agent = new https.Agent({
 	rejectUnauthorized: true,
@@ -77,9 +79,9 @@ const httpRequest = async (url) => {
 	}
 };
 
-const wssRequest = (wsEndpoint, wsMethod, wsParams, certificate) => {
+const wssRequest = async (wsEndpoint, wsMethod, wsParams, certificate) => {
 	if (new URL(wsEndpoint).protocol !== 'wss:') {
-		throw new Error(`Incorrect secured websocket URL protocol: ${wsEndpoint}.`);
+		return Promise.reject(new Error(`Incorrect secured websocket URL protocol: ${wsEndpoint}.`));
 	}
 
 	return new Promise((resolve, reject) => {
@@ -127,9 +129,25 @@ const wsRequest = (wsEndpoint, wsMethod, wsParams) => {
 	});
 };
 
+const requestInfoFromLiskNode = async (wsEndpoint) => {
+	const urlParts = wsEndpoint.split('://');
+	if (urlParts[0] !== 'ws' && urlParts[0] !== 'wss') {
+		return Promise.reject(new Error('Invalid websocket URL'));
+	}
+
+	try {
+		const client = await apiClient.createWSClient(wsEndpoint + config.NODE_REQUEST_SUFFIX);
+		const res = await client._channel.invoke('system_getNodeInfo', {});
+		return res;
+	} catch (error) {
+		throw new Error(`Error: ${error.message}`);
+	}
+};
+
 module.exports = {
 	httpRequest,
 	httpsRequest,
 	wsRequest,
 	wssRequest,
+	requestInfoFromLiskNode,
 };

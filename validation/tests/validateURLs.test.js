@@ -15,6 +15,7 @@
 const net = require('net');
 const io = require('socket.io-client');
 const axios = require('axios');
+const { apiClient } = require('@liskhq/lisk-client');
 const config = require('../config');
 const { validateURLs } = require('../src/validateURLs');
 const serviceURLResponse = require('./constants/serviceURLResponse');
@@ -25,6 +26,7 @@ let filesToTest;
 
 jest.mock('axios');
 jest.mock('socket.io-client');
+jest.mock('@liskhq/lisk-client');
 
 describe('URL Validation tests', () => {
 	beforeAll(async () => {
@@ -42,13 +44,14 @@ describe('URL Validation tests', () => {
 		await setup.cleanTestEnviroment();
 	});
 
-	xit('should have validation errors when HTTP service URL API returns an error', async () => {
+	it('should have validation errors when HTTP service URL API returns an error', async () => {
 		// Mock axios to return an error response
 		axios.get.mockImplementation(() => Promise.reject(new Error('mock error')));
+		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.nodeURLSuccessResWs));
 
 		jest.spyOn(io, 'io').mockReturnValueOnce({
 			emit: jest.fn().mockImplementation((event, params, callback) => {
-				callback(serviceURLResponse.serviceURLSuccessResWs);
+				callback(serviceURLResponse.nodeURLSuccessResWs);
 			}),
 			on: jest.fn(),
 			close: jest.fn(),
@@ -62,13 +65,14 @@ describe('URL Validation tests', () => {
 		jest.resetAllMocks();
 	});
 
-	xit('should have validation errors when ws service URL API returns an error', async () => {
+	it('should have validation errors when ws service URL API returns an error', async () => {
 		// Mock axios to return an error response
 		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
+		apiClient.createWSClient.mockImplementation(async () => Promise.reject(new Error('mock error')));
 
 		jest.spyOn(io, 'io').mockReturnValueOnce({
-			emit: jest.fn().mockImplementation(() => {
-				throw new Error('error');
+			emit: jest.fn().mockImplementation((event, params, callback) => {
+				callback(serviceURLResponse.nodeURLSuccessResWs);
 			}),
 			on: jest.fn(),
 			close: jest.fn(),
@@ -82,13 +86,14 @@ describe('URL Validation tests', () => {
 		jest.resetAllMocks();
 	});
 
-	xit('should have validation errors when HTTP service URL API returns status code other than 200', async () => {
+	it('should have validation errors when HTTP service URL API returns status code other than 200', async () => {
 		// Mock axios to return an success response
 		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURL500Res));
+		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.nodeURLSuccessResWs));
 
 		jest.spyOn(io, 'io').mockReturnValueOnce({
 			emit: jest.fn().mockImplementation((event, params, callback) => {
-				callback(serviceURLResponse.serviceURLSuccessResWs);
+				callback(serviceURLResponse.nodeURLSuccessResWs);
 			}),
 			on: jest.fn(),
 			close: jest.fn(),
@@ -105,6 +110,7 @@ describe('URL Validation tests', () => {
 	it('should not have validation errors when service URL API returns correct chain ID', async () => {
 		// Mock axios to return an success response
 		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
+		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.nodeURLSuccessResWs));
 
 		jest.spyOn(io, 'io').mockReturnValueOnce({
 			emit: jest.fn().mockImplementation((event, params, callback) => {
@@ -122,9 +128,10 @@ describe('URL Validation tests', () => {
 		jest.resetAllMocks();
 	});
 
-	xit('should have validation errors when connection cant be established with app nodes ', async () => {
+	it('should have validation errors when connection cant be established with app nodes ', async () => {
 		// Mock axios to return an success response
 		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
+		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.nodeURLSuccessResWs));
 
 		jest.spyOn(net, 'createConnection').mockReturnValueOnce({
 			on: jest.fn().mockImplementation((event, callback) => {
@@ -137,7 +144,7 @@ describe('URL Validation tests', () => {
 
 		jest.spyOn(io, 'io').mockReturnValueOnce({
 			emit: jest.fn().mockImplementation((event, params, callback) => {
-				callback(serviceURLResponse.serviceURLSuccessResWs);
+				callback(serviceURLResponse.nodeURLSuccessResWs);
 			}),
 			on: jest.fn(),
 			close: jest.fn(),
@@ -151,13 +158,14 @@ describe('URL Validation tests', () => {
 		jest.resetAllMocks();
 	});
 
-	xit('should have validation errors when HTTP service URL API returns incorrect chain ID', async () => {
+	it('should have validation errors when HTTP service URL API returns incorrect chain ID', async () => {
 		// Mock axios to return an success response
 		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLIncorrectRes));
+		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.nodeURLSuccessResWs));
 
 		jest.spyOn(io, 'io').mockReturnValueOnce({
 			emit: jest.fn().mockImplementation((event, params, callback) => {
-				callback(serviceURLResponse.serviceURLSuccessResWs);
+				callback(serviceURLResponse.nodeURLSuccessResWs);
 			}),
 			on: jest.fn(),
 			close: jest.fn(),
@@ -171,13 +179,14 @@ describe('URL Validation tests', () => {
 		jest.resetAllMocks();
 	});
 
-	xit('should have validation errors when ws service URL API returns incorrect chain ID', async () => {
+	it('should have validation errors when ws service URL API returns incorrect chain ID', async () => {
 		// Mock axios to return an success response
-		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
+		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
+		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.nodeURLIncorrectResWs));
 
 		jest.spyOn(io, 'io').mockReturnValueOnce({
 			emit: jest.fn().mockImplementation((event, params, callback) => {
-				callback(serviceURLResponse.serviceURLIncorrectResWs);
+				callback(serviceURLResponse.serviceURLSuccessResWs);
 			}),
 			on: jest.fn(),
 			close: jest.fn(),
