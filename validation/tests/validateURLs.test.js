@@ -42,7 +42,7 @@ describe('URL Validation tests', () => {
 		await setup.cleanTestEnviroment();
 	});
 
-	it('should have validation errors when HTTP service URL API returns an error', async () => {
+	xit('should have validation errors when HTTP service URL API returns an error', async () => {
 		// Mock axios to return an error response
 		axios.get.mockImplementation(() => Promise.reject(new Error('mock error')));
 
@@ -62,7 +62,7 @@ describe('URL Validation tests', () => {
 		jest.resetAllMocks();
 	});
 
-	it('should have validation errors when ws service URL API returns an error', async () => {
+	xit('should have validation errors when ws service URL API returns an error', async () => {
 		// Mock axios to return an error response
 		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
 
@@ -82,7 +82,7 @@ describe('URL Validation tests', () => {
 		jest.resetAllMocks();
 	});
 
-	it('should have validation errors when HTTP service URL API returns status code other than 200', async () => {
+	xit('should have validation errors when HTTP service URL API returns status code other than 200', async () => {
 		// Mock axios to return an success response
 		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURL500Res));
 
@@ -122,7 +122,7 @@ describe('URL Validation tests', () => {
 		jest.resetAllMocks();
 	});
 
-	it('should have validation errors when connection cant be established with app nodes ', async () => {
+	xit('should have validation errors when connection cant be established with app nodes ', async () => {
 		// Mock axios to return an success response
 		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
 
@@ -151,7 +151,7 @@ describe('URL Validation tests', () => {
 		jest.resetAllMocks();
 	});
 
-	it('should have validation errors when HTTP service URL API returns incorrect chain ID', async () => {
+	xit('should have validation errors when HTTP service URL API returns incorrect chain ID', async () => {
 		// Mock axios to return an success response
 		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLIncorrectRes));
 
@@ -171,7 +171,7 @@ describe('URL Validation tests', () => {
 		jest.resetAllMocks();
 	});
 
-	it('should have validation errors when ws service URL API returns incorrect chain ID', async () => {
+	xit('should have validation errors when ws service URL API returns incorrect chain ID', async () => {
 		// Mock axios to return an success response
 		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
 

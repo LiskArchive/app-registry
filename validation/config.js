@@ -21,6 +21,7 @@ config.rootDir = path.join(__dirname, '../');
 
 // Directories corresponding the known networks
 config.knownNetworks = ['devnet', 'alphanet', 'betanet', 'testnet', 'mainnet'];
+config.securedNetworks = ['testnet', 'mainnet'];
 
 // Schema directory
 config.schemaDir = path.join(config.rootDir, 'schema');

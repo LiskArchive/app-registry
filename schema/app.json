@@ -5,7 +5,6 @@
     "description": "Project description.",
     "type": "object",
     "required": [
-        "displayName",
         "chainName",
         "chainID",
         "genesisURL",
@@ -132,10 +131,8 @@
         },
         "serviceURL": {
             "type": "object",
-            "required": [
-                "https",
-                "wss"
-            ],
+            "description": "For testnet and mainnet, the deployments need to be secured with the requirement of https, wss and certificates. Other networks can have insecure deployments but should have atleast one http and one websocket endpoint.",
+            "required": [],
             "properties": {
                 "wss": {
                     "type": "string",
@@ -145,9 +142,24 @@
                 "https": {
                     "type": "string",
                     "format": "uri-reference",
-                    "description": "HTTP endpoint to access Lisk Service API against the blockchain application."
+                    "description": "HTTPs endpoint to access Lisk Service API against the blockchain application."
+                },
+                "ws": {
+                    "type": "string",
+                    "format": "uri-reference",
+                    "description": "WS endpoint to access Lisk Service API against the blockchain application"
+                },
+                "http": {
+                    "type": "string",
+                    "format": "uri-reference",
+                    "description": "HTTP endpoint to access Lisk Service API against the blockchain application"
+                },
+                "certificate": {
+                    "type": "string",
+                    "description": "Certificates for the HTTPs endpoint."
                 }
             }
         }
+        
     }
 }
