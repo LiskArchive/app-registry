@@ -131,28 +131,27 @@
         },
         "serviceURL": {
             "type": "object",
-            "description": "For testnet and mainnet, the deployments need to be secured with the requirement of https, wss and certificates. Other networks can have insecure deployments but should have atleast one http and one websocket endpoint.",
-            "required": [],
+            "description": "For testnet and mainnet, the deployments need to be secured with the requirement of https, wss and certificates. Other networks can have insecure deployments but in that case should have one http and one websocket endpoint.",
             "properties": {
                 "wss": {
                     "type": "string",
                     "format": "uri-reference",
-                    "description": "WS endpoint to access Lisk Service API against the blockchain application."
+                    "description": "WSS endpoint to access Lisk Service API against the blockchain application."
                 },
                 "https": {
                     "type": "string",
                     "format": "uri-reference",
-                    "description": "HTTPs endpoint to access Lisk Service API against the blockchain application."
+                    "description": "HTTPS endpoint to access Lisk Service API against the blockchain application."
                 },
                 "ws": {
                     "type": "string",
                     "format": "uri-reference",
-                    "description": "WS endpoint to access Lisk Service API against the blockchain application"
+                    "description": "WS endpoint to access Lisk Service API against the blockchain application."
                 },
                 "http": {
                     "type": "string",
                     "format": "uri-reference",
-                    "description": "HTTP endpoint to access Lisk Service API against the blockchain application"
+                    "description": "HTTP endpoint to access Lisk Service API against the blockchain application."
                 },
                 "certificate": {
                     "type": "string",

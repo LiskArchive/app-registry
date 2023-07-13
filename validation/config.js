@@ -26,11 +26,12 @@ config.securedNetworks = ['testnet', 'mainnet'];
 // Schema directory
 config.schemaDir = path.join(config.rootDir, 'schema');
 
-// API suffix to get chain ID
+// API suffix to get chain ID for service endpoints
 config.HTTP_API_NAMESPACE = '/api/v3/network/status';
 config.WS_API_NAMESPACE = '/rpc-v3';
 config.WS_NETWORK_STATUS_API = 'get.network.status';
 
+// API suffix to get chain ID for node endpoints
 config.NODE_REQUEST_SUFFIX = '/rpc-ws';
 
 // Filenames

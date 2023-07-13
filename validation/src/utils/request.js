@@ -23,7 +23,7 @@ const agent = new https.Agent({
 	rejectUnauthorized: true,
 });
 
-const getCertificate = async (url) => new Promise((resolve, reject) => {
+const getCertificate = async (url, timeout = 5000) => new Promise((resolve, reject) => {
 	try {
 		const { hostname } = new URL(url);
 
@@ -37,6 +37,15 @@ const getCertificate = async (url) => new Promise((resolve, reject) => {
 			resolve(res.connection.getPeerCertificate());
 		});
 
+		req.on('error', (error) => {
+			reject(error);
+		});
+
+		req.setTimeout(timeout, () => {
+			req.destroy();
+			reject(new Error(`Request timed out when fetching certificate from URL ${url}`));
+		});
+
 		req.end();
 	} catch (error) {
 		reject(error);
@@ -48,38 +57,30 @@ const httpsRequest = async (url, certificate) => {
 		throw new Error(`Unsecured service URL provided ${url}.`);
 	}
 
-	try {
-		const response = await axios.get(url, { httpsAgent: agent });
+	const response = await axios.get(url, { httpsAgent: agent });
 
-		if (response.status === 200) {
-			const sslCertificate = await getCertificate(url);
+	if (response.status === 200) {
+		const sslCertificate = await getCertificate(url);
 
-			const serverCertificate = pemtools(Buffer.from(JSON.stringify(sslCertificate.raw)), 'CERTIFICATE').toString();
-			if (serverCertificate !== certificate) {
-				throw new Error('Certificate supplied for https request dosent match with certificate provided by the server');
-			}
-
-			return response;
+		const serverCertificate = pemtools(Buffer.from(JSON.stringify(sslCertificate.raw)), 'CERTIFICATE').toString();
+		if (serverCertificate !== certificate) {
+			throw new Error('Certificate supplied for https request dosent match with certificate provided by the server');
 		}
-		throw new Error(`Error: URL '${url}' returned response with status code ${response.status}.`);
-	} catch (error) {
-		throw new Error(`Error: ${error.message}`);
+
+		return response;
 	}
+	throw new Error(`Error: URL '${url}' returned response with status code ${response.status}.`);
 };
 
 const httpRequest = async (url) => {
-	try {
-		const response = await axios.get(url);
-		if (response.status === 200) {
-			return response;
-		}
-		throw new Error(`Error: URL '${url}' returned response with status code ${response.status}.`);
-	} catch (error) {
-		throw new Error(`Error: ${error.message}`);
+	const response = await axios.get(url);
+	if (response.status === 200) {
+		return response;
 	}
+	throw new Error(`Error: URL '${url}' returned response with status code ${response.status}.`);
 };
 
-const wssRequest = async (wsEndpoint, wsMethod, wsParams, certificate) => {
+const wssRequest = async (wsEndpoint, wsMethod, wsParams, certificate, timeout = 5000) => {
 	if (new URL(wsEndpoint).protocol !== 'wss:') {
 		return Promise.reject(new Error(`Incorrect secured websocket URL protocol: ${wsEndpoint}.`));
 	}
@@ -87,25 +88,36 @@ const wssRequest = async (wsEndpoint, wsMethod, wsParams, certificate) => {
 	return new Promise((resolve, reject) => {
 		const socket = io(wsEndpoint, { forceNew: true, transports: ['websocket'], agent });
 
-		socket.emit('request', { method: wsMethod, params: wsParams }, answer => {
-			socket.close();
+		try {
+			const timer = setTimeout(() => {
+				socket.close();
+				reject(new Error('WebSocket request timed out.'));
+			}, timeout);
 
-			getCertificate(wsEndpoint).then((sslCertificate) => {
-				const serverCertificate = pemtools(Buffer.from(JSON.stringify(sslCertificate.raw)), 'CERTIFICATE').toString();
-				if (serverCertificate !== certificate) {
-					throw new Error('Certificate supplied for wss request dosent match with certificate provided by the server');
-				}
+			socket.emit('request', { method: wsMethod, params: wsParams }, answer => {
+				clearTimeout(timer);
+				socket.close();
 
-				resolve(answer.result.data);
-			}).catch((err) => {
+				getCertificate(wsEndpoint).then((sslCertificate) => {
+					const serverCertificate = pemtools(Buffer.from(JSON.stringify(sslCertificate.raw)), 'CERTIFICATE').toString();
+					if (serverCertificate !== certificate) {
+						throw new Error('Certificate supplied for wss request dosent match with certificate provided by the server');
+					}
+
+					resolve(answer.result.data);
+				}).catch((err) => {
+					reject(err);
+				});
+			});
+
+			socket.on('error', (err) => {
+				clearTimeout(timer);
+				socket.close();
 				reject(err);
 			});
-		});
-
-		socket.on('error', (err) => {
-			socket.close();
+		} catch (err) {
 			reject(err);
-		});
+		}
 	});
 };
 
@@ -135,13 +147,9 @@ const requestInfoFromLiskNode = async (wsEndpoint) => {
 		return Promise.reject(new Error('Invalid websocket URL'));
 	}
 
-	try {
-		const client = await apiClient.createWSClient(wsEndpoint + config.NODE_REQUEST_SUFFIX);
-		const res = await client._channel.invoke('system_getNodeInfo', {});
-		return res;
-	} catch (error) {
-		throw new Error(`Error: ${error.message}`);
-	}
+	const client = await apiClient.createWSClient(wsEndpoint + config.NODE_REQUEST_SUFFIX);
+	const res = await client._channel.invoke('system_getNodeInfo', {});
+	return res;
 };
 
 module.exports = {
@@ -150,4 +158,7 @@ module.exports = {
 	wsRequest,
 	wssRequest,
 	requestInfoFromLiskNode,
+
+	// Testing
+	getCertificate,
 };

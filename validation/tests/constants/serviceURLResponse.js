@@ -130,7 +130,7 @@ const serviceURLIncorrectRes = {
 };
 
 const serviceURLSuccessResWs = {
-	status: 200,
+	jsonrpc: '2.0',
 	result: {
 		data: {
 			version: '0.1.0',
@@ -191,7 +191,7 @@ const serviceURLSuccessResWs = {
 };
 
 const serviceURLIncorrectResWs = {
-	status: 200,
+	jsonrpc: '2.0',
 	result: {
 		data: {
 			version: '0.1.0',
