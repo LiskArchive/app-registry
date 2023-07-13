@@ -60,11 +60,13 @@ const httpsRequest = async (url, certificate) => {
 	const response = await axios.get(url, { httpsAgent: agent });
 
 	if (response.status === 200) {
-		const sslCertificate = await getCertificate(url);
+		if (certificate) {
+			const sslCertificate = await getCertificate(url);
 
-		const serverCertificate = pemtools(Buffer.from(JSON.stringify(sslCertificate.raw)), 'CERTIFICATE').toString();
-		if (serverCertificate !== certificate) {
-			throw new Error('Certificate supplied for https request dosent match with certificate provided by the server');
+			const serverCertificate = pemtools(Buffer.from(JSON.stringify(sslCertificate.raw)), 'CERTIFICATE').toString();
+			if (serverCertificate !== certificate) {
+				throw new Error('Certificate supplied for https request dosent match with certificate provided by the server');
+			}
 		}
 
 		return response;
@@ -98,16 +100,20 @@ const wssRequest = async (wsEndpoint, wsMethod, wsParams, certificate, timeout =
 				clearTimeout(timer);
 				socket.close();
 
-				getCertificate(wsEndpoint).then((sslCertificate) => {
-					const serverCertificate = pemtools(Buffer.from(JSON.stringify(sslCertificate.raw)), 'CERTIFICATE').toString();
-					if (serverCertificate !== certificate) {
-						throw new Error('Certificate supplied for wss request dosent match with certificate provided by the server');
-					}
+				if (certificate) {
+					getCertificate(wsEndpoint).then((sslCertificate) => {
+						const serverCertificate = pemtools(Buffer.from(JSON.stringify(sslCertificate.raw)), 'CERTIFICATE').toString();
+						if (serverCertificate !== certificate) {
+							throw new Error('Certificate supplied for wss request dosent match with certificate provided by the server');
+						}
 
+						resolve(answer.result.data);
+					}).catch((err) => {
+						reject(err);
+					});
+				} else {
 					resolve(answer.result.data);
-				}).catch((err) => {
-					reject(err);
-				});
+				}
 			});
 
 			socket.on('error', (err) => {
@@ -123,7 +129,7 @@ const wssRequest = async (wsEndpoint, wsMethod, wsParams, certificate, timeout =
 
 const wsRequest = (wsEndpoint, wsMethod, wsParams) => {
 	if (new URL(wsEndpoint).protocol !== 'ws:') {
-		throw new Error(`Incorrect websocket URL protocol: ${wsEndpoint}.`);
+		return Promise.reject(new Error(`Incorrect websocket URL protocol: ${wsEndpoint}.`));
 	}
 
 	return new Promise((resolve, reject) => {
@@ -158,7 +164,4 @@ module.exports = {
 	wsRequest,
 	wssRequest,
 	requestInfoFromLiskNode,
-
-	// Testing
-	getCertificate,
 };

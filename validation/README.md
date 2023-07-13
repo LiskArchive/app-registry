@@ -6,8 +6,8 @@ Clone the app-registry repository:
 
 ```bash
 git clone https://github.com/LiskHQ/app-registry.git
-cd .github/workflows/validationScripts
-npm install
+cd ./app-registry/validationScripts
+npm ci
 ```
 
 ### Start
