@@ -52,15 +52,21 @@ const getCertificate = async (url, timeout = 5000) => new Promise((resolve, reje
 	}
 });
 
-const httpsRequest = async (url, certificate) => {
-	if (new URL(url).protocol !== 'https:') {
-		throw new Error(`Unsecured service URL provided ${url}.`);
+const httpRequest = async (url, certificate) => {
+	const { protocol } = new URL(url);
+	if (protocol !== 'https:' && protocol !== 'http:') {
+		throw new Error(`Incorrect service URL provided ${url}.`);
 	}
 
-	const response = await axios.get(url, { httpsAgent: agent });
+	const httpOptions = {};
+	if (protocol === 'https:') {
+		httpOptions.httpsAgent = agent;
+	}
+
+	const response = await axios.get(url, httpOptions);
 
 	if (response.status === 200) {
-		if (certificate) {
+		if (protocol === 'https:' && certificate) {
 			const sslCertificate = await getCertificate(url);
 
 			const serverCertificate = pemtools(Buffer.from(JSON.stringify(sslCertificate.raw)), 'CERTIFICATE').toString();
@@ -71,30 +77,23 @@ const httpsRequest = async (url, certificate) => {
 
 		return response;
 	}
+
 	throw new Error(`Error: URL '${url}' returned response with status code ${response.status}.`);
 };
 
-const httpRequest = async (url) => {
-	if (new URL(url).protocol === 'https:') {
-		return httpsRequest(url);
-	} if (new URL(url).protocol !== 'http:') {
-		throw new Error(`Incorrect service URL provided ${url}.`);
+const wsRequest = (wsEndpoint, wsMethod, wsParams, certificate, timeout = 5000) => {
+	const { protocol } = new URL(wsEndpoint);
+	if (protocol !== 'ws:' && protocol !== 'wss:') {
+		return Promise.reject(new Error(`Incorrect websocket URL protocol: ${wsEndpoint}.`));
 	}
 
-	const response = await axios.get(url);
-	if (response.status === 200) {
-		return response;
-	}
-	throw new Error(`Error: URL '${url}' returned response with status code ${response.status}.`);
-};
-
-const wssRequest = async (wsEndpoint, wsMethod, wsParams, certificate, timeout = 5000) => {
-	if (new URL(wsEndpoint).protocol !== 'wss:') {
-		return Promise.reject(new Error(`Incorrect secured websocket URL protocol: ${wsEndpoint}.`));
+	const websocketOptions = { forceNew: true, transports: ['websocket'] };
+	if (protocol === 'wss:') {
+		websocketOptions.agent = agent;
 	}
 
 	return new Promise((resolve, reject) => {
-		const socket = io(wsEndpoint, { forceNew: true, transports: ['websocket'], agent });
+		const socket = io(wsEndpoint, websocketOptions);
 
 		try {
 			const timer = setTimeout(() => {
@@ -133,26 +132,6 @@ const wssRequest = async (wsEndpoint, wsMethod, wsParams, certificate, timeout =
 	});
 };
 
-const wsRequest = (wsEndpoint, wsMethod, wsParams) => {
-	if (new URL(wsEndpoint).protocol !== 'ws:') {
-		return Promise.reject(new Error(`Incorrect websocket URL protocol: ${wsEndpoint}.`));
-	}
-
-	return new Promise((resolve, reject) => {
-		const socket = io(wsEndpoint, { forceNew: true, transports: ['websocket'] });
-
-		socket.emit('request', { method: wsMethod, params: wsParams }, answer => {
-			socket.close();
-			resolve(answer.result.data);
-		});
-
-		socket.on('error', (err) => {
-			socket.close();
-			reject(err);
-		});
-	});
-};
-
 const requestInfoFromLiskNode = async (wsEndpoint) => {
 	const urlParts = wsEndpoint.split('://');
 	if (urlParts[0] !== 'ws' && urlParts[0] !== 'wss') {
@@ -166,9 +145,7 @@ const requestInfoFromLiskNode = async (wsEndpoint) => {
 
 module.exports = {
 	httpRequest,
-	httpsRequest,
 	wsRequest,
-	wssRequest,
 	requestInfoFromLiskNode,
 
 	// Testing

@@ -17,7 +17,7 @@ const path = require('path');
 const { readJsonFile } = require('./utils/fs');
 const config = require('../config');
 
-const { httpRequest, httpsRequest, wsRequest, wssRequest, requestInfoFromLiskNode } = require('./utils/request');
+const { httpRequest, wsRequest, requestInfoFromLiskNode } = require('./utils/request');
 
 const validateExplorerUrls = async (explorers) => {
 	const validationErrors = [];
@@ -121,7 +121,7 @@ const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork) => {
 		// Validate HTTPS service URLs
 		if (httpsServiceURL) {
 			try {
-				const httpsRes = await httpsRequest(httpsServiceURL + config.HTTP_API_NAMESPACE, certificate);
+				const httpsRes = await httpRequest(httpsServiceURL + config.HTTP_API_NAMESPACE, certificate);
 				const chainIDFromServiceURL = httpsRes.data.data.chainID;
 				if (chainIDFromServiceURL !== chainID) {
 					validationErrors.push(new Error(`ChainID mismatch in HTTP URL: ${httpsServiceURL}.\nService URL chainID: ${chainIDFromServiceURL}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
@@ -146,7 +146,7 @@ const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork) => {
 		// Validate ws service URLs
 		if (wssServiceUrl) {
 			try {
-				const wssRes = await wssRequest(wssServiceUrl + config.WS_API_NAMESPACE, config.WS_NETWORK_STATUS_API, {}, certificate);
+				const wssRes = await wsRequest(wssServiceUrl + config.WS_API_NAMESPACE, config.WS_NETWORK_STATUS_API, {}, certificate);
 				if (wssRes.chainID !== chainID) {
 					validationErrors.push(new Error(`ChainID mismatch in WS URL: ${wssServiceUrl}.\nService URL chainID: ${wssRes.chainID}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
 				}

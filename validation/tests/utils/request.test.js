@@ -22,7 +22,7 @@ jest.mock('axios');
 jest.mock('pemtools');
 jest.mock('socket.io-client');
 
-describe('wsRequest', () => {
+describe('wsRequest for ws requests', () => {
 	beforeEach(() => {
 		io.mockReset();
 	});
@@ -94,7 +94,7 @@ describe('wsRequest', () => {
 	});
 });
 
-describe('httpRequest', () => {
+describe('httpRequest for http requests', () => {
 	const url = 'http://example.com';
 
 	beforeEach(() => {
@@ -113,7 +113,7 @@ describe('httpRequest', () => {
 		const response = await httpRequest(url);
 
 		expect(response).toEqual(mockResponse);
-		expect(axios.get).toHaveBeenCalledWith(url);
+		expect(axios.get).toHaveBeenCalledWith(url, {});
 	});
 
 	it('should throw an error when status code is not 200', async () => {
@@ -128,11 +128,11 @@ describe('httpRequest', () => {
 		await expect(httpRequest(url)).rejects.toThrow(
 			`Error: URL '${url}' returned response with status code ${mockResponse.status}.`,
 		);
-		expect(axios.get).toHaveBeenCalledWith(url);
+		expect(axios.get).toHaveBeenCalledWith(url, {});
 	});
 });
 
-describe('wssRequest', () => {
+describe('wsRequest for wss requests', () => {
 	const wsEndpoint = 'wss://example.com';
 	const invalidWsEndpoint = 'http://example.com';
 	const wsMethod = 'exampleMethod';
@@ -151,9 +151,9 @@ describe('wssRequest', () => {
 	});
 
 	it('should reject with an error for an incorrect secured websocket URL protocol', async () => {
-		const { wssRequest } = require(mockRequestFilePath);
-		await expect(wssRequest(invalidWsEndpoint, wsMethod, wsParams, mockCertificate)).rejects.toThrow(
-			`Incorrect secured websocket URL protocol: ${invalidWsEndpoint}.`,
+		const { wsRequest } = require(mockRequestFilePath);
+		await expect(wsRequest(invalidWsEndpoint, wsMethod, wsParams, mockCertificate)).rejects.toThrow(
+			`Incorrect websocket URL protocol: ${invalidWsEndpoint}.`,
 		);
 		expect(io).not.toHaveBeenCalled();
 	});
@@ -183,8 +183,8 @@ describe('wssRequest', () => {
 			};
 		});
 
-		const { wssRequest } = require(mockRequestFilePath);
-		const responseData = await wssRequest(wsEndpoint, wsMethod, wsParams, mockCertificate, timeout);
+		const { wsRequest } = require(mockRequestFilePath);
+		const responseData = await wsRequest(wsEndpoint, wsMethod, wsParams, mockCertificate, timeout);
 		expect(responseData).toEqual(mockResponse.result.data);
 	});
 
@@ -217,10 +217,10 @@ describe('wssRequest', () => {
 			};
 		});
 
-		const { wssRequest } = require(mockRequestFilePath);
+		const { wsRequest } = require(mockRequestFilePath);
 		io.mockReturnValueOnce(mockSocket);
 
-		await expect(wssRequest(wsEndpoint, wsMethod, wsParams, mockCertificate, timeout)).rejects.toThrow(mockError);
+		await expect(wsRequest(wsEndpoint, wsMethod, wsParams, mockCertificate, timeout)).rejects.toThrow(mockError);
 	});
 
 	it('should reject with an error when the certificate does not match', async () => {
@@ -248,16 +248,16 @@ describe('wssRequest', () => {
 			};
 		});
 
-		const { wssRequest } = require(mockRequestFilePath);
-		await expect(wssRequest(wsEndpoint, wsMethod, wsParams, invalidCertificate, timeout)).rejects.toThrow(
+		const { wsRequest } = require(mockRequestFilePath);
+		await expect(wsRequest(wsEndpoint, wsMethod, wsParams, invalidCertificate, timeout)).rejects.toThrow(
 			'Certificate supplied for wss request dosent match with certificate provided by the server',
 		);
 	});
 });
 
-describe('httpsRequest', () => {
+describe('httpRequest for https requests', () => {
 	const url = 'https://example.com';
-	const invalidUrl = 'http://example.com';
+	const invalidUrl = 'wss://example.com';
 	const certificate = 'mock-certificate';
 	const invalidCertificate = 'example-certificate';
 
@@ -281,9 +281,9 @@ describe('httpsRequest', () => {
 	});
 
 	it('should throw an error for an unsecured service URL', async () => {
-		const { httpsRequest } = require(mockRequestFilePath);
-		await expect(httpsRequest(invalidUrl, certificate)).rejects.toThrow(
-			`Unsecured service URL provided ${invalidUrl}.`,
+		const { httpRequest } = require(mockRequestFilePath);
+		await expect(httpRequest(invalidUrl, certificate)).rejects.toThrow(
+			`Incorrect service URL provided ${invalidUrl}.`,
 		);
 		expect(axios.get).not.toHaveBeenCalled();
 	});
@@ -305,8 +305,8 @@ describe('httpsRequest', () => {
 			};
 		});
 
-		const { httpsRequest } = require(mockRequestFilePath);
-		const response = await httpsRequest(url, certificate);
+		const { httpRequest } = require(mockRequestFilePath);
+		const response = await httpRequest(url, certificate);
 
 		expect(response).toEqual(mockResponse);
 	});
@@ -328,8 +328,8 @@ describe('httpsRequest', () => {
 			};
 		});
 
-		const { httpsRequest } = require(mockRequestFilePath);
-		await expect(httpsRequest(url, certificate)).rejects.toThrow(
+		const { httpRequest } = require(mockRequestFilePath);
+		await expect(httpRequest(url, certificate)).rejects.toThrow(
 			`Error: URL '${url}' returned response with status code ${mockInvalidResponse.status}.`,
 		);
 	});
@@ -351,8 +351,8 @@ describe('httpsRequest', () => {
 			};
 		});
 
-		const { httpsRequest } = require(mockRequestFilePath);
-		await expect(httpsRequest(url, invalidCertificate)).rejects.toThrow(
+		const { httpRequest } = require(mockRequestFilePath);
+		await expect(httpRequest(url, invalidCertificate)).rejects.toThrow(
 			'Certificate supplied for https request dosent match with certificate provided by the server',
 		);
 	});
