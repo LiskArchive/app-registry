@@ -75,6 +75,12 @@ const httpsRequest = async (url, certificate) => {
 };
 
 const httpRequest = async (url) => {
+	if (new URL(url).protocol === 'https:') {
+		return httpsRequest(url);
+	} if (new URL(url).protocol !== 'http:') {
+		throw new Error(`Incorrect service URL provided ${url}.`);
+	}
+
 	const response = await axios.get(url);
 	if (response.status === 200) {
 		return response;
@@ -164,4 +170,7 @@ module.exports = {
 	wsRequest,
 	wssRequest,
 	requestInfoFromLiskNode,
+
+	// Testing
+	getCertificate,
 };

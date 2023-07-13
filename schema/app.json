@@ -131,7 +131,7 @@
         },
         "serviceURL": {
             "type": "object",
-            "description": "For testnet and mainnet, the deployments need to be secured with the requirement of https, wss and certificates. Other networks can have insecure deployments but in that case should have one http and one websocket endpoint.",
+            "description": "For testnet and mainnet, the deployments need to be secured with the requirement of https, wss and certificates. Other networks can have insecure deployments but in that case http and websocket endpoints are mandatory.",
             "properties": {
                 "wss": {
                     "type": "string",

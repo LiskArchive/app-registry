@@ -56,7 +56,7 @@ describe('wsRequest', () => {
 
 		io.mockReturnValueOnce(mockSocket);
 
-		const { wsRequest } = require('../../src/utils/request');
+		const { wsRequest } = require(mockRequestFilePath);
 		const responseData = await wsRequest(wsEndpoint, wsMethod, wsParams);
 
 		expect(responseData).toEqual(mockResponse.result.data);
@@ -83,7 +83,7 @@ describe('wsRequest', () => {
 			}),
 		};
 
-		const { wsRequest } = require('../../src/utils/request');
+		const { wsRequest } = require(mockRequestFilePath);
 		io.mockReturnValueOnce(mockSocket);
 
 		await expect(wsRequest(wsEndpoint, wsMethod, wsParams)).rejects.toThrow(mockError);
@@ -109,7 +109,7 @@ describe('httpRequest', () => {
 
 		axios.get.mockResolvedValueOnce(mockResponse);
 
-		const { httpRequest } = require('../../src/utils/request');
+		const { httpRequest } = require(mockRequestFilePath);
 		const response = await httpRequest(url);
 
 		expect(response).toEqual(mockResponse);
@@ -124,7 +124,7 @@ describe('httpRequest', () => {
 
 		axios.get.mockResolvedValueOnce(mockResponse);
 
-		const { httpRequest } = require('../../src/utils/request');
+		const { httpRequest } = require(mockRequestFilePath);
 		await expect(httpRequest(url)).rejects.toThrow(
 			`Error: URL '${url}' returned response with status code ${mockResponse.status}.`,
 		);
@@ -151,7 +151,7 @@ describe('wssRequest', () => {
 	});
 
 	it('should reject with an error for an incorrect secured websocket URL protocol', async () => {
-		const { wssRequest } = require('../../src/utils/request');
+		const { wssRequest } = require(mockRequestFilePath);
 		await expect(wssRequest(invalidWsEndpoint, wsMethod, wsParams, mockCertificate)).rejects.toThrow(
 			`Incorrect secured websocket URL protocol: ${invalidWsEndpoint}.`,
 		);
@@ -167,7 +167,7 @@ describe('wssRequest', () => {
 			on: jest.fn(),
 		};
 
-		jest.mock('../../src/utils/request', () => {
+		jest.mock(mockRequestFilePath, () => {
 			const mockPemtools = require('pemtools');
 			const mockIo = require('socket.io-client');
 			jest.mock('pemtools');
@@ -176,14 +176,14 @@ describe('wssRequest', () => {
 			mockPemtools.mockReturnValueOnce('mock-certificate');
 			mockIo.mockReturnValueOnce(mockSocket);
 
-			const actualLiskServiceFramework = jest.requireActual('../../src/utils/request');
+			const actualLiskServiceFramework = jest.requireActual(mockRequestFilePath);
 			return {
 				...actualLiskServiceFramework,
 				getCertificate: jest.fn().mockResolvedValueOnce(mockSSLCertificate),
 			};
 		});
 
-		const { wssRequest } = require('../../src/utils/request');
+		const { wssRequest } = require(mockRequestFilePath);
 		const responseData = await wssRequest(wsEndpoint, wsMethod, wsParams, mockCertificate, timeout);
 		expect(responseData).toEqual(mockResponse.result.data);
 	});
@@ -201,7 +201,7 @@ describe('wssRequest', () => {
 			}),
 		};
 
-		jest.mock('../../src/utils/request', () => {
+		jest.mock(mockRequestFilePath, () => {
 			const mockPemtools = require('pemtools');
 			const mockIo = require('socket.io-client');
 			jest.mock('pemtools');
@@ -210,14 +210,14 @@ describe('wssRequest', () => {
 			mockPemtools.mockReturnValueOnce('mock-certificate');
 			mockIo.mockReturnValueOnce(mockSocket);
 
-			const actualLiskServiceFramework = jest.requireActual('../../src/utils/request');
+			const actualLiskServiceFramework = jest.requireActual(mockRequestFilePath);
 			return {
 				...actualLiskServiceFramework,
 				getCertificate: jest.fn().mockResolvedValueOnce(mockSSLCertificate),
 			};
 		});
 
-		const { wssRequest } = require('../../src/utils/request');
+		const { wssRequest } = require(mockRequestFilePath);
 		io.mockReturnValueOnce(mockSocket);
 
 		await expect(wssRequest(wsEndpoint, wsMethod, wsParams, mockCertificate, timeout)).rejects.toThrow(mockError);
@@ -232,7 +232,7 @@ describe('wssRequest', () => {
 			on: jest.fn(),
 		};
 
-		jest.mock('../../src/utils/request', () => {
+		jest.mock(mockRequestFilePath, () => {
 			const mockPemtools = require('pemtools');
 			const mockIo = require('socket.io-client');
 			jest.mock('pemtools');
@@ -241,14 +241,14 @@ describe('wssRequest', () => {
 			mockPemtools.mockReturnValueOnce('mock-certificate');
 			mockIo.mockReturnValueOnce(mockSocket);
 
-			const actualLiskServiceFramework = jest.requireActual('../../src/utils/request');
+			const actualLiskServiceFramework = jest.requireActual(mockRequestFilePath);
 			return {
 				...actualLiskServiceFramework,
 				getCertificate: jest.fn().mockResolvedValueOnce(mockSSLCertificate),
 			};
 		});
 
-		const { wssRequest } = require('../../src/utils/request');
+		const { wssRequest } = require(mockRequestFilePath);
 		await expect(wssRequest(wsEndpoint, wsMethod, wsParams, invalidCertificate, timeout)).rejects.toThrow(
 			'Certificate supplied for wss request dosent match with certificate provided by the server',
 		);
@@ -281,7 +281,7 @@ describe('httpsRequest', () => {
 	});
 
 	it('should throw an error for an unsecured service URL', async () => {
-		const { httpsRequest } = require('../../src/utils/request');
+		const { httpsRequest } = require(mockRequestFilePath);
 		await expect(httpsRequest(invalidUrl, certificate)).rejects.toThrow(
 			`Unsecured service URL provided ${invalidUrl}.`,
 		);
@@ -289,7 +289,7 @@ describe('httpsRequest', () => {
 	});
 
 	it('should return the response and validate the certificate', async () => {
-		jest.mock('../../src/utils/request', () => {
+		jest.mock(mockRequestFilePath, () => {
 			const mockAxios = require('axios');
 			const mockPemtools = require('pemtools');
 			jest.mock('axios');
@@ -298,21 +298,21 @@ describe('httpsRequest', () => {
 			mockAxios.get.mockResolvedValueOnce(mockResponse);
 			mockPemtools.mockReturnValueOnce('mock-certificate');
 
-			const actualLiskServiceFramework = jest.requireActual('../../src/utils/request');
+			const actualLiskServiceFramework = jest.requireActual(mockRequestFilePath);
 			return {
 				...actualLiskServiceFramework,
 				getCertificate: jest.fn().mockResolvedValueOnce(mockSSLCertificate),
 			};
 		});
 
-		const { httpsRequest } = require('../../src/utils/request');
+		const { httpsRequest } = require(mockRequestFilePath);
 		const response = await httpsRequest(url, certificate);
 
 		expect(response).toEqual(mockResponse);
 	});
 
 	it('should throw an error when the response status code is not 200', async () => {
-		jest.mock('../../src/utils/request', () => {
+		jest.mock(mockRequestFilePath, () => {
 			const mockAxios = require('axios');
 			const mockPemtools = require('pemtools');
 			jest.mock('axios');
@@ -321,21 +321,21 @@ describe('httpsRequest', () => {
 			mockAxios.get.mockResolvedValueOnce(mockInvalidResponse);
 			mockPemtools.mockReturnValueOnce('mock-certificate');
 
-			const actualLiskServiceFramework = jest.requireActual('../../src/utils/request');
+			const actualLiskServiceFramework = jest.requireActual(mockRequestFilePath);
 			return {
 				...actualLiskServiceFramework,
 				getCertificate: jest.fn().mockResolvedValueOnce(mockSSLCertificate),
 			};
 		});
 
-		const { httpsRequest } = require('../../src/utils/request');
+		const { httpsRequest } = require(mockRequestFilePath);
 		await expect(httpsRequest(url, certificate)).rejects.toThrow(
 			`Error: URL '${url}' returned response with status code ${mockInvalidResponse.status}.`,
 		);
 	});
 
 	it('should throw an error when the certificate does not match', async () => {
-		jest.mock('../../src/utils/request', () => {
+		jest.mock(mockRequestFilePath, () => {
 			const mockAxios = require('axios');
 			const mockPemtools = require('pemtools');
 			jest.mock('axios');
@@ -344,16 +344,65 @@ describe('httpsRequest', () => {
 			mockAxios.get.mockResolvedValueOnce(mockResponse);
 			mockPemtools.mockReturnValueOnce('mock-certificate');
 
-			const actualLiskServiceFramework = jest.requireActual('../../src/utils/request');
+			const actualLiskServiceFramework = jest.requireActual(mockRequestFilePath);
 			return {
 				...actualLiskServiceFramework,
 				getCertificate: jest.fn().mockResolvedValueOnce(mockSSLCertificate),
 			};
 		});
 
-		const { httpsRequest } = require('../../src/utils/request');
+		const { httpsRequest } = require(mockRequestFilePath);
 		await expect(httpsRequest(url, invalidCertificate)).rejects.toThrow(
 			'Certificate supplied for https request dosent match with certificate provided by the server',
 		);
+	});
+});
+
+describe('getCertificate', () => {
+	beforeEach(() => {
+		jest.resetModules();
+		jest.clearAllMocks();
+	});
+
+	it('should resolve with the peer certificate', async () => {
+		const mockCertificate = 'mock-certificate';
+		const mockUrl = 'https://example.com';
+
+		jest.mock(mockRequestFilePath, () => {
+			const https = require('https');
+			jest.mock('https');
+
+			https.request = jest.fn((options, callback) => {
+				const res = {
+					connection: {
+						getPeerCertificate: jest.fn().mockReturnValue(mockCertificate),
+					},
+					on: jest.fn(),
+					setTimeout: jest.fn(),
+					destroy: jest.fn(),
+				};
+				callback(res);
+				return {
+					on: jest.fn(),
+					end: jest.fn(),
+				};
+			});
+
+			const actualLiskServiceFramework = jest.requireActual(mockRequestFilePath);
+			return {
+				...actualLiskServiceFramework,
+			};
+		});
+
+		const { getCertificate } = require(mockRequestFilePath);
+		const certificate = await getCertificate(mockUrl);
+		expect(certificate).toEqual(mockCertificate);
+	});
+
+	it('should reject with an error if the URL is invalid', async () => {
+		const invalidUrl = 'invalid-url';
+
+		const { getCertificate } = require(mockRequestFilePath);
+		await expect(getCertificate(invalidUrl)).rejects.toThrowError();
 	});
 });
