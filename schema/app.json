@@ -131,7 +131,7 @@
         },
         "serviceURL": {
             "type": "object",
-            "description": "For testnet and mainnet, the deployments need to be secured with the requirement of https, wss and certificates. Other networks can have insecure deployments but in that case http and websocket endpoints are mandatory.",
+            "description": "For testnet and mainnet, the deployments need to be secured with the requirement of https, wss and publicKey. Other networks can have insecure deployments but in that case http and websocket endpoints are mandatory.",
             "properties": {
                 "wss": {
                     "type": "string",
@@ -153,9 +153,9 @@
                     "format": "uri-reference",
                     "description": "HTTP endpoint to access Lisk Service API against the blockchain application."
                 },
-                "certificate": {
+                "apiPublicKey": {
                     "type": "string",
-                    "description": "Certificates for the HTTPs endpoint."
+                    "description": "Public key corresponding to the certificate for the HTTPS and WSS APIs."
                 }
             }
         }

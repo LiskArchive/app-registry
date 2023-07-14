@@ -97,12 +97,12 @@ const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork) => {
 		const serviceURL = serviceURLs[i];
 
 		/* eslint-disable no-await-in-loop */
-		const { https: httpsServiceURL, wss: wssServiceUrl, http: httpServiceURL, ws: wsServiceUrl, certificate } = serviceURL;
+		const { https: httpsServiceURL, wss: wssServiceUrl, http: httpServiceURL, ws: wsServiceUrl, apiPublicKey: publicKey } = serviceURL;
 
-		if (isSecuredNetwork && (!httpsServiceURL || !wssServiceUrl || !certificate)) {
-			validationErrors.push(new Error(`Require secure URLs and certificate incase of following networks: ${config.securedNetworks}.`));
-		} else if (!isSecuredNetwork && !((httpsServiceURL && wssServiceUrl && certificate) || (httpServiceURL && wsServiceUrl))) {
-			validationErrors.push(new Error('Require at least one combination of (https, wss and certificate) or (http, ws).'));
+		if (isSecuredNetwork && (!httpsServiceURL || !wssServiceUrl || !publicKey)) {
+			validationErrors.push(new Error(`Require secure URLs and publicKey incase of following networks: ${config.securedNetworks}.`));
+		} else if (!isSecuredNetwork && !((httpsServiceURL && wssServiceUrl && publicKey) || (httpServiceURL && wsServiceUrl))) {
+			validationErrors.push(new Error('Require at least one combination of (https, wss and publicKey) or (http, ws).'));
 		}
 
 		// Validate HTTP service URLs
@@ -121,7 +121,7 @@ const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork) => {
 		// Validate HTTPS service URLs
 		if (httpsServiceURL) {
 			try {
-				const httpsRes = await httpRequest(httpsServiceURL + config.HTTP_API_NAMESPACE, certificate);
+				const httpsRes = await httpRequest(httpsServiceURL + config.HTTP_API_NAMESPACE, publicKey);
 				const chainIDFromServiceURL = httpsRes.data.data.chainID;
 				if (chainIDFromServiceURL !== chainID) {
 					validationErrors.push(new Error(`ChainID mismatch in HTTP URL: ${httpsServiceURL}.\nService URL chainID: ${chainIDFromServiceURL}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
@@ -146,7 +146,7 @@ const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork) => {
 		// Validate ws service URLs
 		if (wssServiceUrl) {
 			try {
-				const wssRes = await wsRequest(wssServiceUrl + config.WS_API_NAMESPACE, config.WS_NETWORK_STATUS_API, {}, certificate);
+				const wssRes = await wsRequest(wssServiceUrl + config.WS_API_NAMESPACE, config.WS_NETWORK_STATUS_API, {}, publicKey);
 				if (wssRes.chainID !== chainID) {
 					validationErrors.push(new Error(`ChainID mismatch in WS URL: ${wssServiceUrl}.\nService URL chainID: ${wssRes.chainID}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
 				}

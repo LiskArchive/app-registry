@@ -16,25 +16,30 @@ const axios = require('axios');
 const https = require('https');
 const io = require('socket.io-client');
 const { apiClient } = require('@liskhq/lisk-client');
-const pemtools = require('pemtools');
+const { exec } = require('child_process');
 const config = require('../../config');
 
 const agent = new https.Agent({
 	rejectUnauthorized: true,
 });
 
-const getCertificate = async (url, timeout = 5000) => new Promise((resolve, reject) => {
-	try {
-		const { hostname } = new URL(url);
+const getCertificateFromUrl = async (url, timeout = 5000) => {
+	const { hostname } = new URL(url);
 
+	return new Promise((resolve, reject) => {
 		const options = {
-			host: hostname,
+			hostname,
 			port: 443,
 			method: 'GET',
 		};
 
 		const req = https.request(options, (res) => {
-			resolve(res.connection.getPeerCertificate());
+			const certificate = res.socket.getPeerCertificate();
+			if (!certificate) {
+				reject(new Error(`No certificate found for url: ${url}.`));
+			}
+
+			resolve(certificate.raw);
 		});
 
 		req.on('error', (error) => {
@@ -43,16 +48,28 @@ const getCertificate = async (url, timeout = 5000) => new Promise((resolve, reje
 
 		req.setTimeout(timeout, () => {
 			req.destroy();
-			reject(new Error(`Request timed out when fetching certificate from URL ${url}`));
+			reject(new Error(`Request timed out when fetching certificate from URL ${url}.`));
 		});
 
 		req.end();
-	} catch (error) {
-		reject(error);
-	}
+	});
+};
+
+const convertCertificateToPemPublicKey = async (certificate) => new Promise((resolve, reject) => {
+	const command = 'openssl x509 -inform der -pubkey -noout | openssl rsa -pubin -inform pem';
+	const child = exec(command, (error, stdout) => {
+		if (error) {
+			reject(error);
+		}
+
+		resolve(stdout);
+	});
+
+	child.stdin.write(Buffer.from((certificate), 'base64'));
+	child.stdin.end();
 });
 
-const httpRequest = async (url, certificate) => {
+const httpRequest = async (url, publicKey) => {
 	const { protocol } = new URL(url);
 	if (protocol !== 'https:' && protocol !== 'http:') {
 		throw new Error(`Incorrect service URL provided ${url}.`);
@@ -66,12 +83,12 @@ const httpRequest = async (url, certificate) => {
 	const response = await axios.get(url, httpOptions);
 
 	if (response.status === 200) {
-		if (protocol === 'https:' && certificate) {
-			const sslCertificate = await getCertificate(url);
+		if (protocol === 'https:' && publicKey) {
+			const sslCertificate = await getCertificateFromUrl(url);
+			const apiPubKey = await convertCertificateToPemPublicKey(sslCertificate);
 
-			const serverCertificate = pemtools(Buffer.from(JSON.stringify(sslCertificate.raw)), 'CERTIFICATE').toString();
-			if (serverCertificate !== certificate) {
-				throw new Error('Certificate supplied for https request dosent match with certificate provided by the server');
+			if (apiPubKey.trim() !== publicKey.trim()) {
+				throw new Error('Public key supplied for https request dosent match with public key provided by the server.');
 			}
 		}
 
@@ -81,7 +98,7 @@ const httpRequest = async (url, certificate) => {
 	throw new Error(`Error: URL '${url}' returned response with status code ${response.status}.`);
 };
 
-const wsRequest = (wsEndpoint, wsMethod, wsParams, certificate, timeout = 5000) => {
+const wsRequest = (wsEndpoint, wsMethod, wsParams, publicKey, timeout = 5000) => {
 	const { protocol } = new URL(wsEndpoint);
 	if (protocol !== 'ws:' && protocol !== 'wss:') {
 		return Promise.reject(new Error(`Incorrect websocket URL protocol: ${wsEndpoint}.`));
@@ -105,14 +122,17 @@ const wsRequest = (wsEndpoint, wsMethod, wsParams, certificate, timeout = 5000) 
 				clearTimeout(timer);
 				socket.close();
 
-				if (certificate) {
-					getCertificate(wsEndpoint).then((sslCertificate) => {
-						const serverCertificate = pemtools(Buffer.from(JSON.stringify(sslCertificate.raw)), 'CERTIFICATE').toString();
-						if (serverCertificate !== certificate) {
-							throw new Error('Certificate supplied for wss request dosent match with certificate provided by the server');
-						}
+				if (publicKey) {
+					getCertificateFromUrl(wsEndpoint).then((sslCertificate) => {
+						convertCertificateToPemPublicKey(sslCertificate).then((apiPubKey) => {
+							if (apiPubKey.trim() !== publicKey.trim()) {
+								throw new Error('Public key supplied for https request dosent match with public key provided by the server.');
+							}
 
-						resolve(answer.result.data);
+							resolve(answer.result.data);
+						}).catch((err) => {
+							reject(err);
+						});
 					}).catch((err) => {
 						reject(err);
 					});
@@ -149,5 +169,5 @@ module.exports = {
 	requestInfoFromLiskNode,
 
 	// Testing
-	getCertificate,
+	getCertificateFromUrl,
 };
