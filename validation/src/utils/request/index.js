@@ -16,57 +16,12 @@ const axios = require('axios');
 const https = require('https');
 const io = require('socket.io-client');
 const { apiClient } = require('@liskhq/lisk-client');
-const { exec } = require('child_process');
-const config = require('../../config');
+const config = require('../../../config');
+
+const { getCertificateFromUrl, convertCertificateToPemPublicKey } = require('./crypto');
 
 const agent = new https.Agent({
 	rejectUnauthorized: true,
-});
-
-const getCertificateFromUrl = async (url, timeout = 5000) => {
-	const { hostname } = new URL(url);
-
-	return new Promise((resolve, reject) => {
-		const options = {
-			hostname,
-			port: 443,
-			method: 'GET',
-		};
-
-		const req = https.request(options, (res) => {
-			const certificate = res.socket.getPeerCertificate();
-			if (!certificate) {
-				reject(new Error(`No certificate found for url: ${url}.`));
-			}
-
-			resolve(certificate.raw);
-		});
-
-		req.on('error', (error) => {
-			reject(error);
-		});
-
-		req.setTimeout(timeout, () => {
-			req.destroy();
-			reject(new Error(`Request timed out when fetching certificate from URL ${url}.`));
-		});
-
-		req.end();
-	});
-};
-
-const convertCertificateToPemPublicKey = async (certificate) => new Promise((resolve, reject) => {
-	const command = 'openssl x509 -inform der -pubkey -noout | openssl rsa -pubin -inform pem';
-	const child = exec(command, (error, stdout) => {
-		if (error) {
-			reject(error);
-		}
-
-		resolve(stdout);
-	});
-
-	child.stdin.write(Buffer.from((certificate), 'base64'));
-	child.stdin.end();
 });
 
 const httpRequest = async (url, publicKey) => {
@@ -167,7 +122,4 @@ module.exports = {
 	httpRequest,
 	wsRequest,
 	requestInfoFromLiskNode,
-
-	// Testing
-	getCertificateFromUrl,
 };

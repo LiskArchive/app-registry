@@ -16,36 +16,39 @@ const path = require('path');
 const axios = require('axios');
 const io = require('socket.io-client');
 
-const mockRequestFilePath = path.resolve(`${__dirname}/../../src/utils/request`);
+const mockRequestFilePath = path.resolve(`${__dirname}/../../../src/utils/request`);
 
 jest.mock('axios');
-jest.mock('pemtools');
 jest.mock('socket.io-client');
 
+const mockSSLCertificate = 'mock-certificate';
+const mockPublicKey = 'mock-public-key';
+
+jest.mock('../../../src/utils/request/crypto', () => ({
+	getCertificateFromUrl: jest.fn().mockResolvedValueOnce(mockSSLCertificate),
+	convertCertificateToPemPublicKey: jest.fn().mockResolvedValueOnce(mockPublicKey),
+}));
+
 describe('wsRequest for ws requests', () => {
+	const incorrectWsEndpoint = 'http://example.com';
+	const wsEndpoint = 'ws://example.com';
+	const wsMethod = 'exampleMethod';
+	const wsParams = { exampleParam: 'value' };
+
 	beforeEach(() => {
 		io.mockReset();
 	});
 
 	it('should throw an error for an incorrect websocket URL protocol', async () => {
-		const wsEndpoint = 'http://example.com';
-		const wsMethod = 'exampleMethod';
-		const wsParams = { exampleParam: 'value' };
-
 		const { wsRequest } = require(mockRequestFilePath);
-		await expect(wsRequest(wsEndpoint, wsMethod, wsParams)).rejects.toThrow(
-			`Incorrect websocket URL protocol: ${wsEndpoint}.`,
+		await expect(wsRequest(incorrectWsEndpoint, wsMethod, wsParams)).rejects.toThrow(
+			`Incorrect websocket URL protocol: ${incorrectWsEndpoint}.`,
 		);
 		expect(io).not.toHaveBeenCalled();
 	});
 
 	it('should resolve with the response data when successful', async () => {
-		const wsEndpoint = 'ws://example.com';
-		const wsMethod = 'exampleMethod';
-		const wsParams = { exampleParam: 'value' };
-
 		const mockResponse = { result: { data: 'Mock response data' } };
-
 		const mockSocket = {
 			emit: jest.fn().mockImplementation((eventName, data, callback) => {
 				callback(mockResponse);
@@ -67,12 +70,7 @@ describe('wsRequest for ws requests', () => {
 	});
 
 	it('should reject with an error when an error event is received', async () => {
-		const wsEndpoint = 'ws://example.com';
-		const wsMethod = 'exampleMethod';
-		const wsParams = { exampleParam: 'value' };
-
 		const mockError = new Error('Mock error');
-
 		const mockSocket = {
 			emit: jest.fn(),
 			close: jest.fn(),
@@ -138,8 +136,10 @@ describe('wsRequest for wss requests', () => {
 	const wsMethod = 'exampleMethod';
 	const wsParams = { exampleParam: 'value' };
 	const mockCertificate = 'mock-certificate';
+	const invalidPublicKey = 'invalid-public-key';
 	const timeout = 5000;
-	const mockSSLCertificate = { raw: 'mock-certificate' };
+
+	const mockResponse = { result: { data: 'Mock response data' } };
 
 	beforeEach(() => {
 		io.mockReset();
@@ -155,6 +155,26 @@ describe('wsRequest for wss requests', () => {
 		expect(io).not.toHaveBeenCalled();
 	});
 
+	it('should resolve with the response data when successful and certificate matches', async () => {
+		const mockSocket = {
+			emit: jest.fn().mockImplementation((eventName, data, callback) => {
+				callback(mockResponse);
+			}),
+			close: jest.fn(),
+			on: jest.fn(),
+		};
+
+		const mockIo = require('socket.io-client');
+		jest.mock('pemtools');
+		jest.mock('socket.io-client');
+
+		mockIo.mockReturnValueOnce(mockSocket);
+
+		const { wsRequest } = require(mockRequestFilePath);
+		const responseData = await wsRequest(wsEndpoint, wsMethod, wsParams, mockPublicKey, timeout);
+		expect(responseData).toEqual(mockResponse.result.data);
+	});
+
 	it('should reject with an error when an error event is received', async () => {
 		const mockError = new Error('Mock error');
 
@@ -168,26 +188,35 @@ describe('wsRequest for wss requests', () => {
 			}),
 		};
 
-		jest.mock(mockRequestFilePath, () => {
-			const mockPemtools = require('pemtools');
-			const mockIo = require('socket.io-client');
-			jest.mock('pemtools');
-			jest.mock('socket.io-client');
+		const mockIo = require('socket.io-client');
+		jest.mock('socket.io-client');
 
-			mockPemtools.mockReturnValueOnce('mock-certificate');
-			mockIo.mockReturnValueOnce(mockSocket);
-
-			const actual = jest.requireActual(mockRequestFilePath);
-			return {
-				...actual,
-				getCertificateFromUrl: jest.fn().mockResolvedValueOnce(mockSSLCertificate),
-			};
-		});
+		mockIo.mockReturnValueOnce(mockSocket);
 
 		const { wsRequest } = require(mockRequestFilePath);
 		io.mockReturnValueOnce(mockSocket);
 
 		await expect(wsRequest(wsEndpoint, wsMethod, wsParams, mockCertificate, timeout)).rejects.toThrow(mockError);
+	});
+
+	it('should reject with an error when the certificate does not match', async () => {
+		const mockSocket = {
+			emit: jest.fn().mockImplementation((eventName, data, callback) => {
+				callback(mockResponse);
+			}),
+			close: jest.fn(),
+			on: jest.fn(),
+		};
+
+		const mockIo = require('socket.io-client');
+		jest.mock('socket.io-client');
+
+		mockIo.mockReturnValueOnce(mockSocket);
+
+		const { wsRequest } = require(mockRequestFilePath);
+		await expect(wsRequest(wsEndpoint, wsMethod, wsParams, invalidPublicKey, timeout)).rejects.toThrow(
+			'Public key supplied for https request dosent match with public key provided by the server.',
+		);
 	});
 });
 
@@ -195,14 +224,16 @@ describe('httpRequest for https requests', () => {
 	const url = 'https://example.com';
 	const invalidUrl = 'wss://example.com';
 	const certificate = 'mock-certificate';
+	const invalidPublicKey = 'invalid-public-key';
+
+	const mockResponse = {
+		status: 200,
+		data: 'Mock response data',
+	};
 
 	const mockInvalidResponse = {
 		status: 404,
 		statusText: 'Not Found',
-	};
-
-	const mockSSLCertificate = {
-		raw: 'mock-certificate',
 	};
 
 	beforeEach(() => {
@@ -218,75 +249,39 @@ describe('httpRequest for https requests', () => {
 		expect(axios.get).not.toHaveBeenCalled();
 	});
 
+	it('should return the response and validate the certificate', async () => {
+		const mockAxios = require('axios');
+		jest.mock('axios');
+
+		mockAxios.get.mockResolvedValueOnce(mockResponse);
+
+		const { httpRequest } = require(mockRequestFilePath);
+		const response = await httpRequest(url, mockPublicKey);
+
+		expect(response).toEqual(mockResponse);
+	});
+
 	it('should throw an error when the response status code is not 200', async () => {
-		jest.mock(mockRequestFilePath, () => {
-			const mockAxios = require('axios');
-			const mockPemtools = require('pemtools');
-			jest.mock('axios');
-			jest.mock('pemtools');
+		const mockAxios = require('axios');
+		jest.mock('axios');
 
-			mockAxios.get.mockResolvedValueOnce(mockInvalidResponse);
-			mockPemtools.mockReturnValueOnce('mock-certificate');
-
-			const actual = jest.requireActual(mockRequestFilePath);
-			return {
-				...actual,
-				getCertificateFromUrl: jest.fn().mockResolvedValueOnce(mockSSLCertificate),
-			};
-		});
+		mockAxios.get.mockResolvedValueOnce(mockInvalidResponse);
 
 		const { httpRequest } = require(mockRequestFilePath);
 		await expect(httpRequest(url, certificate)).rejects.toThrow(
 			`Error: URL '${url}' returned response with status code ${mockInvalidResponse.status}.`,
 		);
 	});
-});
 
-describe('getCertificateFromUrl', () => {
-	beforeEach(() => {
-		jest.resetModules();
-		jest.clearAllMocks();
-	});
+	it('should throw an error when the certificate does not match', async () => {
+		const mockAxios = require('axios');
+		jest.mock('axios');
 
-	it('should resolve with the peer certificate', async () => {
-		const mockCertificate = { raw: 'mock-certificate' };
-		const mockUrl = 'https://example.com';
+		mockAxios.get.mockResolvedValueOnce(mockResponse);
 
-		jest.mock(mockRequestFilePath, () => {
-			const https = require('https');
-			jest.mock('https');
-
-			https.request = jest.fn((options, callback) => {
-				const res = {
-					socket: {
-						getPeerCertificate: jest.fn().mockReturnValue(mockCertificate),
-					},
-					on: jest.fn(),
-					setTimeout: jest.fn(),
-					destroy: jest.fn(),
-				};
-				callback(res);
-				return {
-					on: jest.fn(),
-					end: jest.fn(),
-				};
-			});
-
-			const actual = jest.requireActual(mockRequestFilePath);
-			return {
-				...actual,
-			};
-		});
-
-		const { getCertificateFromUrl } = require(mockRequestFilePath);
-		const certificate = await getCertificateFromUrl(mockUrl);
-		expect(certificate).toEqual(mockCertificate.raw);
-	});
-
-	it('should reject with an error if the URL is invalid', async () => {
-		const invalidUrl = 'invalid-url';
-
-		const { getCertificateFromUrl } = require(mockRequestFilePath);
-		await expect(getCertificateFromUrl(invalidUrl)).rejects.toThrowError();
+		const { httpRequest } = require(mockRequestFilePath);
+		await expect(httpRequest(url, invalidPublicKey)).rejects.toThrow(
+			'Public key supplied for https request dosent match with public key provided by the server.',
+		);
 	});
 });
