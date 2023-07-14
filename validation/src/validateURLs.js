@@ -30,13 +30,13 @@ const validateExplorerUrls = async (explorers) => {
 		try {
 			await httpRequest(explorerURL);
 		} catch (error) {
-			validationErrors.push(new Error(`Error: ${error}`));
+			validationErrors.push(new Error(`Error validating explorer URL. Error: ${error.message}.`));
 		}
 
 		try {
 			await httpRequest(explorerTxnPage);
 		} catch (error) {
-			validationErrors.push(new Error(`Error: ${error}`));
+			validationErrors.push(new Error(`Error validating explorer txn page URL. Error: ${error.message}.`));
 		}
 		/* eslint-enable no-await-in-loop */
 	}
@@ -52,7 +52,7 @@ const validateLogoUrls = async (logos) => {
 		try {
 			await httpRequest(pngURL);
 		} catch (error) {
-			validationErrors.push(new Error(`Error: ${error}`));
+			validationErrors.push(new Error(`Error validating logo png URL. Error: ${error.message}.`));
 		}
 	}
 
@@ -60,7 +60,7 @@ const validateLogoUrls = async (logos) => {
 		try {
 			await httpRequest(svgURL);
 		} catch (error) {
-			validationErrors.push(new Error(`Error: ${error}`));
+			validationErrors.push(new Error(`Error validating logo svg URL. Error: ${error.message}.`));
 		}
 	}
 
@@ -97,63 +97,43 @@ const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork) => {
 		const serviceURL = serviceURLs[i];
 
 		/* eslint-disable no-await-in-loop */
-		const { https: httpsServiceURL, wss: wssServiceUrl, http: httpServiceURL, ws: wsServiceUrl, apiPublicKey: publicKey } = serviceURL;
+		const { http: httpServiceURL, ws: wsServiceUrl, apiCertificatePublicKey: publicKey } = serviceURL;
 
-		if (isSecuredNetwork && (!httpsServiceURL || !wssServiceUrl || !publicKey)) {
-			validationErrors.push(new Error(`Require secure URLs and publicKey incase of following networks: ${config.securedNetworks}.`));
-		} else if (!isSecuredNetwork && !((httpsServiceURL && wssServiceUrl && publicKey) || (httpServiceURL && wsServiceUrl))) {
+		const { protocol: httpProtocol } = new URL(httpServiceURL);
+		const { protocol: wsProtocol } = new URL(wsServiceUrl);
+
+		if (isSecuredNetwork && (httpProtocol !== 'https:' || wsProtocol !== 'wss:' || !publicKey)) {
+			validationErrors.push(new Error(`Require secure url's and API certificate public key incase of following networks: ${config.securedNetworks}.`));
+		} else if (!isSecuredNetwork && !((httpProtocol === 'https:' && wsProtocol === 'wss:' && publicKey) || (httpProtocol === 'http:' && wsProtocol === 'ws:'))) {
 			validationErrors.push(new Error('Require at least one combination of (https, wss and publicKey) or (http, ws).'));
-		}
-
-		// Validate HTTP service URLs
-		if (httpServiceURL) {
-			try {
-				const httpRes = await httpRequest(httpServiceURL + config.HTTP_API_NAMESPACE);
-				const chainIDFromServiceURL = httpRes.data.data.chainID;
-				if (chainIDFromServiceURL !== chainID) {
-					validationErrors.push(new Error(`ChainID mismatch in HTTP URL: ${httpServiceURL}.\nService URL chainID: ${chainIDFromServiceURL}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
+		} else {
+			// Validate HTTP service URLs
+			if (httpServiceURL) {
+				try {
+					const httpRes = await httpRequest(httpServiceURL + config.HTTP_API_NAMESPACE);
+					const chainIDFromServiceURL = httpRes.data.data.chainID;
+					if (chainIDFromServiceURL !== chainID) {
+						validationErrors.push(new Error(`ChainID mismatch in HTTP URL: ${httpServiceURL}.\nService URL chainID: ${chainIDFromServiceURL}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
+					}
+				} catch (error) {
+					validationErrors.push(error);
 				}
-			} catch (error) {
-				validationErrors.push(error);
+			}
+
+			// Validate ws service URLs
+			if (wsServiceUrl) {
+				try {
+					const wsRes = await wsRequest(wsServiceUrl + config.WS_API_NAMESPACE, config.WS_NETWORK_STATUS_API, {});
+					if (wsRes.chainID !== chainID) {
+						validationErrors.push(new Error(`ChainID mismatch in WS URL: ${wsServiceUrl}.\nService URL chainID: ${wsRes.chainID}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
+					}
+				} catch (error) {
+					validationErrors.push(error);
+				}
 			}
 		}
 
-		// Validate HTTPS service URLs
-		if (httpsServiceURL) {
-			try {
-				const httpsRes = await httpRequest(httpsServiceURL + config.HTTP_API_NAMESPACE, publicKey);
-				const chainIDFromServiceURL = httpsRes.data.data.chainID;
-				if (chainIDFromServiceURL !== chainID) {
-					validationErrors.push(new Error(`ChainID mismatch in HTTP URL: ${httpsServiceURL}.\nService URL chainID: ${chainIDFromServiceURL}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
-				}
-			} catch (error) {
-				validationErrors.push(error);
-			}
-		}
 
-		// Validate ws service URLs
-		if (wsServiceUrl) {
-			try {
-				const wsRes = await wsRequest(wsServiceUrl + config.WS_API_NAMESPACE, config.WS_NETWORK_STATUS_API, {});
-				if (wsRes.chainID !== chainID) {
-					validationErrors.push(new Error(`ChainID mismatch in WS URL: ${wsServiceUrl}.\nService URL chainID: ${wsRes.chainID}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
-				}
-			} catch (error) {
-				validationErrors.push(error);
-			}
-		}
-
-		// Validate ws service URLs
-		if (wssServiceUrl) {
-			try {
-				const wssRes = await wsRequest(wssServiceUrl + config.WS_API_NAMESPACE, config.WS_NETWORK_STATUS_API, {}, publicKey);
-				if (wssRes.chainID !== chainID) {
-					validationErrors.push(new Error(`ChainID mismatch in WS URL: ${wssServiceUrl}.\nService URL chainID: ${wssRes.chainID}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
-				}
-			} catch (error) {
-				validationErrors.push(error);
-			}
-		}
 		/* eslint-enable no-await-in-loop */
 	}
 
