@@ -23,6 +23,7 @@ const nativeTokenSchema = require(`${config.schemaDir}/${config.filename.NATIVE_
 
 const ajv = new Ajv();
 addFormats(ajv);
+ajv.addKeyword('example');
 
 const validateChainName = async (filePaths) => {
 	const validationErrors = [];

@@ -13,7 +13,7 @@
  */
 const https = require('https');
 
-const { getCertificateFromUrl } = require('../../../src/utils/request/crypto');
+const { getCertificateFromUrl } = require('../../../src/utils/request/certificate');
 
 jest.mock('https');
 

@@ -103,14 +103,14 @@ const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork) => {
 		const { protocol: wsProtocol } = new URL(wsServiceUrl);
 
 		if (isSecuredNetwork && (httpProtocol !== 'https:' || wsProtocol !== 'wss:' || !publicKey)) {
-			validationErrors.push(new Error(`Require secure url's and API certificate public key incase of following networks: ${config.securedNetworks}.`));
+			validationErrors.push(new Error(`Require secure URLs and API certificate public key in case of the following networks: ${config.securedNetworks}.`));
 		} else if (!isSecuredNetwork && !((httpProtocol === 'https:' && wsProtocol === 'wss:' && publicKey) || (httpProtocol === 'http:' && wsProtocol === 'ws:'))) {
-			validationErrors.push(new Error('Require at least one combination of (https, wss and publicKey) or (http, ws).'));
+			validationErrors.push(new Error('Require service HTTP and WS URLs. Incase secure URLs are provided certificate public key needs to be provided as well.'));
 		} else {
 			// Validate HTTP service URLs
 			if (httpServiceURL) {
 				try {
-					const httpRes = await httpRequest(httpServiceURL + config.HTTP_API_NAMESPACE, publicKey);
+					const httpRes = await httpRequest(httpServiceURL + config.LS_HTTP_ENDPOINT_NET_STATUS, publicKey);
 					const chainIDFromServiceURL = httpRes.data.data.chainID;
 					if (chainIDFromServiceURL !== chainID) {
 						validationErrors.push(new Error(`ChainID mismatch in HTTP URL: ${httpServiceURL}.\nService URL chainID: ${chainIDFromServiceURL}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
@@ -123,7 +123,7 @@ const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork) => {
 			// Validate ws service URLs
 			if (wsServiceUrl) {
 				try {
-					const wsRes = await wsRequest(wsServiceUrl + config.WS_API_NAMESPACE, config.WS_NETWORK_STATUS_API, {}, publicKey);
+					const wsRes = await wsRequest(wsServiceUrl + config.LS_WS_API_NAMESPACE, config.LS_WS_ENDPOINT_NET_STATUS, {}, publicKey);
 					if (wsRes.chainID !== chainID) {
 						validationErrors.push(new Error(`ChainID mismatch in WS URL: ${wsServiceUrl}.\nService URL chainID: ${wsRes.chainID}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
 					}
@@ -159,17 +159,17 @@ const validateURLs = async (files) => {
 		const data = await readJsonFile(appFile);
 
 		// Check if app file belongs to a secured network
-		let securedNetwork = false;
+		let isSecuredNetwork = false;
 		// eslint-disable-next-line no-restricted-syntax
 		for (const securedNetworkPath of securedNetworkPaths) {
 			if (appFile.startsWith(securedNetworkPath)) {
-				securedNetwork = true;
+				isSecuredNetwork = true;
 				break;
 			}
 		}
 
 		// Validate service URLs
-		const serviceURLValidationErrors = await validateServiceURLs(data.serviceURLs, data.chainID, securedNetwork);
+		const serviceURLValidationErrors = await validateServiceURLs(data.serviceURLs, data.chainID, isSecuredNetwork);
 
 		// Validate logo URLs
 		const logoValidationErrors = await validateLogoUrls(data.logo);

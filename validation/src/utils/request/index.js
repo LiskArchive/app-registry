@@ -18,7 +18,7 @@ const io = require('socket.io-client');
 const { apiClient } = require('@liskhq/lisk-client');
 const config = require('../../../config');
 
-const { getCertificateFromUrl, convertCertificateToPemPublicKey } = require('./crypto');
+const { getCertificateFromUrl, convertCertificateToPemPublicKey } = require('./certificate');
 
 const agent = new https.Agent({
 	rejectUnauthorized: true,
@@ -43,7 +43,7 @@ const httpRequest = async (url, publicKey) => {
 			const apiPubKey = await convertCertificateToPemPublicKey(sslCertificate);
 
 			if (apiPubKey.trim() !== publicKey.trim()) {
-				throw new Error('Public key supplied for https request dosent match with public key provided by the server.');
+				throw new Error("Supplied apiCertificatePublickey doesn't match with public key extracted from the SSL/TLS security certificate.");
 			}
 		}
 
@@ -81,7 +81,7 @@ const wsRequest = (wsEndpoint, wsMethod, wsParams, publicKey, timeout = 5000) =>
 					getCertificateFromUrl(wsEndpoint).then((sslCertificate) => {
 						convertCertificateToPemPublicKey(sslCertificate).then((apiPubKey) => {
 							if (apiPubKey.trim() !== publicKey.trim()) {
-								throw new Error('Public key supplied for https request dosent match with public key provided by the server.');
+								throw new Error("Supplied apiCertificatePublickey doesn't match with public key extracted from the SSL/TLS security certificate.");
 							}
 
 							resolve(answer.result.data);
@@ -110,10 +110,10 @@ const wsRequest = (wsEndpoint, wsMethod, wsParams, publicKey, timeout = 5000) =>
 const requestInfoFromLiskNode = async (wsEndpoint) => {
 	const urlParts = wsEndpoint.split('://');
 	if (urlParts[0] !== 'ws' && urlParts[0] !== 'wss') {
-		return Promise.reject(new Error('Invalid websocket URL'));
+		return Promise.reject(new Error('Invalid WebSocket URL.'));
 	}
 
-	const client = await apiClient.createWSClient(wsEndpoint + config.NODE_REQUEST_SUFFIX);
+	const client = await apiClient.createWSClient(wsEndpoint + config.NODE_HTTP_API_RPC_NAMESPACE);
 	const res = await client._channel.invoke('system_getNodeInfo', {});
 	return res;
 };

@@ -24,7 +24,7 @@ jest.mock('socket.io-client');
 const mockSSLCertificate = 'mock-certificate';
 const mockPublicKey = 'mock-public-key';
 
-jest.mock('../../../src/utils/request/crypto', () => ({
+jest.mock('../../../src/utils/request/certificate', () => ({
 	getCertificateFromUrl: jest.fn().mockResolvedValueOnce(mockSSLCertificate),
 	convertCertificateToPemPublicKey: jest.fn().mockResolvedValueOnce(mockPublicKey),
 }));
@@ -215,7 +215,7 @@ describe('wsRequest for wss requests', () => {
 
 		const { wsRequest } = require(mockRequestFilePath);
 		await expect(wsRequest(wsEndpoint, wsMethod, wsParams, invalidPublicKey, timeout)).rejects.toThrow(
-			'Public key supplied for https request dosent match with public key provided by the server.',
+			"Supplied apiCertificatePublickey doesn't match with public key extracted from the SSL/TLS security certificate.",
 		);
 	});
 });
@@ -281,7 +281,7 @@ describe('httpRequest for https requests', () => {
 
 		const { httpRequest } = require(mockRequestFilePath);
 		await expect(httpRequest(url, invalidPublicKey)).rejects.toThrow(
-			'Public key supplied for https request dosent match with public key provided by the server.',
+			"Supplied apiCertificatePublickey doesn't match with public key extracted from the SSL/TLS security certificate.",
 		);
 	});
 });

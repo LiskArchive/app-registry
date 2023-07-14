@@ -1,21 +1,17 @@
 ## Creating a pull request from a fork
 
-1. Navigate to the repository where you created your fork.
+1. Navigate to the forked repository.
 
-2. Above the list of files, in the yellow banner, click **Compare & pull request** to create a pull request for the associated branch.
-
+2. Above the list of files, in the yellow banner, click the **Compare & pull request** button to create a pull request for the associated branch.
    ![Compare pull request](./assets/contributing/pull-request-compare-pull-request.png)
 
-3. On the page to create a new pull request, click **compare across forks**.
-
+3. On the next page, click on the **compare across forks** link.
    ![Compare across forks](./assets/contributing/compare-across-forks-link.webp)
 
-4. In the "base branch" dropdown menu, select the main branch of the app-registry.
-
+4. Next, set "base repository" to `LiskHQ/app-registry` and `base` to `main`.
    ![Choose base fork and branch](./assets/contributing/choose-base-fork-and-branch.png)
 
-5. In the "head fork" dropdown menu, select your fork, then use the "compare branch" drop-down menu to select the branch you made your changes in.
-
+5. Next, select your own repository as the `head repository` from the drop-down and set `compare` to the branch containing your changes.
    ![Choose head fork compare branch](./assets/contributing/choose-head-fork-compare-branch.png)
 
 6. Type a title and description for your pull request.

@@ -18,41 +18,49 @@
     "properties": {
         "displayName": {
             "type": "string",
-            "description": "Human readable name for this network."
+            "description": "Application display name for the wallets.",
+            "example": "Lisk"
         },
         "chainName": {
             "type": "string",
-            "description": "Chain name as registered on the network."
+            "description": "Chain name as registered on the network.",
+            "example": "Lisk - Mainnet"
         },
         "chainID": {
             "type": "string",
-            "description": "Chain ID as registered on the network."
+            "description": "Chain ID as registered on the network.",
+            "example": "00000000"
         },
         "genesisURL": {
             "type": "string",
             "format": "uri-reference",
-            "description": "URI to the network genesis block."
+            "description": "URI to the network genesis block.",
+            "example": "https://downloads.lisk.com/lisk/mainnet/genesis_block.json.tar.gz"
         },
         "networkType": {
             "type": "string",
-            "description": "Network for which this configuration is specified. Must be one of 'mainnet', 'testnet' or 'betanet'."
+            "description": "Network for which this configuration is specified. Must be one of 'mainnet', 'testnet' or 'betanet'.",
+            "example": "mainnet"
         },
         "projectPage": {
             "type": "string",
             "format": "uri-reference",
-            "description": "URL to the project's homepage."
+            "description": "URL to the project's homepage.",
+            "example": "https://lisk.com"
         },
         "appPage": {
             "type": "string",
             "format": "uri-reference",
-            "description": "URL to the blockchain application's frontend, if exists."
+            "description": "URL to the blockchain application's frontend, if exists.",
+            "example": "https://lisk.com"
         },
         "logo": {
             "$ref": "#/$defs/logoURI"
         },
         "backgroundColor": {
             "type": "string",
-            "description": "Default background color to be used in the application management and exploration screens of the Lisk wallets. Must be of the format '#rrggbb' (hex values)."
+            "description": "Default background color to be used in the application management and exploration screens of the Lisk wallets. Must be of the format '#rrggbb' (hex values).",
+            "example": "#f7f9fb"
         },
         "serviceURLs": {
             "type": "array",
@@ -140,16 +148,16 @@
                 "ws": {
                     "type": "string",
                     "format": "uri-reference",
-                    "description": "WS(S) endpoint to access Lisk Service API against the blockchain application. In case of mainnet and testnet deployments WSS url is required."
+                    "description": "WS(S) endpoint to access Lisk Service API against the blockchain application. In case of mainnet and testnet deployments, a WSS URL is required."
                 },
                 "http": {
                     "type": "string",
                     "format": "uri-reference",
-                    "description": "HTTP(S) endpoint to access Lisk Service API against the blockchain application. In case of mainnet and testnet deployments HTTPS url is required."
+                    "description": "HTTP(S) endpoint to access Lisk Service API against the blockchain application. In case of mainnet and testnet deployments, a HTTPS URL is required."
                 },
                 "apiCertificatePublicKey": {
                     "type": "string",
-                    "description": "Public key corresponding to the certificate for the HTTPS and WSS APIs."
+                    "description": "Public key corresponding to the SSL/TLS certificate for the API endpoints"
                 }
             }
         }

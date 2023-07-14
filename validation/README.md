@@ -6,7 +6,7 @@ Clone the app-registry repository:
 
 ```bash
 git clone https://github.com/LiskHQ/app-registry.git
-cd ./app-registry/validationScripts
+cd ./app-registry/validation
 npm ci
 ```
 
