@@ -133,7 +133,6 @@ const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork) => {
 			}
 		}
 
-
 		/* eslint-enable no-await-in-loop */
 	}
 
