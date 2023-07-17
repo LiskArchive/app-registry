@@ -4,7 +4,7 @@ const mockServiceURLSuccessRes = {
 		data: {
 			version: '0.1.0',
 			networkVersion: '1.0',
-			chainID: '03000000',
+			chainID: '00000000',
 			lastBlockID: 'aa71164271f84ca47c632c5b8e311ce3c97b627d79449488589aa79417175030',
 			height: 43817,
 			finalizedHeight: 43816,
@@ -17,7 +17,7 @@ const mockServiceURLSuccessRes = {
 				blockTime: 10,
 				bftBatchSize: 103,
 				maxTransactionsSize: 15360,
-				chainID: '03000000',
+				chainID: '00000000',
 			},
 			registeredModules: [
 				'auth',
@@ -74,7 +74,7 @@ const mockServiceURLIncorrectRes = {
 		data: {
 			version: '0.1.0',
 			networkVersion: '1.0',
-			chainID: '03000001',
+			chainID: '00000001',
 			lastBlockID: 'aa71164271f84ca47c632c5b8e311ce3c97b627d79449488589aa79417175030',
 			height: 43817,
 			finalizedHeight: 43816,
@@ -87,7 +87,7 @@ const mockServiceURLIncorrectRes = {
 				blockTime: 10,
 				bftBatchSize: 103,
 				maxTransactionsSize: 15360,
-				chainID: '03000001',
+				chainID: '00000001',
 			},
 			registeredModules: [
 				'auth',
@@ -135,7 +135,7 @@ const mockServiceURLSuccessResWs = {
 		data: {
 			version: '0.1.0',
 			networkVersion: '1.0',
-			chainID: '03000000',
+			chainID: '00000000',
 			lastBlockID: 'aa71164271f84ca47c632c5b8e311ce3c97b627d79449488589aa79417175030',
 			height: 43817,
 			finalizedHeight: 43816,
@@ -148,7 +148,7 @@ const mockServiceURLSuccessResWs = {
 				blockTime: 10,
 				bftBatchSize: 103,
 				maxTransactionsSize: 15360,
-				chainID: '03000000',
+				chainID: '00000000',
 			},
 			registeredModules: [
 				'auth',
@@ -196,7 +196,7 @@ const mockServiceURLIncorrectResWs = {
 		data: {
 			version: '0.1.0',
 			networkVersion: '1.0',
-			chainID: '03000001',
+			chainID: '00000001',
 			lastBlockID: 'aa71164271f84ca47c632c5b8e311ce3c97b627d79449488589aa79417175030',
 			height: 43817,
 			finalizedHeight: 43816,
@@ -209,7 +209,7 @@ const mockServiceURLIncorrectResWs = {
 				blockTime: 10,
 				bftBatchSize: 103,
 				maxTransactionsSize: 15360,
-				chainID: '03000001',
+				chainID: '00000001',
 			},
 			registeredModules: [
 				'auth',
@@ -252,7 +252,7 @@ const mockServiceURLIncorrectResWs = {
 };
 
 const mockNodeURLSuccessResWs = {
-	chainID: '03000000',
+	chainID: '00000000',
 };
 
 const mockNodeURLIncorrectResWs = {

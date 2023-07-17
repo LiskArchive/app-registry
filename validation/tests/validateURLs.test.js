@@ -43,7 +43,7 @@ describe('URL Validation tests', () => {
 
 	afterAll(async () => {
 		// Remove the temporary directory and files created during testing
-		await setup.cleanTestEnviroment();
+		await setup.cleanTestEnvironment();
 	});
 
 	it('should have validation errors when HTTP service URL API returns an error', async () => {
@@ -128,7 +128,7 @@ describe('URL Validation tests', () => {
 		jest.resetAllMocks();
 	});
 
-	it('should not have validation errors when service URL API returns correct chain ID', async () => {
+	it('should not have validation errors when service URL API returns correct chainID', async () => {
 		// Mock requests
 		jest.mock('../src/utils/request/index', () => ({
 			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessRes),

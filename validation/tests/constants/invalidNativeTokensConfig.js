@@ -3,15 +3,16 @@ const tokensNotPresent = {
 };
 
 const tokensIncorrect = {
-	title: 'Lisk - Betanet - Native tokens',
+	title: 'Lisk - Mainnet - Native tokens',
 	tokens: 'Tokens',
 };
 
 const tokenIDNotPresent = {
 	title: 'Lisk - Mainnet',
 	description: 'Metadata configuration for the Lisk blockchain (mainchain) in mainnet',
-	chainName: 'Lisk',
-	chainID: '03000000',
+	chainName: 'lisk_mainchain',
+	displayName: 'Lisk',
+	chainID: '00000000',
 	networkType: 'mainnet',
 	genesisURL: 'https://downloads.lisk.com/lisk/mainnet/genesis_block.json.tar.gz',
 	projectPage: 'https://lisk.com',
@@ -22,14 +23,14 @@ const tokenIDNotPresent = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			http: 'https://mainnet-service.liskdev.net',
-			ws: 'wss://mainnet-service.liskdev.net',
+			http: 'https://mainnet-service.lisk.com',
+			ws: 'wss://mainnet-service.lisk.com',
 		},
 	],
 	explorers: [],
 	appNodes: [
 		{
-			url: 'ws://mainnet.liskdev.net:4002',
+			url: 'wss://mainnet.lisk.com',
 			maintainer: 'Lightcurve GmbH',
 		},
 	],
@@ -39,7 +40,7 @@ const tokenNameNotPresent = {
 	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
 				{
@@ -72,7 +73,7 @@ const denomUnitsNotPresent = {
 	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			baseDenom: 'beddows',
@@ -90,7 +91,7 @@ const denomUnitsDecimalsIncorrect = {
 	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: '<INCORRECT>',
@@ -109,7 +110,7 @@ const denomUnitsDecimalsNotPresent = {
 	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -142,7 +143,7 @@ const denomUnitsDenomNotPresent = {
 	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -175,7 +176,7 @@ const baseDenomNotPresent = {
 	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -208,7 +209,7 @@ const displayDenomNotPresent = {
 	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -241,7 +242,7 @@ const symbolNotPresent = {
 	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -274,7 +275,7 @@ const logoNotPresent = {
 	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -308,7 +309,7 @@ const logoPngNotPresent = {
 	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -341,7 +342,7 @@ const logoSvgNotPresent = {
 	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -374,7 +375,7 @@ const logoPNGIncorrect = {
 	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -408,7 +409,7 @@ const logoSVGIncorrect = {
 	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
