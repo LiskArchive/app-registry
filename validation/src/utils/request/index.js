@@ -24,6 +24,15 @@ const agent = new https.Agent({
 	rejectUnauthorized: true,
 });
 
+const validatePublicKeyFromURL = async (url, publicKey) => {
+	const sslCertificate = await getCertificateFromUrl(url);
+	const apiPubKey = await convertCertificateToPemPublicKey(sslCertificate);
+
+	if (apiPubKey.trim() !== publicKey.trim()) {
+		throw new Error("Supplied apiCertificatePublickey doesn't match with public key extracted from the SSL/TLS security certificate.");
+	}
+};
+
 const httpRequest = async (url, publicKey) => {
 	const { protocol } = new URL(url);
 	if (protocol !== 'https:' && protocol !== 'http:') {
@@ -39,12 +48,7 @@ const httpRequest = async (url, publicKey) => {
 
 	if (response.status === 200) {
 		if (protocol === 'https:' && publicKey) {
-			const sslCertificate = await getCertificateFromUrl(url);
-			const apiPubKey = await convertCertificateToPemPublicKey(sslCertificate);
-
-			if (apiPubKey.trim() !== publicKey.trim()) {
-				throw new Error("Supplied apiCertificatePublickey doesn't match with public key extracted from the SSL/TLS security certificate.");
-			}
+			await validatePublicKeyFromURL(url, publicKey);
 		}
 
 		return response;
@@ -90,12 +94,7 @@ const wsRequest = async (wsEndpoint, wsMethod, wsParams, publicKey, timeout = 50
 	});
 
 	if (publicKey) {
-		const sslCertificate = await getCertificateFromUrl(wsEndpoint);
-		const apiPubKey = await convertCertificateToPemPublicKey(sslCertificate);
-
-		if (apiPubKey.trim() !== publicKey.trim()) {
-			throw new Error("Supplied apiCertificatePublickey doesn't match with public key extracted from the SSL/TLS security certificate.");
-		}
+		await validatePublicKeyFromURL(wsEndpoint, publicKey);
 	}
 
 	return res;
@@ -111,12 +110,7 @@ const requestInfoFromLiskNodeWSEndpoint = async (wsEndpoint, publicKey) => {
 	const res = await client._channel.invoke('system_getNodeInfo', {});
 
 	if (publicKey) {
-		const sslCertificate = await getCertificateFromUrl(wsEndpoint);
-		const apiPubKey = await convertCertificateToPemPublicKey(sslCertificate);
-
-		if (apiPubKey.trim() !== publicKey.trim()) {
-			throw new Error("Supplied apiCertificatePublickey doesn't match with public key extracted from the SSL/TLS security certificate.");
-		}
+		await validatePublicKeyFromURL(wsEndpoint, publicKey);
 	}
 
 	return res;
@@ -146,12 +140,7 @@ const requestInfoFromLiskNodeHTTPEndpoint = async (url, publicKey) => {
 	}, options);
 
 	if (publicKey) {
-		const sslCertificate = await getCertificateFromUrl(url);
-		const apiPubKey = await convertCertificateToPemPublicKey(sslCertificate);
-
-		if (apiPubKey.trim() !== publicKey.trim()) {
-			throw new Error("Supplied apiCertificatePublickey doesn't match with public key extracted from the SSL/TLS security certificate.");
-		}
+		await validatePublicKeyFromURL(url, publicKey);
 	}
 
 	return response.data.result;
