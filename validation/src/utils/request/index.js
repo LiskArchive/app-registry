@@ -107,7 +107,7 @@ const requestInfoFromLiskNodeWSEndpoint = async (wsEndpoint, publicKey) => {
 		return Promise.reject(new Error('Invalid WebSocket URL.'));
 	}
 
-	const client = await apiClient.createWSClient(wsEndpoint + config.NODE_WS_API_NAMESPACE);
+	const client = await apiClient.createWSClient(wsEndpoint + config.NODE_WS_API_RPC_NAMESPACE);
 	const res = await client._channel.invoke('system_getNodeInfo', {});
 
 	if (publicKey) {

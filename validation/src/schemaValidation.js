@@ -37,7 +37,7 @@ const validateChainName = async (filePaths) => {
 		const chainNameFromFile = data && data.chainName ? data.chainName.toLowerCase() : undefined;
 		const displayNameFromFile = data && data.displayName ? data.displayName.toLowerCase() : undefined;
 		if (chainNameFromFile !== parentDirName.toLowerCase() && displayNameFromFile !== parentDirName.toLowerCase()) {
-			validationErrors.push(new Error(`Parent directory name neither matches chainName nor displayName in ${filePaths[i]}.`));
+			validationErrors.push(new Error(`Parent directory name neither matches the chainName nor the displayName in ${filePaths[i]}.`));
 		}
 		/* eslint-enable no-await-in-loop */
 	}

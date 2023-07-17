@@ -33,7 +33,7 @@ config.LS_WS_ENDPOINT_NET_STATUS = 'get.network.status';
 
 // API suffix to get chain ID for node endpoints
 config.NODE_HTTP_API_RPC_NAMESPACE = '/rpc';
-config.NODE_WS_API_NAMESPACE = '/rpc-ws';
+config.NODE_WS_API_RPC_NAMESPACE = '/rpc-ws';
 
 // Filenames
 config.filename = {
