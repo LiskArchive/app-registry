@@ -77,7 +77,7 @@
             "properties": {
                 "tokenID": {
                     "type": "string",
-                    "description": "The universal identifier for the token within the Lisk ecosystem. It is defined as the concatenated value of the chainID and localID. Example: tokenID for LSK would be '0000000100000000' (chainID: '00000001', localID: '00000000').",
+                    "description": "The universal identifier for the token within the Lisk ecosystem.",
                     "example": "0000000000000000"
                 },
                 "tokenName": {

@@ -24,7 +24,7 @@
         "chainName": {
             "type": "string",
             "description": "Chain name as registered on the network.",
-            "example": "Lisk - Mainnet"
+            "example": "lisk_mainchain"
         },
         "chainID": {
             "type": "string",
@@ -145,7 +145,7 @@
         },
         "serviceURL": {
             "type": "object",
-            "description": "For mainnet and testnet, the deployments need to be secured with the requirement of https, wss and publicKey. Other networks can have insecure deployments but in that case http and websocket endpoints are mandatory.",
+            "description": "Specifies the HTTP(S) and WSS(S) endpoints to connect to the corresponding Lisk Service deployments. Please note, for the mainnet and testnet, the deployments need to be secured with TLS/SSL (i.e. https/wss) and the publicKey also needs to be specified. For the remaining networks, the deployments may or may not be secured.",
             "required": [
                 "ws",
                 "http"

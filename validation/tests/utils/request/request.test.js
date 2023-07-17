@@ -62,7 +62,7 @@ describe('wsRequest for ws requests', () => {
 		const { wsRequest } = require(mockRequestFilePath);
 		const responseData = await wsRequest(wsEndpoint, wsMethod, wsParams);
 
-		expect(responseData).toEqual(mockResponse.result.data);
+		expect(responseData).toEqual(mockResponse);
 		expect(io).toHaveBeenCalledWith(wsEndpoint, { forceNew: true, transports: ['websocket'] });
 		expect(mockSocket.emit).toHaveBeenCalledWith('request', { method: wsMethod, params: wsParams }, expect.any(Function));
 		expect(mockSocket.close).toHaveBeenCalled();
@@ -172,7 +172,7 @@ describe('wsRequest for wss requests', () => {
 
 		const { wsRequest } = require(mockRequestFilePath);
 		const responseData = await wsRequest(wsEndpoint, wsMethod, wsParams, mockPublicKey, timeout);
-		expect(responseData).toEqual(mockResponse.result.data);
+		expect(responseData).toEqual(mockResponse);
 	});
 
 	it('should reject with an error when an error event is received', async () => {
@@ -244,7 +244,7 @@ describe('httpRequest for https requests', () => {
 	it('should throw an error for an unsecured service URL', async () => {
 		const { httpRequest } = require(mockRequestFilePath);
 		await expect(httpRequest(invalidUrl, certificate)).rejects.toThrow(
-			`Incorrect service URL provided ${invalidUrl}.`,
+			`Incorrect service URL provided: ${invalidUrl}.`,
 		);
 		expect(axios.get).not.toHaveBeenCalled();
 	});

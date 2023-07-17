@@ -27,7 +27,7 @@ const agent = new https.Agent({
 const httpRequest = async (url, publicKey) => {
 	const { protocol } = new URL(url);
 	if (protocol !== 'https:' && protocol !== 'http:') {
-		throw new Error(`Incorrect service URL provided ${url}.`);
+		throw new Error(`Incorrect service URL provided: ${url}.`);
 	}
 
 	const httpOptions = {};
@@ -53,7 +53,7 @@ const httpRequest = async (url, publicKey) => {
 	throw new Error(`Error: URL '${url}' returned response with status code ${response.status}.`);
 };
 
-const wsRequest = (wsEndpoint, wsMethod, wsParams, publicKey, timeout = 5000) => {
+const wsRequest = async (wsEndpoint, wsMethod, wsParams, publicKey, timeout = 5000) => {
 	const { protocol } = new URL(wsEndpoint);
 	if (protocol !== 'ws:' && protocol !== 'wss:') {
 		return Promise.reject(new Error(`Incorrect websocket URL protocol: ${wsEndpoint}.`));
@@ -64,7 +64,7 @@ const wsRequest = (wsEndpoint, wsMethod, wsParams, publicKey, timeout = 5000) =>
 		websocketOptions.agent = agent;
 	}
 
-	return new Promise((resolve, reject) => {
+	const res = await new Promise((resolve, reject) => {
 		const socket = io(wsEndpoint, websocketOptions);
 
 		try {
@@ -76,24 +76,7 @@ const wsRequest = (wsEndpoint, wsMethod, wsParams, publicKey, timeout = 5000) =>
 			socket.emit('request', { method: wsMethod, params: wsParams }, answer => {
 				clearTimeout(timer);
 				socket.close();
-
-				if (publicKey) {
-					getCertificateFromUrl(wsEndpoint).then((sslCertificate) => {
-						convertCertificateToPemPublicKey(sslCertificate).then((apiPubKey) => {
-							if (apiPubKey.trim() !== publicKey.trim()) {
-								throw new Error("Supplied apiCertificatePublickey doesn't match with public key extracted from the SSL/TLS security certificate.");
-							}
-
-							resolve(answer.result.data);
-						}).catch((err) => {
-							reject(err);
-						});
-					}).catch((err) => {
-						reject(err);
-					});
-				} else {
-					resolve(answer.result.data);
-				}
+				resolve(answer);
 			});
 
 			socket.on('error', (err) => {
@@ -105,6 +88,17 @@ const wsRequest = (wsEndpoint, wsMethod, wsParams, publicKey, timeout = 5000) =>
 			reject(err);
 		}
 	});
+
+	if (publicKey) {
+		const sslCertificate = await getCertificateFromUrl(wsEndpoint);
+		const apiPubKey = await convertCertificateToPemPublicKey(sslCertificate);
+
+		if (apiPubKey.trim() !== publicKey.trim()) {
+			throw new Error("Supplied apiCertificatePublickey doesn't match with public key extracted from the SSL/TLS security certificate.");
+		}
+	}
+
+	return res;
 };
 
 const requestInfoFromLiskNode = async (wsEndpoint) => {

@@ -41,7 +41,7 @@ We also recommend that all the images are stored directly under the application'
 Example: *mainnet/Lisk/images/application/lisk.svg*
 
 ## Contributing
-To contribute to the application registry with the metadata for your blockchain application, please [fork this repository and submit a *Pull Request*](./docs/creating-pull-request-from-a-fork.md) with the necessary changes. Before submitting a PR, please read the [Repository Structure](#repository-structure) section.
+To contribute to the application registry with the metadata for your blockchain application, please [fork this repository and submit a *Pull Request*](./docs/creating-pull-request-from-a-fork.md) with the necessary changes. Before submitting a PR, please read through the [Repository Structure](#repository-structure) section.
 
 This app registry was inspired by [Cosmos Chain Registry](https://github.com/cosmos/chain-registry).
 

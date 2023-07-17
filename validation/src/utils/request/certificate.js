@@ -33,7 +33,7 @@ const getCertificateFromUrl = async (url, timeout = 5000) => {
 
 		req.setTimeout(timeout, () => {
 			req.destroy();
-			reject(new Error(`Request timed out when fetching certificate from URL ${url}.`));
+			reject(new Error(`Request timed out when fetching certificate from URL: ${url}.`));
 		});
 
 		req.end();

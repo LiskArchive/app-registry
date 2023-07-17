@@ -1,4 +1,4 @@
-const serviceURLSuccessRes = {
+const mockServiceURLSuccessRes = {
 	status: 200,
 	data: {
 		data: {
@@ -59,7 +59,7 @@ const serviceURLSuccessRes = {
 	},
 };
 
-const serviceURL500Res = {
+const mockServiceURL500Res = {
 	status: 500,
 	data: {
 		data: {
@@ -68,7 +68,7 @@ const serviceURL500Res = {
 	},
 };
 
-const serviceURLIncorrectRes = {
+const mockServiceURLIncorrectRes = {
 	status: 200,
 	data: {
 		data: {
@@ -129,7 +129,7 @@ const serviceURLIncorrectRes = {
 	},
 };
 
-const serviceURLSuccessResWs = {
+const mockServiceURLSuccessResWs = {
 	jsonrpc: '2.0',
 	result: {
 		data: {
@@ -190,7 +190,7 @@ const serviceURLSuccessResWs = {
 	},
 };
 
-const serviceURLIncorrectResWs = {
+const mockServiceURLIncorrectResWs = {
 	jsonrpc: '2.0',
 	result: {
 		data: {
@@ -251,28 +251,20 @@ const serviceURLIncorrectResWs = {
 	},
 };
 
-const nodeURLSuccessResWs = {
-	_channel: {
-		invoke() {
-			return { chainID: '03000000' };
-		},
-	},
+const mockNodeURLSuccessResWs = {
+	chainID: '03000000',
 };
 
-const nodeURLIncorrectResWs = {
-	_channel: {
-		invoke() {
-			return { chainID: '04000000' };
-		},
-	},
+const mockNodeURLIncorrectResWs = {
+	chainID: '04000000',
 };
 
 module.exports = {
-	serviceURLSuccessRes,
-	serviceURL500Res,
-	serviceURLIncorrectRes,
-	serviceURLSuccessResWs,
-	serviceURLIncorrectResWs,
-	nodeURLSuccessResWs,
-	nodeURLIncorrectResWs,
+	mockServiceURLSuccessRes,
+	mockServiceURL500Res,
+	mockServiceURLIncorrectRes,
+	mockServiceURLSuccessResWs,
+	mockServiceURLIncorrectResWs,
+	mockNodeURLSuccessResWs,
+	mockNodeURLIncorrectResWs,
 };
