@@ -1,5 +1,5 @@
 const tokensNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Testnet - Native tokens',
 };
 
 const tokensIncorrect = {
@@ -8,12 +8,12 @@ const tokensIncorrect = {
 };
 
 const tokenIDNotPresent = {
-	title: 'Lisk - Alphanet',
-	description: 'Metadata configuration for the Lisk blockchain (mainchain) in alphanet',
+	title: 'Lisk - Testnet',
+	description: 'Metadata configuration for the Lisk blockchain (mainchain) in testnet',
 	chainName: 'Lisk',
 	chainID: '03000000',
-	networkType: 'alphanet',
-	genesisURL: 'https://downloads.lisk.com/lisk/alphanet/genesis_block.json.tar.gz',
+	networkType: 'testnet',
+	genesisURL: 'https://downloads.lisk.com/lisk/testnet/genesis_block.json.tar.gz',
 	projectPage: 'https://lisk.com',
 	logo: {
 		png: 'https://lisk-qa.ams3.digitaloceanspaces.com/lisk.png',
@@ -22,21 +22,21 @@ const tokenIDNotPresent = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			http: 'https://alphanet-service.liskdev.net',
-			ws: 'wss://alphanet-service.liskdev.net',
+			http: 'https://testnet-service.liskdev.net',
+			ws: 'wss://testnet-service.liskdev.net',
 		},
 	],
 	explorers: [],
 	appNodes: [
 		{
-			url: 'ws://alphanet.liskdev.net:4002',
+			url: 'ws://testnet.liskdev.net:4002',
 			maintainer: 'Lightcurve GmbH',
 		},
 	],
 };
 
 const tokenNameNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Testnet - Native tokens',
 	tokens: [
 		{
 			tokenID: '0300000000000000',
@@ -69,7 +69,7 @@ const tokenNameNotPresent = {
 };
 
 const denomUnitsNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Testnet - Native tokens',
 	tokens: [
 		{
 			tokenID: '0300000000000000',
@@ -87,7 +87,7 @@ const denomUnitsNotPresent = {
 };
 
 const denomUnitsDecimalsIncorrect = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Testnet - Native tokens',
 	tokens: [
 		{
 			tokenID: '0300000000000000',
@@ -106,7 +106,7 @@ const denomUnitsDecimalsIncorrect = {
 };
 
 const denomUnitsDecimalsNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Testnet - Native tokens',
 	tokens: [
 		{
 			tokenID: '0300000000000000',
@@ -139,7 +139,7 @@ const denomUnitsDecimalsNotPresent = {
 };
 
 const denomUnitsDenomNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Testnet - Native tokens',
 	tokens: [
 		{
 			tokenID: '0300000000000000',
@@ -172,7 +172,7 @@ const denomUnitsDenomNotPresent = {
 };
 
 const baseDenomNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Testnet - Native tokens',
 	tokens: [
 		{
 			tokenID: '0300000000000000',
@@ -205,7 +205,7 @@ const baseDenomNotPresent = {
 };
 
 const displayDenomNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Testnet - Native tokens',
 	tokens: [
 		{
 			tokenID: '0300000000000000',
@@ -238,7 +238,7 @@ const displayDenomNotPresent = {
 };
 
 const symbolNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Testnet - Native tokens',
 	tokens: [
 		{
 			tokenID: '0300000000000000',
@@ -271,7 +271,7 @@ const symbolNotPresent = {
 };
 
 const logoNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Testnet - Native tokens',
 	tokens: [
 		{
 			tokenID: '0300000000000000',
@@ -305,7 +305,7 @@ const logoNotPresent = {
 };
 
 const logoPngNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Testnet - Native tokens',
 	tokens: [
 		{
 			tokenID: '0300000000000000',
@@ -338,7 +338,7 @@ const logoPngNotPresent = {
 };
 
 const logoSvgNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Testnet - Native tokens',
 	tokens: [
 		{
 			tokenID: '0300000000000000',
@@ -371,7 +371,7 @@ const logoSvgNotPresent = {
 };
 
 const logoPNGIncorrect = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Testnet - Native tokens',
 	tokens: [
 		{
 			tokenID: '0300000000000000',
@@ -405,7 +405,7 @@ const logoPNGIncorrect = {
 };
 
 const logoSVGIncorrect = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Testnet - Native tokens',
 	tokens: [
 		{
 			tokenID: '0300000000000000',

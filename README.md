@@ -13,7 +13,6 @@ The repository currently supports adding off-chain application metadata for the 
 - mainnet
 - testnet
 - betanet &nbsp; (temporary)
-- alphanet (temporary)
 - devnet &nbsp;&nbsp; (temporary)
 
 ### App JSON

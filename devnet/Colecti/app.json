@@ -21,7 +21,7 @@
     "explorers": [],
     "appNodes": [
         {
-            "url": "ws://devnet-colecti-service.liskdev.net:7887",
+            "url": "ws://devnet-colecti-service.liskdev.net:7889",
             "maintainer": "Lightcurve GmbH"
         }
     ]

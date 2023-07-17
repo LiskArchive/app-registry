@@ -21,7 +21,7 @@
     "explorers": [],
     "appNodes": [
         {
-            "url": "ws://devnet-enevti-service.liskdev.net:7887",
+            "url": "ws://devnet-enevti-service.liskdev.net:7888",
             "maintainer": "Lightcurve GmbH"
         }
     ]
