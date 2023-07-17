@@ -1,7 +1,8 @@
 {
     "title": "Enevti - Alphanet",
     "description": "Metadata configuration for the Enevti blockchain (sidechain) in alphanet",
-    "chainName": "Enevti",
+    "chainName": "enevti",
+    "displayName": "Enevti",
     "chainID": "03000001",
     "networkType": "alphanet",
     "genesisURL": "",

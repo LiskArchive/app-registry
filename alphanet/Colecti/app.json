@@ -1,7 +1,8 @@
 {
     "title": "Colecti - Alphanet",
     "description": "Metadata configuration for the Colecti blockchain (sidechain) in alphanet.",
-    "chainName": "Colecti",
+    "chainName": "colecti",
+    "displayName": "Colecti",
     "chainID": "03000002",
     "networkType": "alphanet",
     "genesisURL": "",

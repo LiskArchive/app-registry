@@ -1,7 +1,8 @@
 {
     "title": "Enevti - Devnet",
     "description": "Metadata configuration for the Enevti blockchain (sidechain) in devnet",
-    "chainName": "Enevti",
+    "chainName": "enevti",
+    "displayName": "Enevti",
     "chainID": "04000001",
     "networkType": "devnet",
     "genesisURL": "",

@@ -1,7 +1,8 @@
 {
     "title": "Lisk - Devnet",
     "description": "Metadata configuration for the Lisk blockchain (mainchain) in devnet",
-    "chainName": "Lisk",
+    "chainName": "lisk_mainchain",
+    "displayName": "Lisk",
     "chainID": "04000000",
     "networkType": "devnet",
     "genesisURL": "https://downloads.lisk.com/lisk/devnet/genesis_block.json.tar.gz",

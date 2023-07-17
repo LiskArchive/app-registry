@@ -1,7 +1,8 @@
 {
     "title": "Colecti - Devnet",
     "description": "Metadata configuration for the Colecti blockchain (sidechain) in devnet.",
-    "chainName": "Colecti",
+    "chainName": "colecti",
+    "displayName": "Colecti",
     "chainID": "04000002",
     "networkType": "devnet",
     "genesisURL": "",
