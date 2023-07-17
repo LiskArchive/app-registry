@@ -50,7 +50,7 @@ describe('URL Validation tests', () => {
 		jest.mock('../src/utils/request/index', () => ({
 			httpRequest: jest.fn().mockRejectedValueOnce('mock error'),
 			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
-			requestInfoFromLiskNode: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
+			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
 		}));
 
 		// Test validation
@@ -66,7 +66,7 @@ describe('URL Validation tests', () => {
 		jest.mock('../src/utils/request/index', () => ({
 			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessRes),
 			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
-			requestInfoFromLiskNode: jest.fn().mockRejectedValueOnce('mock error'),
+			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockRejectedValueOnce('mock error'),
 		}));
 
 		// Test validation
@@ -82,7 +82,7 @@ describe('URL Validation tests', () => {
 		jest.mock('../src/utils/request/index', () => ({
 			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessRes),
 			wsRequest: jest.fn().mockRejectedValueOnce('mock error'),
-			requestInfoFromLiskNode: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
+			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
 		}));
 
 		// Test validation
@@ -99,7 +99,7 @@ describe('URL Validation tests', () => {
 		jest.mock('../src/utils/request/index', () => ({
 			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessRes),
 			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLIncorrectResWs),
-			requestInfoFromLiskNode: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
+			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
 		}));
 
 		// Test validation
@@ -116,7 +116,7 @@ describe('URL Validation tests', () => {
 		jest.mock('../src/utils/request/index', () => ({
 			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURL500Res),
 			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
-			requestInfoFromLiskNode: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
+			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
 		}));
 
 		// Test validation
@@ -133,7 +133,7 @@ describe('URL Validation tests', () => {
 		jest.mock('../src/utils/request/index', () => ({
 			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessRes),
 			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
-			requestInfoFromLiskNode: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
+			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
 		}));
 
 		// Test validation
@@ -150,7 +150,7 @@ describe('URL Validation tests', () => {
 		jest.mock('../src/utils/request/index', () => ({
 			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLIncorrectRes),
 			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
-			requestInfoFromLiskNode: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
+			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
 		}));
 
 		// Test validation
@@ -167,7 +167,7 @@ describe('URL Validation tests', () => {
 		jest.mock('../src/utils/request/index', () => ({
 			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessRes),
 			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
-			requestInfoFromLiskNode: jest.fn().mockResolvedValueOnce(mockNodeURLIncorrectResWs),
+			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLIncorrectResWs),
 		}));
 
 		// Test validation

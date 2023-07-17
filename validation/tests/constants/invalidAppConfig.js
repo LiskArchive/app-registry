@@ -1,10 +1,10 @@
 const backgroundColorNotPresent = {
-	title: 'Lisk - Testnet',
-	description: 'Metadata configuration for the Lisk blockchain (mainchain) in testnet',
+	title: 'Lisk - Mainnet',
+	description: 'Metadata configuration for the Lisk blockchain (mainchain) in mainnet',
 	chainName: 'network',
 	chainID: '03000000',
-	networkType: 'testnet',
-	genesisURL: 'https://downloads.lisk.com/lisk/testnet/genesis_block.json.tar.gz',
+	networkType: 'mainnet',
+	genesisURL: 'https://downloads.lisk.com/lisk/mainnet/genesis_block.json.tar.gz',
 	projectPage: 'https://lisk.com',
 	logo: {
 		png: 'https://lisk-qa.ams3.digitaloceanspaces.com/lisk.png',
@@ -12,25 +12,25 @@ const backgroundColorNotPresent = {
 	},
 	serviceURLs: [
 		{
-			https: 'https://testnet-service.liskdev.net',
-			wss: 'wss://testnet-service.liskdev.net',
+			http: 'https://mainnet-service.liskdev.net',
+			ws: 'wss://mainnet-service.liskdev.net',
 		},
 	],
 	explorers: [],
 	appNodes: [
 		{
-			url: 'ws://testnet.liskdev.net:4002',
+			url: 'ws://mainnet.liskdev.net:4002',
 			maintainer: 'Lightcurve GmbH',
 		},
 	],
 };
 
 const chainIDNotPresent = {
-	title: 'Lisk - Testnet',
-	description: 'Metadata configuration for the Lisk blockchain (mainchain) in testnet',
+	title: 'Lisk - Mainnet',
+	description: 'Metadata configuration for the Lisk blockchain (mainchain) in mainnet',
 	chainName: 'network',
-	networkType: 'testnet',
-	genesisURL: 'https://downloads.lisk.com/lisk/testnet/genesis_block.json.tar.gz',
+	networkType: 'mainnet',
+	genesisURL: 'https://downloads.lisk.com/lisk/mainnet/genesis_block.json.tar.gz',
 	projectPage: 'https://lisk.com',
 	logo: {
 		png: 'https://lisk-qa.ams3.digitaloceanspaces.com/lisk.png',
@@ -39,25 +39,25 @@ const chainIDNotPresent = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			https: 'https://testnet-service.liskdev.net',
-			wss: 'wss://testnet-service.liskdev.net',
+			http: 'https://mainnet-service.liskdev.net',
+			ws: 'wss://mainnet-service.liskdev.net',
 		},
 	],
 	explorers: [],
 	appNodes: [
 		{
-			url: 'ws://testnet.liskdev.net:4002',
+			url: 'ws://mainnet.liskdev.net:4002',
 			maintainer: 'Lightcurve GmbH',
 		},
 	],
 };
 
 const chainNameNotPresent = {
-	title: 'Lisk - Testnet',
-	description: 'Metadata configuration for the Lisk blockchain (mainchain) in testnet',
+	title: 'Lisk - Mainnet',
+	description: 'Metadata configuration for the Lisk blockchain (mainchain) in mainnet',
 	chainID: '03000000',
-	networkType: 'testnet',
-	genesisURL: 'https://downloads.lisk.com/lisk/testnet/genesis_block.json.tar.gz',
+	networkType: 'mainnet',
+	genesisURL: 'https://downloads.lisk.com/lisk/mainnet/genesis_block.json.tar.gz',
 	projectPage: 'https://lisk.com',
 	logo: {
 		png: 'https://lisk-qa.ams3.digitaloceanspaces.com/lisk.png',
@@ -66,26 +66,26 @@ const chainNameNotPresent = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			https: 'https://testnet-service.liskdev.net',
-			wss: 'wss://testnet-service.liskdev.net',
+			http: 'https://mainnet-service.liskdev.net',
+			ws: 'wss://mainnet-service.liskdev.net',
 		},
 	],
 	explorers: [],
 	appNodes: [
 		{
-			url: 'ws://testnet.liskdev.net:4002',
+			url: 'ws://mainnet.liskdev.net:4002',
 			maintainer: 'Lightcurve GmbH',
 		},
 	],
 };
 
 const explorersNotPresent = {
-	title: 'Lisk - Testnet',
-	description: 'Metadata configuration for the Lisk blockchain (mainchain) in testnet',
+	title: 'Lisk - Mainnet',
+	description: 'Metadata configuration for the Lisk blockchain (mainchain) in mainnet',
 	chainName: 'network',
 	chainID: '03000000',
-	networkType: 'testnet',
-	genesisURL: 'https://downloads.lisk.com/lisk/testnet/genesis_block.json.tar.gz',
+	networkType: 'mainnet',
+	genesisURL: 'https://downloads.lisk.com/lisk/mainnet/genesis_block.json.tar.gz',
 	projectPage: 'https://lisk.com',
 	logo: {
 		png: 'https://lisk-qa.ams3.digitaloceanspaces.com/lisk.png',
@@ -94,24 +94,24 @@ const explorersNotPresent = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			https: 'https://testnet-service.liskdev.net',
-			wss: 'wss://testnet-service.liskdev.net',
+			http: 'https://mainnet-service.liskdev.net',
+			ws: 'wss://mainnet-service.liskdev.net',
 		},
 	],
 	appNodes: [
 		{
-			url: 'ws://testnet.liskdev.net:4002',
+			url: 'ws://mainnet.liskdev.net:4002',
 			maintainer: 'Lightcurve GmbH',
 		},
 	],
 };
 
 const genesisURLNotPresent = {
-	title: 'Lisk - Testnet',
-	description: 'Metadata configuration for the Lisk blockchain (mainchain) in testnet',
+	title: 'Lisk - Mainnet',
+	description: 'Metadata configuration for the Lisk blockchain (mainchain) in mainnet',
 	chainName: 'network',
 	chainID: '03000000',
-	networkType: 'testnet',
+	networkType: 'mainnet',
 	projectPage: 'https://lisk.com',
 	logo: {
 		png: 'https://lisk-qa.ams3.digitaloceanspaces.com/lisk.png',
@@ -120,49 +120,49 @@ const genesisURLNotPresent = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			https: 'https://testnet-service.liskdev.net',
-			wss: 'wss://testnet-service.liskdev.net',
+			http: 'https://mainnet-service.liskdev.net',
+			ws: 'wss://mainnet-service.liskdev.net',
 		},
 	],
 	explorers: [],
 	appNodes: [
 		{
-			url: 'ws://testnet.liskdev.net:4002',
+			url: 'ws://mainnet.liskdev.net:4002',
 			maintainer: 'Lightcurve GmbH',
 		},
 	],
 };
 
 const logoNotPresent = {
-	title: 'Lisk - Testnet',
-	description: 'Metadata configuration for the Lisk blockchain (mainchain) in testnet',
+	title: 'Lisk - Mainnet',
+	description: 'Metadata configuration for the Lisk blockchain (mainchain) in mainnet',
 	chainName: 'network',
 	chainID: '03000000',
-	networkType: 'testnet',
-	genesisURL: 'https://downloads.lisk.com/lisk/testnet/genesis_block.json.tar.gz',
+	networkType: 'mainnet',
+	genesisURL: 'https://downloads.lisk.com/lisk/mainnet/genesis_block.json.tar.gz',
 	projectPage: 'https://lisk.com',
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			https: 'https://testnet-service.liskdev.net',
-			wss: 'wss://testnet-service.liskdev.net',
+			http: 'https://mainnet-service.liskdev.net',
+			ws: 'wss://mainnet-service.liskdev.net',
 		},
 	],
 	explorers: [],
 	appNodes: [
 		{
-			url: 'ws://testnet.liskdev.net:4002',
+			url: 'ws://mainnet.liskdev.net:4002',
 			maintainer: 'Lightcurve GmbH',
 		},
 	],
 };
 
 const networkTypeNotPresent = {
-	title: 'Lisk - Testnet',
-	description: 'Metadata configuration for the Lisk blockchain (mainchain) in testnet',
+	title: 'Lisk - Mainnet',
+	description: 'Metadata configuration for the Lisk blockchain (mainchain) in mainnet',
 	chainName: 'network',
 	chainID: '03000000',
-	genesisURL: 'https://downloads.lisk.com/lisk/testnet/genesis_block.json.tar.gz',
+	genesisURL: 'https://downloads.lisk.com/lisk/mainnet/genesis_block.json.tar.gz',
 	projectPage: 'https://lisk.com',
 	logo: {
 		png: 'https://lisk-qa.ams3.digitaloceanspaces.com/lisk.png',
@@ -171,26 +171,26 @@ const networkTypeNotPresent = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			https: 'https://testnet-service.liskdev.net',
-			wss: 'wss://testnet-service.liskdev.net',
+			http: 'https://mainnet-service.liskdev.net',
+			ws: 'wss://mainnet-service.liskdev.net',
 		},
 	],
 	explorers: [],
 	appNodes: [
 		{
-			url: 'ws://testnet.liskdev.net:4002',
+			url: 'ws://mainnet.liskdev.net:4002',
 			maintainer: 'Lightcurve GmbH',
 		},
 	],
 };
 
 const projectPageNotPresent = {
-	title: 'Lisk - Testnet',
-	description: 'Metadata configuration for the Lisk blockchain (mainchain) in testnet',
+	title: 'Lisk - Mainnet',
+	description: 'Metadata configuration for the Lisk blockchain (mainchain) in mainnet',
 	chainName: 'network',
 	chainID: '03000000',
-	networkType: 'testnet',
-	genesisURL: 'https://downloads.lisk.com/lisk/testnet/genesis_block.json.tar.gz',
+	networkType: 'mainnet',
+	genesisURL: 'https://downloads.lisk.com/lisk/mainnet/genesis_block.json.tar.gz',
 	logo: {
 		png: 'https://lisk-qa.ams3.digitaloceanspaces.com/lisk.png',
 		svg: 'https://lisk-qa.ams3.digitaloceanspaces.com/lisk.svg',
@@ -198,26 +198,26 @@ const projectPageNotPresent = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			https: 'https://testnet-service.liskdev.net',
-			wss: 'wss://testnet-service.liskdev.net',
+			http: 'https://mainnet-service.liskdev.net',
+			ws: 'wss://mainnet-service.liskdev.net',
 		},
 	],
 	explorers: [],
 	appNodes: [
 		{
-			url: 'ws://testnet.liskdev.net:4002',
+			url: 'ws://mainnet.liskdev.net:4002',
 			maintainer: 'Lightcurve GmbH',
 		},
 	],
 };
 
 const serviceUrlIncorrect = {
-	title: 'Lisk - Testnet',
-	description: 'Metadata configuration for the Lisk blockchain (mainchain) in testnet',
+	title: 'Lisk - Mainnet',
+	description: 'Metadata configuration for the Lisk blockchain (mainchain) in mainnet',
 	chainName: 'network',
 	chainID: '03000000',
-	networkType: 'testnet',
-	genesisURL: 'https://downloads.lisk.com/lisk/testnet/genesis_block.json.tar.gz',
+	networkType: 'mainnet',
+	genesisURL: 'https://downloads.lisk.com/lisk/mainnet/genesis_block.json.tar.gz',
 	projectPage: 'https://lisk.com',
 	logo: {
 		png: 'https://lisk-qa.ams3.digitaloceanspaces.com/lisk.png',
@@ -226,26 +226,26 @@ const serviceUrlIncorrect = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			https: 'Incorrect serviceURL',
-			wss: 'wss://testnet-service.liskdev.net',
+			http: 'Incorrect serviceURL',
+			ws: 'wss://mainnet-service.liskdev.net',
 		},
 	],
 	explorers: [],
 	appNodes: [
 		{
-			url: 'ws://testnet.liskdev.net:4002',
+			url: 'ws://mainnet.liskdev.net:4002',
 			maintainer: 'Lightcurve GmbH',
 		},
 	],
 };
 
 const serviceURLsNotPresent = {
-	title: 'Lisk - Testnet',
-	description: 'Metadata configuration for the Lisk blockchain (mainchain) in testnet',
+	title: 'Lisk - Mainnet',
+	description: 'Metadata configuration for the Lisk blockchain (mainchain) in mainnet',
 	chainName: 'network',
 	chainID: '03000000',
-	networkType: 'testnet',
-	genesisURL: 'https://downloads.lisk.com/lisk/testnet/genesis_block.json.tar.gz',
+	networkType: 'mainnet',
+	genesisURL: 'https://downloads.lisk.com/lisk/mainnet/genesis_block.json.tar.gz',
 	projectPage: 'https://lisk.com',
 	logo: {
 		png: 'https://lisk-qa.ams3.digitaloceanspaces.com/lisk.png',
@@ -255,7 +255,7 @@ const serviceURLsNotPresent = {
 	explorers: [],
 	appNodes: [
 		{
-			url: 'ws://testnet.liskdev.net:4002',
+			url: 'ws://mainnet.liskdev.net:4002',
 			maintainer: 'Lightcurve GmbH',
 		},
 	],

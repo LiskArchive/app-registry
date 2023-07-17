@@ -101,19 +101,65 @@ const wsRequest = async (wsEndpoint, wsMethod, wsParams, publicKey, timeout = 50
 	return res;
 };
 
-const requestInfoFromLiskNode = async (wsEndpoint) => {
-	const urlParts = wsEndpoint.split('://');
-	if (urlParts[0] !== 'ws' && urlParts[0] !== 'wss') {
+const requestInfoFromLiskNodeWSEndpoint = async (wsEndpoint, publicKey) => {
+	const { protocol } = new URL(wsEndpoint);
+	if (protocol !== 'ws:' && protocol !== 'wss:') {
 		return Promise.reject(new Error('Invalid WebSocket URL.'));
 	}
 
-	const client = await apiClient.createWSClient(wsEndpoint + config.NODE_HTTP_API_RPC_NAMESPACE);
+	const client = await apiClient.createWSClient(wsEndpoint + config.NODE_WS_API_NAMESPACE);
 	const res = await client._channel.invoke('system_getNodeInfo', {});
+
+	if (publicKey) {
+		const sslCertificate = await getCertificateFromUrl(wsEndpoint);
+		const apiPubKey = await convertCertificateToPemPublicKey(sslCertificate);
+
+		if (apiPubKey.trim() !== publicKey.trim()) {
+			throw new Error("Supplied apiCertificatePublickey doesn't match with public key extracted from the SSL/TLS security certificate.");
+		}
+	}
+
 	return res;
+};
+
+const requestInfoFromLiskNodeHTTPEndpoint = async (url, publicKey) => {
+	const { protocol } = new URL(url);
+	if (protocol !== 'http:' && protocol !== 'https:') {
+		return Promise.reject(new Error(`Invalid HTTP URL: ${url}`));
+	}
+
+	const options = {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	};
+
+	if (protocol === 'https:') {
+		options.httpsAgent = agent;
+	}
+
+	const response = await axios.post(url + config.NODE_HTTP_API_RPC_NAMESPACE, {
+		jsonrpc: '2.0',
+		id: 1,
+		method: 'system_getNodeInfo',
+		params: {},
+	}, options);
+
+	if (publicKey) {
+		const sslCertificate = await getCertificateFromUrl(url);
+		const apiPubKey = await convertCertificateToPemPublicKey(sslCertificate);
+
+		if (apiPubKey.trim() !== publicKey.trim()) {
+			throw new Error("Supplied apiCertificatePublickey doesn't match with public key extracted from the SSL/TLS security certificate.");
+		}
+	}
+
+	return response.data.result;
 };
 
 module.exports = {
 	httpRequest,
 	wsRequest,
-	requestInfoFromLiskNode,
+	requestInfoFromLiskNodeWSEndpoint,
+	requestInfoFromLiskNodeHTTPEndpoint,
 };
