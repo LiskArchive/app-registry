@@ -35,6 +35,9 @@ config.LS_WS_ENDPOINT_NET_STATUS = 'get.network.status';
 config.NODE_HTTP_API_RPC_NAMESPACE = '/rpc';
 config.NODE_WS_API_RPC_NAMESPACE = '/rpc-ws';
 
+// API timeout
+config.API_TIMEOUT = 5000;
+
 // Filenames
 config.filename = {
 	APP_JSON: 'app.json',

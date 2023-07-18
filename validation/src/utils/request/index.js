@@ -18,14 +18,14 @@ const io = require('socket.io-client');
 const { apiClient } = require('@liskhq/lisk-client');
 const config = require('../../../config');
 
-const { getCertificateFromUrl, convertCertificateToPemPublicKey } = require('./certificate');
+const { getCertificateFromURL, convertCertificateToPemPublicKey } = require('./certificate');
 
 const agent = new https.Agent({
 	rejectUnauthorized: true,
 });
 
 const validatePublicKeyFromURL = async (url, publicKey) => {
-	const sslCertificate = await getCertificateFromUrl(url);
+	const sslCertificate = await getCertificateFromURL(url);
 	const apiPubKey = await convertCertificateToPemPublicKey(sslCertificate);
 
 	if (apiPubKey.trim() !== publicKey.trim()) {
@@ -57,7 +57,7 @@ const httpRequest = async (url, publicKey) => {
 	throw new Error(`Error: URL '${url}' returned response with status code ${response.status}.`);
 };
 
-const wsRequest = async (wsEndpoint, wsMethod, wsParams, publicKey, timeout = 5000) => {
+const wsRequest = async (wsEndpoint, wsMethod, wsParams, publicKey, timeout = config.API_TIMEOUT) => {
 	const { protocol } = new URL(wsEndpoint);
 	if (protocol !== 'ws:' && protocol !== 'wss:') {
 		return Promise.reject(new Error(`Incorrect websocket URL protocol: ${wsEndpoint}.`));

@@ -1,9 +1,24 @@
+/*
+ * Copyright © 2023 Lisk Foundation
+ *
+ * See the LICENSE file at the top-level directory of this distribution
+ * for licensing information.
+ *
+ * Unless otherwise agreed in a custom licensing agreement with the Lisk Foundation,
+ * no part of this software, including this file, may be copied, modified,
+ * propagated, or distributed except according to the terms contained in the
+ * LICENSE file.
+ *
+ * Removal or modification of this copyright notice is prohibited.
+ */
+
 const https = require('https');
 const { exec } = require('child_process');
+const config = require('../../../config');
 
 const cachedCerts = {};
 
-const getCertificateFromUrl = async (url, timeout = 5000) => {
+const getCertificateFromURL = async (url, timeout = config.API_TIMEOUT) => {
 	const { host } = new URL(url);
 
 	if (host in cachedCerts) {
@@ -55,6 +70,6 @@ const convertCertificateToPemPublicKey = async (certificate) => new Promise((res
 });
 
 module.exports = {
-	getCertificateFromUrl,
+	getCertificateFromURL,
 	convertCertificateToPemPublicKey,
 };

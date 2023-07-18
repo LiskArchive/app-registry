@@ -13,11 +13,11 @@
  */
 const https = require('https');
 
-const { getCertificateFromUrl } = require('../../../src/utils/request/certificate');
+const { getCertificateFromURL } = require('../../../src/utils/request/certificate');
 
 jest.mock('https');
 
-describe('getCertificateFromUrl', () => {
+describe('getCertificateFromURL', () => {
 	const mockCertificate = { raw: 'mock-certificate' };
 	const invalidUrl = 'invalid-url';
 	const mockUrl = 'https://example.com';
@@ -41,11 +41,11 @@ describe('getCertificateFromUrl', () => {
 	});
 
 	it('should resolve with the peer certificate', async () => {
-		const certificate = await getCertificateFromUrl(mockUrl);
+		const certificate = await getCertificateFromURL(mockUrl);
 		expect(certificate).toEqual(mockCertificate.raw);
 	});
 
 	it('should reject with an error if the URL is invalid', async () => {
-		await expect(getCertificateFromUrl(invalidUrl)).rejects.toThrowError();
+		await expect(getCertificateFromURL(invalidUrl)).rejects.toThrowError();
 	});
 });

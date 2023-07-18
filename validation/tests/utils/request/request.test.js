@@ -25,7 +25,7 @@ const mockSSLCertificate = 'mock-certificate';
 const mockPublicKey = 'mock-public-key';
 
 jest.mock('../../../src/utils/request/certificate', () => ({
-	getCertificateFromUrl: jest.fn().mockResolvedValueOnce(mockSSLCertificate),
+	getCertificateFromURL: jest.fn().mockResolvedValueOnce(mockSSLCertificate),
 	convertCertificateToPemPublicKey: jest.fn().mockResolvedValueOnce(mockPublicKey),
 }));
 
