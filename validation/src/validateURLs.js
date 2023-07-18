@@ -12,34 +12,12 @@
  * Removal or modification of this copyright notice is prohibited.
  */
 
-const axios = require('axios');
-const { apiClient } = require('@liskhq/lisk-client');
-const net = require('net');
+const path = require('path');
 
 const { readJsonFile } = require('./utils/fs');
 const config = require('../config');
 
-const httpRequest = async (url) => {
-	try {
-		const response = await axios.get(url);
-		if (response.status === 200) {
-			return response;
-		}
-		throw new Error(`Error: URL '${url}' returned response with status code ${response.status}.`);
-	} catch (error) {
-		throw new Error(`Error: ${error.message}`);
-	}
-};
-
-const wsRequest = async (wsEndpoint) => {
-	try {
-		const client = await apiClient.createWSClient(wsEndpoint);
-		const res = await client._channel.invoke('system_getNodeInfo', {});
-		return res;
-	} catch (error) {
-		throw new Error(`Error: ${error.message}`);
-	}
-};
+const { httpRequest, wsRequest, requestInfoFromLiskNodeWSEndpoint, requestInfoFromLiskNodeHTTPEndpoint } = require('./utils/request/index');
 
 const validateExplorerUrls = async (explorers) => {
 	const validationErrors = [];
@@ -52,13 +30,13 @@ const validateExplorerUrls = async (explorers) => {
 		try {
 			await httpRequest(explorerURL);
 		} catch (error) {
-			validationErrors.push(new Error(`Error: ${error}`));
+			validationErrors.push(new Error(`Error validating explorer URL. Error: ${error.message}.`));
 		}
 
 		try {
 			await httpRequest(explorerTxnPage);
 		} catch (error) {
-			validationErrors.push(new Error(`Error: ${error}`));
+			validationErrors.push(new Error(`Error validating explorer txn page URL. Error: ${error.message}.`));
 		}
 		/* eslint-enable no-await-in-loop */
 	}
@@ -74,7 +52,7 @@ const validateLogoUrls = async (logos) => {
 		try {
 			await httpRequest(pngURL);
 		} catch (error) {
-			validationErrors.push(new Error(`Error: ${error}`));
+			validationErrors.push(new Error(`Error validating logo png URL. Error: ${error.message}.`));
 		}
 	}
 
@@ -82,46 +60,43 @@ const validateLogoUrls = async (logos) => {
 		try {
 			await httpRequest(svgURL);
 		} catch (error) {
-			validationErrors.push(new Error(`Error: ${error}`));
+			validationErrors.push(new Error(`Error validating logo svg URL. Error: ${error.message}.`));
 		}
 	}
 
 	return validationErrors;
 };
 
-const checkWebsocketConnection = async (url) => {
-	const urlParts = url.split('://');
-	if (urlParts[0] !== 'ws' && urlParts[0] !== 'wss') {
-		return Promise.reject(new Error('Invalid websocket URL'));
-	}
-
-	const [host, port] = urlParts[1].split(':');
-	return new Promise((resolve, reject) => {
-		const socket = net.createConnection({ host, port });
-
-		socket.on('connect', () => {
-			socket.end();
-			resolve();
-		});
-
-		socket.on('error', (err) => {
-			socket.end();
-			reject(err);
-		});
-	});
-};
-
-const validateAppNodeUrls = async (appNodeInfos) => {
+const validateAppNodeUrls = async (appNodeInfos, chainID, isSecuredNetwork) => {
 	const validationErrors = [];
 
 	for (let i = 0; i < appNodeInfos.length; i++) {
 		const appNodeInfo = appNodeInfos[i];
 		/* eslint-disable no-await-in-loop */
-		const { url: appNodeUrl } = appNodeInfo;
+		const { url: appNodeUrl, apiCertificatePublicKey: publicKey } = appNodeInfo;
 
-		// Validate ws app node URLs
+		const { protocol } = new URL(appNodeUrl);
+
+		if (isSecuredNetwork && (protocol !== 'https:' || protocol !== 'wss:' || !publicKey)) {
+			validationErrors.push(new Error(`Require secure URLs and API certificate public key in case of the following networks: ${config.securedNetworks}.`));
+		}
+
 		try {
-			await checkWebsocketConnection(appNodeUrl);
+			if (protocol === 'ws:' || protocol === 'wss:') {
+				// Validate ws app node URLs
+				const nodeSystemInfo = await requestInfoFromLiskNodeWSEndpoint(appNodeUrl, publicKey);
+				if (nodeSystemInfo.chainID !== chainID) {
+					validationErrors.push(new Error(`ChainID mismatch on node: ${appNodeUrl}.\nNode chainID: ${nodeSystemInfo.chainID}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config are accurate.`));
+				}
+			} else if (protocol === 'http:' || protocol === 'https:') {
+				// Validate HTTP app node URLs
+				const nodeSystemInfo = await requestInfoFromLiskNodeHTTPEndpoint(appNodeUrl, publicKey);
+				if (nodeSystemInfo.chainID !== chainID) {
+					validationErrors.push(new Error(`ChainID mismatch on node: ${appNodeUrl}.\nNode chainID: ${nodeSystemInfo.chainID}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config are accurate.`));
+				}
+			} else {
+				validationErrors.push(new Error(`Incorrect URL protocol: ${appNodeUrl}.`));
+			}
 		} catch (e) {
 			validationErrors.push(new Error(`Error establishing connection with node: ${appNodeUrl}.`));
 		}
@@ -131,34 +106,49 @@ const validateAppNodeUrls = async (appNodeInfos) => {
 	return validationErrors;
 };
 
-const validateServiceURLs = async (serviceURLs, chainID) => {
+const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork) => {
 	const validationErrors = [];
 
 	for (let i = 0; i < serviceURLs.length; i++) {
 		const serviceURL = serviceURLs[i];
+
 		/* eslint-disable no-await-in-loop */
-		const { http: httpServiceURL, ws: wsServiceUrl } = serviceURL;
+		const { http: httpServiceURL, ws: wsServiceUrl, apiCertificatePublicKey: publicKey } = serviceURL;
 
-		// Validate HTTP service URLs
-		try {
-			const httpRes = await httpRequest(httpServiceURL + config.HTTP_API_NAMESPACE);
-			const chainIDFromServiceURL = httpRes.data.data.chainID;
-			if (chainIDFromServiceURL !== chainID) {
-				validationErrors.push(new Error(`ChainID mismatch in HTTP URL: ${httpServiceURL}.\nService URL chainID: ${chainIDFromServiceURL}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
+		const { protocol: httpProtocol } = new URL(httpServiceURL);
+		const { protocol: wsProtocol } = new URL(wsServiceUrl);
+
+		if (isSecuredNetwork && (httpProtocol !== 'https:' || wsProtocol !== 'wss:' || !publicKey)) {
+			validationErrors.push(new Error(`Require secure URLs and API certificate public key in case of the following networks: ${config.securedNetworks}.`));
+		} else if (!isSecuredNetwork && !((httpProtocol === 'https:' && wsProtocol === 'wss:' && publicKey) || (httpProtocol === 'http:' && wsProtocol === 'ws:'))) {
+			validationErrors.push(new Error('Require Lisk Service HTTP and WS URLs. For secured deployments, please provide apiCertificatePublicKey as well.'));
+		} else {
+			// Validate HTTP service URLs
+			if (httpServiceURL) {
+				try {
+					const httpRes = await httpRequest(httpServiceURL + config.LS_HTTP_ENDPOINT_NET_STATUS, publicKey);
+					const chainIDFromServiceURL = httpRes.data.data.chainID;
+					if (chainIDFromServiceURL !== chainID) {
+						validationErrors.push(new Error(`ChainID mismatch in HTTP URL: ${httpServiceURL}.\nService URL chainID: ${chainIDFromServiceURL}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
+					}
+				} catch (error) {
+					validationErrors.push(error);
+				}
 			}
-		} catch (error) {
-			validationErrors.push(new Error(`Error: ${error}`));
+
+			// Validate ws service URLs
+			if (wsServiceUrl) {
+				try {
+					const wsRes = await wsRequest(wsServiceUrl + config.LS_WS_API_NAMESPACE, config.LS_WS_ENDPOINT_NET_STATUS, {}, publicKey);
+					if (wsRes.result.data.chainID !== chainID) {
+						validationErrors.push(new Error(`ChainID mismatch in WS URL: ${wsServiceUrl}.\nService URL chainID: ${wsRes.chainID}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
+					}
+				} catch (error) {
+					validationErrors.push(error);
+				}
+			}
 		}
 
-		// Validate ws service URLs
-		try {
-			const wsRes = await wsRequest(wsServiceUrl + config.WS_API_NAMESPACE);
-			if (wsRes.chainID !== chainID) {
-				validationErrors.push(new Error(`ChainID mismatch in WS URL: ${wsServiceUrl}.\nService URL chainID: ${wsRes.chainID}. \napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`));
-			}
-		} catch (error) {
-			validationErrors.push(new Error(`Error: ${error}`));
-		}
 		/* eslint-enable no-await-in-loop */
 	}
 
@@ -167,6 +157,12 @@ const validateServiceURLs = async (serviceURLs, chainID) => {
 
 const validateURLs = async (files) => {
 	let validationErrors = [];
+
+	const securedNetworkPaths = [];
+	// eslint-disable-next-line no-restricted-syntax
+	for (const network of config.securedNetworks) {
+		securedNetworkPaths.push(path.join(config.rootDir, network));
+	}
 
 	// Get all app.json files
 	const appFiles = files.filter((filename) => filename.endsWith(config.filename.APP_JSON));
@@ -178,8 +174,18 @@ const validateURLs = async (files) => {
 		/* eslint-disable no-await-in-loop */
 		const data = await readJsonFile(appFile);
 
+		// Check if app file belongs to a secured network
+		let isSecuredNetwork = false;
+		// eslint-disable-next-line no-restricted-syntax
+		for (const securedNetworkPath of securedNetworkPaths) {
+			if (appFile.startsWith(securedNetworkPath)) {
+				isSecuredNetwork = true;
+				break;
+			}
+		}
+
 		// Validate service URLs
-		const serviceURLValidationErrors = await validateServiceURLs(data.serviceURLs, data.chainID);
+		const serviceURLValidationErrors = await validateServiceURLs(data.serviceURLs, data.chainID, isSecuredNetwork);
 
 		// Validate logo URLs
 		const logoValidationErrors = await validateLogoUrls(data.logo);
@@ -188,7 +194,7 @@ const validateURLs = async (files) => {
 		const explorerURLValidationErrors = await validateExplorerUrls(data.explorers);
 
 		// Validate appNodes URLs
-		const appNodeURLValidationErrors = await validateAppNodeUrls(data.appNodes);
+		const appNodeURLValidationErrors = await validateAppNodeUrls(data.appNodes, data.chainID, isSecuredNetwork);
 		/* eslint-enable no-await-in-loop */
 
 		validationErrors = [...validationErrors, ...serviceURLValidationErrors, ...logoValidationErrors,

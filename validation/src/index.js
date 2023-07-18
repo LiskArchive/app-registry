@@ -18,6 +18,7 @@ const { validateURLs } = require('./validateURLs');
 const { validateAllWhitelistedFiles } = require('./validateWhitelistedFiles');
 const { validateAllConfigFiles } = require('./validateConfigFiles');
 const { validateConfigFilePaths } = require('./validateConfigFilePaths');
+const { exists } = require('./utils/fs');
 const config = require('../config');
 
 const validate = async () => {
@@ -41,18 +42,24 @@ const validate = async () => {
 	}
 
 	// Filter all changed app.json and nativetokens.json files except from Schema dir
-	const changedAppFiles = allChangedFiles.filter(
-		(fileName) => {
-			const baseName = path.basename(fileName);
-			const fullPath = path.join(config.rootDir, fileName);
-			const isSchemaFile = fullPath.includes(config.schemaDir);
+	const changedAppFiles = [];
+	// eslint-disable-next-line no-restricted-syntax
+	for (const fileName of allChangedFiles) {
+		const baseName = path.basename(fileName);
+		const fullPath = path.join(config.rootDir, fileName);
+		const isSchemaFile = fullPath.includes(config.schemaDir);
 
+		/* eslint-disable no-await-in-loop */
+		if (await exists(fullPath)) {
 			const isAppOrNativeTokens = baseName === config.filename.APP_JSON || baseName === config.filename.NATIVE_TOKENS;
 			const isSchemaAppOrNativeTokens = isSchemaFile && isAppOrNativeTokens;
 
-			return isAppOrNativeTokens && !isSchemaAppOrNativeTokens;
-		},
-	).map((fileName) => path.join(config.rootDir, fileName));
+			if (isAppOrNativeTokens && !isSchemaAppOrNativeTokens) {
+				changedAppFiles.push(fullPath);
+			}
+		}
+		/* eslint-enable no-await-in-loop */
+	}
 
 	// Validate if app.json and nativetoken.json is present anywhere except networkDir/appName/
 	const configFileErrors = await validateConfigFilePaths(changedAppFiles);

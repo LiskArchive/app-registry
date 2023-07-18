@@ -12,20 +12,18 @@
  * Removal or modification of this copyright notice is prohibited.
  */
 
-const net = require('net');
-const axios = require('axios');
-const { apiClient } = require('@liskhq/lisk-client');
 const config = require('../config');
-const { validateURLs } = require('../src/validateURLs');
-const serviceURLResponse = require('./constants/serviceURLResponse');
 const validConfig = require('./constants/validConfig');
 const setup = require('./helper/setup');
+
+const { mockServiceURLSuccessRes, mockServiceURL500Res, mockServiceURLIncorrectRes, mockServiceURLSuccessResWs,
+	mockServiceURLIncorrectResWs, mockNodeURLSuccessResWs, mockNodeURLIncorrectResWs } = require('./constants/serviceURLResponse');
 
 let filesToTest;
 
 jest.mock('axios');
+jest.mock('socket.io-client');
 jest.mock('@liskhq/lisk-client');
-// jest.mock('net');
 
 describe('URL Validation tests', () => {
 	beforeAll(async () => {
@@ -38,18 +36,41 @@ describe('URL Validation tests', () => {
 		/* eslint-enable max-len */
 	});
 
+	beforeEach(() => {
+		jest.resetAllMocks();
+		jest.resetModules();
+	});
+
 	afterAll(async () => {
 		// Remove the temporary directory and files created during testing
-		await setup.cleanTestEnviroment();
+		await setup.cleanTestEnvironment();
 	});
 
 	it('should have validation errors when HTTP service URL API returns an error', async () => {
-		// Mock axios to return an error response
-		axios.get.mockImplementation(() => Promise.reject(new Error('mock error')));
-
-		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
+		jest.mock('../src/utils/request/index', () => ({
+			httpRequest: jest.fn().mockRejectedValueOnce('mock error'),
+			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
+			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
+		}));
 
 		// Test validation
+		const { validateURLs } = require('../src/validateURLs');
+		const urlErrors = await validateURLs(filesToTest);
+		expect(urlErrors.length).toBeGreaterThan(0);
+
+		// Restore axios mock
+		jest.resetAllMocks();
+	});
+
+	it('should have validation errors when node URL API returns an error', async () => {
+		jest.mock('../src/utils/request/index', () => ({
+			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessRes),
+			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
+			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockRejectedValueOnce('mock error'),
+		}));
+
+		// Test validation
+		const { validateURLs } = require('../src/validateURLs');
 		const urlErrors = await validateURLs(filesToTest);
 		expect(urlErrors.length).toBeGreaterThan(0);
 
@@ -58,11 +79,31 @@ describe('URL Validation tests', () => {
 	});
 
 	it('should have validation errors when ws service URL API returns an error', async () => {
-		// Mock axios to return an error response
-		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
-		apiClient.createWSClient.mockImplementation(async () => Promise.reject(new Error('mock error')));
+		jest.mock('../src/utils/request/index', () => ({
+			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessRes),
+			wsRequest: jest.fn().mockRejectedValueOnce('mock error'),
+			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
+		}));
 
 		// Test validation
+		const { validateURLs } = require('../src/validateURLs');
+		const urlErrors = await validateURLs(filesToTest);
+		expect(urlErrors.length).toBeGreaterThan(0);
+
+		// Restore axios mock
+		jest.resetAllMocks();
+	});
+
+	it('should have validation errors when ws service URL API returns an error', async () => {
+		// Mock requests
+		jest.mock('../src/utils/request/index', () => ({
+			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessRes),
+			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLIncorrectResWs),
+			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
+		}));
+
+		// Test validation
+		const { validateURLs } = require('../src/validateURLs');
 		const urlErrors = await validateURLs(filesToTest);
 		expect(urlErrors.length).toBeGreaterThan(0);
 
@@ -71,11 +112,15 @@ describe('URL Validation tests', () => {
 	});
 
 	it('should have validation errors when HTTP service URL API returns status code other than 200', async () => {
-		// Mock axios to return an success response
-		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURL500Res));
-		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
+		// Mock requests
+		jest.mock('../src/utils/request/index', () => ({
+			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURL500Res),
+			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
+			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
+		}));
 
 		// Test validation
+		const { validateURLs } = require('../src/validateURLs');
 		const urlErrors = await validateURLs(filesToTest);
 		expect(urlErrors.length).toBeGreaterThan(0);
 
@@ -83,22 +128,16 @@ describe('URL Validation tests', () => {
 		jest.resetAllMocks();
 	});
 
-	it('should not have validation errors when service URL API returns correct chain ID', async () => {
-		// Mock axios to return an success response
-		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
-
-		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
-
-		jest.spyOn(net, 'createConnection').mockReturnValueOnce({
-			on: jest.fn().mockImplementation((event, callback) => {
-				if (event === 'connect') {
-					callback(); // Call the "connect" event handler immediately
-				}
-			}),
-			end: jest.fn(),
-		});
+	it('should not have validation errors when service URL API returns correct chainID', async () => {
+		// Mock requests
+		jest.mock('../src/utils/request/index', () => ({
+			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessRes),
+			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
+			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
+		}));
 
 		// Test validation
+		const { validateURLs } = require('../src/validateURLs');
 		const urlErrors = await validateURLs(filesToTest);
 		expect(urlErrors.length).toBe(0);
 
@@ -106,36 +145,16 @@ describe('URL Validation tests', () => {
 		jest.resetAllMocks();
 	});
 
-	it('should have validation errors when connection cant be established with app nodes ', async () => {
-		// Mock axios to return an success response
-		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
-
-		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
-
-		jest.spyOn(net, 'createConnection').mockReturnValueOnce({
-			on: jest.fn().mockImplementation((event, callback) => {
-				if (event === 'error') {
-					callback(new Error('Connection failed')); // Call the "error" event handler immediately with an error
-				}
-			}),
-			end: jest.fn(),
-		});
-
-		// Test validation
-		const urlErrors = await validateURLs(filesToTest);
-		expect(urlErrors.length).toBeGreaterThan(0);
-
-		// Restore axios mock
-		jest.resetAllMocks();
-	});
-
 	it('should have validation errors when HTTP service URL API returns incorrect chain ID', async () => {
-		// Mock axios to return an success response
-		axios.get.mockImplementation(() => Promise.resolve(serviceURLResponse.serviceURLIncorrectRes));
-
-		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLSuccessResWs));
+		// Mock requests
+		jest.mock('../src/utils/request/index', () => ({
+			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLIncorrectRes),
+			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
+			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
+		}));
 
 		// Test validation
+		const { validateURLs } = require('../src/validateURLs');
 		const urlErrors = await validateURLs(filesToTest);
 		expect(urlErrors.length).toBeGreaterThan(0);
 
@@ -143,13 +162,16 @@ describe('URL Validation tests', () => {
 		jest.resetAllMocks();
 	});
 
-	it('should have validation errors when ws service URL API returns incorrect chain ID', async () => {
-		// Mock axios to return an success response
-		axios.get.mockImplementationOnce(() => Promise.resolve(serviceURLResponse.serviceURLSuccessRes));
-
-		apiClient.createWSClient.mockImplementation(async () => Promise.resolve(serviceURLResponse.serviceURLIncorrectResWs));
+	it('should have validation errors when node returns incorrect chain ID', async () => {
+		// Mock requests
+		jest.mock('../src/utils/request/index', () => ({
+			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessRes),
+			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
+			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLIncorrectResWs),
+		}));
 
 		// Test validation
+		const { validateURLs } = require('../src/validateURLs');
 		const urlErrors = await validateURLs(filesToTest);
 		expect(urlErrors.length).toBeGreaterThan(0);
 

@@ -1,10 +1,11 @@
 const appConfig = {
-	title: 'Lisk - Alphanet',
-	description: 'Metadata configuration for the Lisk blockchain (mainchain) in alphanet',
-	chainName: 'network',
-	chainID: '03000000',
-	networkType: 'alphanet',
-	genesisURL: 'https://downloads.lisk.com/lisk/alphanet/genesis_block.json.tar.gz',
+	title: 'Lisk - Mainnet',
+	description: 'Metadata configuration for the Lisk blockchain (mainchain) in mainnet',
+	chainName: 'lisk_mainchain',
+	displayName: 'Lisk',
+	chainID: '00000000',
+	networkType: 'mainnet',
+	genesisURL: 'https://downloads.lisk.com/lisk/mainnet/genesis_block.json.tar.gz',
 	projectPage: 'https://lisk.com',
 	logo: {
 		png: 'https://lisk-qa.ams3.digitaloceanspaces.com/lisk.png',
@@ -13,24 +14,26 @@ const appConfig = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			http: 'https://alphanet-service.liskdev.net',
-			ws: 'wss://alphanet-service.liskdev.net',
+			http: 'https://mainnet-service.lisk.com',
+			ws: 'wss://mainnet-service.lisk.com',
+			apiCertificatePublicKey: '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwAOGlgzeePs8O7FjSU9a\nUKQg4EYSJNgQqkwD/ITAJ6TzcXRCUK+N230NaFcQ8EFJw/8Al0r8mpjpOOEpPZDq\n+WljcCRkVHXZCJMvgDNcstzdrt1fKzsCrER2jB3hDUXt04xzzlk8ArJG0JeD/CmW\nAsQqL/S6v/GRVTuViHqzWm2eF2XrduUK8wIbQ1y+7HoVdgZDf5MpuvEXluVX4IeJ\nMyzbn9djdrDkHkcbml8dOHyLE6GOS5jKtXj+bKhyTVlSZFbexxKYiBqCpR6kMUnM\nVrURmWGT+jb7UhGkJiP7EpFB7MjAB+yXMiygd6lz67qjG6wFky1wB9NYGJ/50rrV\nDQIDAQAB\n-----END PUBLIC KEY-----',
+
 		},
 	],
 	explorers: [],
 	appNodes: [
 		{
-			url: 'ws://devnet-service.liskdev.net:7887',
+			url: 'wss://mainnet.lisk.com',
 			maintainer: 'Lightcurve GmbH',
 		},
 	],
 };
 
 const nativeTokenConfig = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [

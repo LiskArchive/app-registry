@@ -95,10 +95,13 @@ const readFileLinesToArray = async (filePath) => {
 	}
 };
 
+const exists = async filePath => !!(await fs.stat(filePath).catch(() => null));
+
 module.exports = {
 	getNestedFilesByName,
 	getDirectories,
 	getNetworkDirs,
 	readJsonFile,
 	readFileLinesToArray,
+	exists,
 };

@@ -30,7 +30,7 @@ describe('Schema Validation Tests', () => {
 
 	afterAll(async () => {
 		// Remove the temporary directory and files created during testing
-		await setup.cleanTestEnviroment();
+		await setup.cleanTestEnvironment();
 	});
 
 	it('should not have validation errors while validating correct schema', async () => {

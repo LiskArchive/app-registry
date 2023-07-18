@@ -1,5 +1,5 @@
 const fs = require('fs/promises');
-const { readFileLinesToArray } = require('../src/utils/fs');
+const { readFileLinesToArray } = require('../../src/utils/fs');
 
 describe('Testing Utility functions', () => {
 	const mockFilePath = 'mock/file/path';

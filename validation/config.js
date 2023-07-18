@@ -20,14 +20,23 @@ const config = {};
 config.rootDir = path.join(__dirname, '../');
 
 // Directories corresponding the known networks
-config.knownNetworks = ['devnet', 'alphanet', 'betanet', 'testnet', 'mainnet'];
+config.knownNetworks = ['devnet', 'betanet', 'testnet', 'mainnet'];
+config.securedNetworks = ['testnet', 'mainnet'];
 
 // Schema directory
 config.schemaDir = path.join(config.rootDir, 'schema');
 
-// API suffix to get chain ID
-config.HTTP_API_NAMESPACE = '/api/v3/network/status';
-config.WS_API_NAMESPACE = '/rpc-ws';
+// API suffix to get chain ID for service endpoints
+config.LS_HTTP_ENDPOINT_NET_STATUS = '/api/v3/network/status';
+config.LS_WS_API_NAMESPACE = '/rpc-v3';
+config.LS_WS_ENDPOINT_NET_STATUS = 'get.network.status';
+
+// API suffix to get chain ID for node endpoints
+config.NODE_HTTP_API_RPC_NAMESPACE = '/rpc';
+config.NODE_WS_API_RPC_NAMESPACE = '/rpc-ws';
+
+// API timeout
+config.API_TIMEOUT = 5000;
 
 // Filenames
 config.filename = {
