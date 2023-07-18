@@ -51,7 +51,7 @@ const validate = async () => {
 
 		/* eslint-disable no-await-in-loop */
 		if (await exists(fullPath)) {
-			const isAppOrNativeTokens =	baseName === config.filename.APP_JSON || baseName === config.filename.NATIVE_TOKENS;
+			const isAppOrNativeTokens = baseName === config.filename.APP_JSON || baseName === config.filename.NATIVE_TOKENS;
 			const isSchemaAppOrNativeTokens = isSchemaFile && isAppOrNativeTokens;
 
 			if (isAppOrNativeTokens && !isSchemaAppOrNativeTokens) {
