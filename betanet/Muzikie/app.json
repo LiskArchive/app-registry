@@ -1,0 +1,40 @@
+{
+    "title": "Muzikie - Betanet",
+    "description": "Metadata configuration for the Muzikie blockchain (sidechain) in betanet",
+    "chainName": "muzikie_blockchain",
+    "displayName": "Muzikie",
+    "chainID": "02000003",
+    "networkType": "betanet",
+    "genesisURL": "https://downloads.lisk.com/lisk/betanet/genesis_block.json.tar.gz",
+    "projectPage": "https://muzikie.com",
+    "logo": {
+        "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/betanet/Muzikie/images/application/muzikie.png",
+        "svg": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/betanet/Muzikie/images/application/muzikie.svg"
+    },
+    "backgroundColor": "#453248",
+    "serviceURLs": [
+        {
+            "http": "https://betanet-streamer.muzikie.com",
+            "ws": "wss://betanet-streamer.muzikie.com",
+            "apiCertificatePublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyZh4ceAXOEdWRRMwIE/a\ngX6De1OF9WxwA7eq4DMyrsKUmP5lmD1V6Gg4weanricfAxt2vYuwANVIIv4VFR6Q\n0U07PGUfIHa/bPqKLMyI0VTDDfVQ9mdXXzovYB5pC4oeyLJLILZ7Alq7HUcWGr7q\nqU3f0/BP16nk8AOKYnYcIqoLWM/rMyrWC/uLawpF30IuL4jXp6bE60bQl36fG4BE\nk/m1cAXb/LXJru4f42khyHVk53wRme8RNLm9RAMy49Q8+Xq6m1QLBuISVafdYPUs\nWAZXw5x21go7iWOYQkmW+VeQdCuItf8I58N6qpY4xU7FOIh3wuKhtuCPgNLkvSlO\nSQIDAQAB\n-----END PUBLIC KEY-----"
+        }
+    ],
+    "explorers": [
+        {
+            "url": "https://betanet-explorer.muzikie.com",
+            "txnPage": "https://betanet-explorer.muzikie.com/transactions"
+        }
+    ],
+    "appNodes": [
+        {
+            "url": "https://betanet-seed-01.muzikie.com",
+            "apiCertificatePublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyZh4ceAXOEdWRRMwIE/a\ngX6De1OF9WxwA7eq4DMyrsKUmP5lmD1V6Gg4weanricfAxt2vYuwANVIIv4VFR6Q\n0U07PGUfIHa/bPqKLMyI0VTDDfVQ9mdXXzovYB5pC4oeyLJLILZ7Alq7HUcWGr7q\nqU3f0/BP16nk8AOKYnYcIqoLWM/rMyrWC/uLawpF30IuL4jXp6bE60bQl36fG4BE\nk/m1cAXb/LXJru4f42khyHVk53wRme8RNLm9RAMy49Q8+Xq6m1QLBuISVafdYPUs\nWAZXw5x21go7iWOYQkmW+VeQdCuItf8I58N6qpY4xU7FOIh3wuKhtuCPgNLkvSlO\nSQIDAQAB\n-----END PUBLIC KEY-----",
+            "maintainer": "Block Made GmbH"
+        },
+        {
+            "url": "wss://betanet-seed-01.muzikie.com",
+            "apiCertificatePublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyZh4ceAXOEdWRRMwIE/a\ngX6De1OF9WxwA7eq4DMyrsKUmP5lmD1V6Gg4weanricfAxt2vYuwANVIIv4VFR6Q\n0U07PGUfIHa/bPqKLMyI0VTDDfVQ9mdXXzovYB5pC4oeyLJLILZ7Alq7HUcWGr7q\nqU3f0/BP16nk8AOKYnYcIqoLWM/rMyrWC/uLawpF30IuL4jXp6bE60bQl36fG4BE\nk/m1cAXb/LXJru4f42khyHVk53wRme8RNLm9RAMy49Q8+Xq6m1QLBuISVafdYPUs\nWAZXw5x21go7iWOYQkmW+VeQdCuItf8I58N6qpY4xU7FOIh3wuKhtuCPgNLkvSlO\nSQIDAQAB\n-----END PUBLIC KEY-----",
+            "maintainer": "Block Made GmbH"
+        }
+    ]
+}

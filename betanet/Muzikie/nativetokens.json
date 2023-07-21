@@ -1,0 +1,33 @@
+{
+    "title": "Muzikie - Betanet - Native tokens",
+    "tokens": [
+        {
+            "tokenID": "0200000300000000",
+            "tokenName": "Muzikie",
+            "description": "Default token for the Muzikie streaming platform",
+            "denomUnits": [
+                {
+                    "denom": "quaver",
+                    "decimals": 0,
+                    "aliases": [
+                        "Quaver"
+                    ]
+                },
+                {
+                    "denom": "mzk",
+                    "decimals": 8,
+                    "aliases": [
+                        "Muzikie"
+                    ]
+                }
+            ],
+            "baseDenom": "quaver",
+            "displayDenom": "mzk",
+            "symbol": "MZK",
+            "logo": {
+                "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/betanet/Muzikie/images/tokens/muzikie.png",
+                "svg": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/betanet/Muzikie/images/tokens/muzikie.svg"
+            }
+        }
+    ]
+}
