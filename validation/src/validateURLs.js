@@ -44,6 +44,30 @@ const validateExplorerUrls = async (explorers) => {
 	return validationErrors;
 };
 
+const validateGenesisURL = async (genesisURL) => {
+	const validationErrors = [];
+
+	try {
+		await httpRequest(genesisURL);
+	} catch (error) {
+		validationErrors.push(new Error(`Error validating genesis URL. Error: ${error.message}.`));
+	}
+
+	return validationErrors;
+};
+
+const validateProjectPageURL = async (projectPageURL) => {
+	const validationErrors = [];
+
+	try {
+		await httpRequest(projectPageURL);
+	} catch (error) {
+		validationErrors.push(new Error(`Error validating project page URL. Error: ${error.message}.`));
+	}
+
+	return validationErrors;
+};
+
 const validateLogoUrls = async (logos) => {
 	const validationErrors = [];
 	const { png: pngURL, svg: svgURL } = logos;
@@ -190,6 +214,12 @@ const validateURLs = async (files) => {
 		// Validate logo URLs
 		const logoValidationErrors = await validateLogoUrls(data.logo);
 
+		// Validate genesis URLs
+		const genesisURLValidationErrors = await validateGenesisURL(data.genesisURL);
+
+		// Validate project page URLs
+		const projectPageURLValidationErrors = await validateProjectPageURL(data.projectPage);
+
 		// Validate explorer URLs
 		const explorerURLValidationErrors = await validateExplorerUrls(data.explorers);
 
@@ -197,8 +227,13 @@ const validateURLs = async (files) => {
 		const appNodeURLValidationErrors = await validateAppNodeUrls(data.appNodes, data.chainID, isSecuredNetwork);
 		/* eslint-enable no-await-in-loop */
 
-		validationErrors = [...validationErrors, ...serviceURLValidationErrors, ...logoValidationErrors,
-			...explorerURLValidationErrors, ...appNodeURLValidationErrors];
+		validationErrors = [...validationErrors,
+			...serviceURLValidationErrors,
+			...logoValidationErrors,
+			...projectPageURLValidationErrors,
+			...genesisURLValidationErrors,
+			...explorerURLValidationErrors,
+			...appNodeURLValidationErrors];
 	}
 
 	// Validate URLs for nativetokens.json file
