@@ -16,7 +16,6 @@ jobs:
             echo "READ_ACCESS_TOKEN is present."
             echo "::set-output name=isAccessTokenPresent::true"
           fi
-        continue-on-error: true
       - name: Check user membership if READ_ACCESS_TOKEN is present
         if: ${{ steps.checkAccessToken.outputs.isAccessTokenPresent == 'true' }}
         uses: tspascoal/get-user-teams-membership@v2
@@ -26,7 +25,7 @@ jobs:
           organization: 'LiskHQ'
           team: 'platform'
           GITHUB_TOKEN: ${{ secrets.READ_ACCESS_TOKEN }}
-      - name: Set default TEAM_MEMBER_STATUS default to false
+      - name: Set TEAM_MEMBER_STATUS to false if READ_ACCESS_TOKEN is not present
         if: ${{ steps.checkAccessToken.outputs.isAccessTokenPresent != 'true' }}
         run: echo "TEAM_MEMBER_STATUS=false" >> $GITHUB_ENV
       - name: Set TEAM_MEMBER_STATUS to membership output if READ_ACCESS_TOKEN is present
