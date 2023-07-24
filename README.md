@@ -44,6 +44,10 @@ To contribute to the application registry with the metadata for your blockchain 
 
 This app registry was inspired by [Cosmos Chain Registry](https://github.com/cosmos/chain-registry).
 
+In can you wish to submit a secured deployment then adding your certificate public key to app schema is mandatory. In case you need support to generate public key from certificate, you can use any of the following documentations:
+1. [Generating public key using openssl](./docs/generating-pubkey-from-cert-using-openssl.md)
+2. [Generating public key using nodejs](./utility/Readme.md)
+
 ## Contributors
 
 https://github.com/LiskHQ/app-registry/graphs/contributors

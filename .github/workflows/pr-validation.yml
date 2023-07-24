@@ -28,7 +28,7 @@ jobs:
       - name: Set TEAM_MEMBER_STATUS to false if READ_ACCESS_TOKEN is not present
         if: ${{ steps.checkAccessToken.outputs.isAccessTokenPresent != 'true' }}
         run: echo "TEAM_MEMBER_STATUS=false" >> $GITHUB_ENV
-      - name: Set TEAM_MEMBER_STATUS to membership output if READ_ACCESS_TOKEN is present
+      - name: Set TEAM_MEMBER_STATUS to checkUserMember output if READ_ACCESS_TOKEN is present
         if: ${{ steps.checkAccessToken.outputs.isAccessTokenPresent == 'true' }}
         run: echo "TEAM_MEMBER_STATUS=${{ steps.checkUserMember.outputs.isTeamMember }}" >> $GITHUB_ENV
       - name: Set up Node.js
