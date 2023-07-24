@@ -2,7 +2,7 @@ const fs = require('fs');
 const crypto = require('crypto');
 
 // Function to generate the public key from PEM certificate
-function generatePublicKeyFromCertificate(certFilePath, publicKeyFilePath) {
+function extractPublicKeyFromCertificate(certFilePath, publicKeyFilePath) {
   // Read the PEM certificate from the file
   const pemCertificate = fs.readFileSync(certFilePath);
 
@@ -22,13 +22,15 @@ function generatePublicKeyFromCertificate(certFilePath, publicKeyFilePath) {
     // Write the public key to the output file
     fs.writeFileSync(publicKeyFilePath, publicKeyPem);
 
-    console.log('Public key generated successfully!');
+    console.log(`Public key successfully extracted to: ${publicKeyFile}.`);
+    process.exit(0);
   } catch (error) {
-    console.error('Error generating public key:', error.message);
+    console.error(`Error occurred while extracting the public key: ${error.message}.`);
+    process.exit(1);
   }
 }
 
 const pemCertificateFile = process.argv[2];
 const publicKeyFile = process.argv[3];
 
-generatePublicKeyFromCertificate(pemCertificateFile, publicKeyFile);
+extractPublicKeyFromCertificate(pemCertificateFile, publicKeyFile);
