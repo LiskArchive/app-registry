@@ -23,6 +23,13 @@ All the *app.json* files within the repository must adhere to the schema specifi
 
 Example: *mainnet/Lisk/app.json*
 
+*Important information*:
+- All the specified URLs in *app.json* (i.e. `genesisURL`, `appNodes`, and `serviceURLs`) are validated in real-time. Hence, please ensure that they are valid and reachable at the time of submission.
+- For `mainnet` and `testnet` submissions, it is necessary that all the API deployments are secured with SSL/TLS.
+- For every SSL/TLS secured API deployment (i.e. for `appNodes`, and `serviceURLs`), it is mandatory to specify the `apiCertificatePublicKey`. In case you need support in extracting the public key from your SSL/TLS certificate, you can use one of the following methods:
+    1. [Using OpenSSL](./docs/extracting-pubkey-from-cert-using-openssl.md)
+    2. [Using the NodeJS script](./utility/README.md)
+
 ### Native Tokens JSON
 
 *nativetokens.json* contains metadata about the blockchain application's native tokens, which enables token discoverability across the Lisk ecosystem and for community tools.
@@ -42,7 +49,7 @@ Example: *mainnet/Lisk/images/application/lisk.svg*
 ## Contributing
 To contribute to the application registry with the metadata for your blockchain application, please [fork this repository and submit a *Pull Request*](./docs/creating-pull-request-from-a-fork.md) with the necessary changes. Before submitting a PR, please read through the [Repository Structure](#repository-structure) section.
 
-This app registry was inspired by [Cosmos Chain Registry](https://github.com/cosmos/chain-registry).
+This app-registry was inspired by [Cosmos Chain Registry](https://github.com/cosmos/chain-registry).
 
 ## Contributors
 

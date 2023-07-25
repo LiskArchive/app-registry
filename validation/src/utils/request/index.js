@@ -54,7 +54,7 @@ const httpRequest = async (url, publicKey) => {
 		return response;
 	}
 
-	throw new Error(`Error: URL '${url}' returned response with status code ${response.status}.`);
+	throw new Error(`URL '${url}' returned response with status code ${response.status}.`);
 };
 
 const wsRequest = async (wsEndpoint, wsMethod, wsParams, publicKey, timeout = config.API_TIMEOUT) => {
