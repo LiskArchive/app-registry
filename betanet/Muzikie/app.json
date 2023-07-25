@@ -5,7 +5,7 @@
     "displayName": "Muzikie",
     "chainID": "02000003",
     "networkType": "betanet",
-    "genesisURL": "https://downloads.lisk.com/lisk/betanet/genesis_block.json.tar.gz",
+    "genesisURL": "https://downloads.lisk.com/Muzikie/betanet/genesis_block.json.tar.gz",
     "projectPage": "https://muzikie.com",
     "logo": {
         "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/betanet/Muzikie/images/application/muzikie.png",
