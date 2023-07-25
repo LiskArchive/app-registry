@@ -68,7 +68,7 @@ const validateProjectPageURL = async (projectPageURL) => {
 	return validationErrors;
 };
 
-const validateLogoUrls = async (logos) => {
+const validateLogoURLs = async (logos) => {
 	const validationErrors = [];
 	const { png: pngURL, svg: svgURL } = logos;
 
@@ -212,7 +212,7 @@ const validateURLs = async (files) => {
 		const serviceURLValidationErrors = await validateServiceURLs(data.serviceURLs, data.chainID, isSecuredNetwork);
 
 		// Validate logo URLs
-		const logoValidationErrors = await validateLogoUrls(data.logo);
+		const logoValidationErrors = await validateLogoURLs(data.logo);
 
 		// Validate genesis URLs
 		const genesisURLValidationErrors = await validateGenesisURL(data.genesisURL);
@@ -246,7 +246,7 @@ const validateURLs = async (files) => {
 			// eslint-disable-next-line no-restricted-syntax
 			for (const token of data.tokens) {
 				// Validate logo URLs
-				const logoValidationErrors = await validateLogoUrls(token.logo);
+				const logoValidationErrors = await validateLogoURLs(token.logo);
 				validationErrors = [...validationErrors, ...logoValidationErrors];
 			}
 		}
