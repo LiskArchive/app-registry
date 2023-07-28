@@ -13,6 +13,7 @@
  */
 
 const path = require('path');
+const colors = require('ansi-colors');
 const { validateAllSchemas } = require('./schemaValidation');
 const { validateURLs } = require('./validateURLs');
 const { validateAllWhitelistedFiles } = require('./validateWhitelistedFiles');
@@ -20,6 +21,18 @@ const { validateAllConfigFiles } = require('./validateConfigFiles');
 const { validateConfigFilePaths } = require('./validateConfigFilePaths');
 const { exists } = require('./utils/fs');
 const config = require('../config');
+
+function drawBorder(messages) {
+	const maxLength = Math.max(...messages.map((msg) => colors.unstyle(msg).length));
+	const line = '─'.repeat(maxLength + 4);
+	const border = colors.yellow(`┌${line}┐\n`);
+	const content = messages.map((msg) => {
+		const padding = ' '.repeat(maxLength - colors.unstyle(msg).length);
+		return colors.yellow(`│  ${msg}${padding}  │\n`);
+	}).join('');
+	const bottomBorder = colors.yellow(`└${line}┘\n`);
+	return border + content + bottomBorder;
+}
 
 const validate = async () => {
 	let validationErrors = [];
@@ -83,7 +96,16 @@ const validate = async () => {
 	}
 
 	if (validationErrors.length > 0) {
-		throw new Error(`The following validations have failed. Please address them to proceed:\n\n${validationErrors.join('\n')}`);
+		validationErrors = [
+			colors.bold.underline.red('The following validations have failed. Please address them to proceed:'),
+			'',
+			'',
+			...validationErrors.map((message, index) => colors.red(`${index + 1}. ${message}`)),
+		];
+
+		// eslint-disable-next-line no-console
+		console.log(drawBorder(validationErrors));
+		process.exit(1);
 	}
 
 	process.exit(0);
