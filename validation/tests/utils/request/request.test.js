@@ -124,7 +124,7 @@ describe('httpRequest for http requests', () => {
 
 		const { httpRequest } = require(mockRequestFilePath);
 		await expect(httpRequest(url, {})).rejects.toThrow(
-			`Error: URL '${url}' returned response with status code ${mockResponse.status}.`,
+			`URL '${url}' returned response with status code ${mockResponse.status}.`,
 		);
 		expect(axios.get).toHaveBeenCalledWith(url, {});
 	});
@@ -269,7 +269,7 @@ describe('httpRequest for https requests', () => {
 
 		const { httpRequest } = require(mockRequestFilePath);
 		await expect(httpRequest(url, {}, certificate)).rejects.toThrow(
-			`Error: URL '${url}' returned response with status code ${mockInvalidResponse.status}.`,
+			`URL '${url}' returned response with status code ${mockInvalidResponse.status}.`,
 		);
 	});
 

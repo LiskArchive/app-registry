@@ -66,7 +66,7 @@ describe('URL Validation tests', () => {
 	it('should have validation errors when node URL API returns an error', async () => {
 		jest.mock('../src/utils/request/index', () => ({
 			httpRequest: jest.fn((url, options) => {
-				if (options.responseType === 'arraybuffer') {
+				if (options && options.responseType === 'arraybuffer') {
 					return mockImageResolutionResponse;
 				}
 				return mockServiceURLSuccessRes;
@@ -87,7 +87,7 @@ describe('URL Validation tests', () => {
 	it('should have validation errors when ws service URL API returns an error', async () => {
 		jest.mock('../src/utils/request/index', () => ({
 			httpRequest: jest.fn((url, options) => {
-				if (options.responseType === 'arraybuffer') {
+				if (options && options.responseType === 'arraybuffer') {
 					return mockImageResolutionResponse;
 				}
 				return mockServiceURLSuccessRes;
@@ -109,7 +109,7 @@ describe('URL Validation tests', () => {
 		// Mock requests
 		jest.mock('../src/utils/request/index', () => ({
 			httpRequest: jest.fn((url, options) => {
-				if (options.responseType === 'arraybuffer') {
+				if (options && options.responseType === 'arraybuffer') {
 					return mockImageResolutionResponse;
 				}
 				return mockServiceURLSuccessRes;
@@ -131,7 +131,7 @@ describe('URL Validation tests', () => {
 		// Mock requests
 		jest.mock('../src/utils/request/index', () => ({
 			httpRequest: jest.fn((url, options) => {
-				if (options.responseType === 'arraybuffer') {
+				if (options && options.responseType === 'arraybuffer') {
 					return mockImageResolutionResponse;
 				}
 				return mockServiceURL500Res;
@@ -153,7 +153,7 @@ describe('URL Validation tests', () => {
 		// Mock requests
 		jest.mock('../src/utils/request/index', () => ({
 			httpRequest: jest.fn((url, options) => {
-				if (options.responseType === 'arraybuffer') {
+				if (options && options.responseType === 'arraybuffer') {
 					return mockIncorrectImageResolutionResponse;
 				}
 				return mockServiceURLSuccessRes;
@@ -175,7 +175,7 @@ describe('URL Validation tests', () => {
 		// Mock requests
 		jest.mock('../src/utils/request/index', () => ({
 			httpRequest: jest.fn((url, options) => {
-				if (options.responseType === 'arraybuffer') {
+				if (options && options.responseType === 'arraybuffer') {
 					return mockImageResolutionResponse;
 				}
 				return mockServiceURLSuccessRes;
@@ -197,7 +197,7 @@ describe('URL Validation tests', () => {
 		// Mock requests
 		jest.mock('../src/utils/request/index', () => ({
 			httpRequest: jest.fn((url, options) => {
-				if (options.responseType === 'arraybuffer') {
+				if (options && options.responseType === 'arraybuffer') {
 					return mockImageResolutionResponse;
 				}
 
@@ -220,7 +220,7 @@ describe('URL Validation tests', () => {
 		// Mock requests
 		jest.mock('../src/utils/request/index', () => ({
 			httpRequest: jest.fn((url, options) => {
-				if (options.responseType === 'arraybuffer') {
+				if (options && options.responseType === 'arraybuffer') {
 					return mockImageResolutionResponse;
 				}
 

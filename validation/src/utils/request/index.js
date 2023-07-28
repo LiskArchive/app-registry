@@ -33,7 +33,7 @@ const validatePublicKeyFromURL = async (url, publicKey) => {
 	}
 };
 
-const httpRequest = async (url, httpOptions, publicKey) => {
+const httpRequest = async (url, httpOptions = {}, publicKey) => {
 	const { protocol } = new URL(url);
 	if (protocol !== 'https:' && protocol !== 'http:') {
 		throw new Error(`Incorrect service URL provided: ${url}.`);
@@ -53,7 +53,7 @@ const httpRequest = async (url, httpOptions, publicKey) => {
 		return response;
 	}
 
-	throw new Error(`Error: URL '${url}' returned response with status code ${response.status}.`);
+	throw new Error(`URL '${url}' returned response with status code ${response.status}.`);
 };
 
 const wsRequest = async (wsEndpoint, wsMethod, wsParams, publicKey, timeout = config.API_TIMEOUT) => {

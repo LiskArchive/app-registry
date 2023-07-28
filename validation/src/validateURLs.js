@@ -30,17 +30,41 @@ const validateExplorerUrls = async (explorers) => {
 		const { url: explorerURL, txnPage: explorerTxnPage } = explorer;
 
 		try {
-			await httpRequest(explorerURL, {});
+			await httpRequest(explorerURL);
 		} catch (error) {
 			validationErrors.push(`Error validating explorer URL. Error: ${error.message}.`);
 		}
 
 		try {
-			await httpRequest(explorerTxnPage, {});
+			await httpRequest(explorerTxnPage);
 		} catch (error) {
 			validationErrors.push(`Error validating explorer txn page URL. Error: ${error.message}.`);
 		}
 		/* eslint-enable no-await-in-loop */
+	}
+
+	return validationErrors;
+};
+
+const validateGenesisURL = async (genesisURL) => {
+	const validationErrors = [];
+
+	try {
+		await httpRequest(genesisURL);
+	} catch (error) {
+		validationErrors.push(`Error validating genesis URL. Error: ${error.message}.`);
+	}
+
+	return validationErrors;
+};
+
+const validateProjectPageURL = async (projectPageURL) => {
+	const validationErrors = [];
+
+	try {
+		await httpRequest(projectPageURL);
+	} catch (error) {
+		validationErrors.push(`Error validating project page URL. Error: ${error.message}.`);
 	}
 
 	return validationErrors;
@@ -77,7 +101,7 @@ const validateImageResolution = async (params) => {
 	return validationErrors;
 };
 
-const validateLogoUrls = async (logos, allChangedFiles) => {
+const validateLogoURLs = async (logos, allChangedFiles) => {
 	const validationErrors = [];
 	const { png: pngURL, svg: svgURL } = logos;
 
@@ -264,7 +288,13 @@ const validateURLs = async (changedAppFiles, allChangedFiles) => {
 		const serviceURLValidationErrors = await validateServiceURLs(data.serviceURLs, data.chainID, isSecuredNetwork);
 
 		// Validate logo URLs
-		const logoValidationErrors = await validateLogoUrls(data.logo, allChangedFiles);
+		const logoValidationErrors = await validateLogoURLs(data.logo, allChangedFiles);
+
+		// Validate genesis URLs
+		const genesisURLValidationErrors = await validateGenesisURL(data.genesisURL);
+
+		// Validate project page URLs
+		const projectPageURLValidationErrors = await validateProjectPageURL(data.projectPage);
 
 		// Validate explorer URLs
 		const explorerURLValidationErrors = await validateExplorerUrls(data.explorers);
@@ -273,8 +303,13 @@ const validateURLs = async (changedAppFiles, allChangedFiles) => {
 		const appNodeURLValidationErrors = await validateAppNodeUrls(data.appNodes, data.chainID, isSecuredNetwork);
 		/* eslint-enable no-await-in-loop */
 
-		validationErrors = [...validationErrors, ...serviceURLValidationErrors, ...logoValidationErrors,
-			...explorerURLValidationErrors, ...appNodeURLValidationErrors];
+		validationErrors = [...validationErrors,
+			...serviceURLValidationErrors,
+			...logoValidationErrors,
+			...projectPageURLValidationErrors,
+			...genesisURLValidationErrors,
+			...explorerURLValidationErrors,
+			...appNodeURLValidationErrors];
 	}
 
 	// Validate URLs for nativetokens.json file
@@ -287,7 +322,7 @@ const validateURLs = async (changedAppFiles, allChangedFiles) => {
 			// eslint-disable-next-line no-restricted-syntax
 			for (const token of data.tokens) {
 				// Validate logo URLs
-				const logoValidationErrors = await validateLogoUrls(token.logo, allChangedFiles);
+				const logoValidationErrors = await validateLogoURLs(token.logo, allChangedFiles);
 				validationErrors = [...validationErrors, ...logoValidationErrors];
 			}
 		}

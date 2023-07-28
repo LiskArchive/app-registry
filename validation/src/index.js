@@ -83,7 +83,7 @@ const validate = async () => {
 	}
 
 	if (validationErrors.length > 0) {
-		throw new Error(validationErrors.join('\n'));
+		throw new Error(`The following validations have failed. Please address them to proceed:\n\n${validationErrors.join('\n')}`);
 	}
 
 	process.exit(0);
