@@ -17,7 +17,8 @@ const validConfig = require('./constants/validConfig');
 const setup = require('./helper/setup');
 
 const { mockServiceURLSuccessRes, mockServiceURL500Res, mockServiceURLIncorrectRes, mockServiceURLSuccessResWs,
-	mockServiceURLIncorrectResWs, mockNodeURLSuccessResWs, mockNodeURLIncorrectResWs } = require('./constants/serviceURLResponse');
+	mockServiceURLIncorrectResWs, mockNodeURLSuccessResWs, mockNodeURLIncorrectResWs, mockImageResolutionResponse,
+	mockIncorrectImageResolutionResponse } = require('./constants/serviceURLResponse');
 
 let filesToTest;
 
@@ -64,7 +65,12 @@ describe('URL Validation tests', () => {
 
 	it('should have validation errors when node URL API returns an error', async () => {
 		jest.mock('../src/utils/request/index', () => ({
-			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessRes),
+			httpRequest: jest.fn((url, options) => {
+				if (options.responseType === 'arraybuffer') {
+					return mockImageResolutionResponse;
+				}
+				return mockServiceURLSuccessRes;
+			}),
 			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
 			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockRejectedValueOnce('mock error'),
 		}));
@@ -80,7 +86,12 @@ describe('URL Validation tests', () => {
 
 	it('should have validation errors when ws service URL API returns an error', async () => {
 		jest.mock('../src/utils/request/index', () => ({
-			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessRes),
+			httpRequest: jest.fn((url, options) => {
+				if (options.responseType === 'arraybuffer') {
+					return mockImageResolutionResponse;
+				}
+				return mockServiceURLSuccessRes;
+			}),
 			wsRequest: jest.fn().mockRejectedValueOnce('mock error'),
 			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
 		}));
@@ -97,7 +108,12 @@ describe('URL Validation tests', () => {
 	it('should have validation errors when ws service URL API returns an error', async () => {
 		// Mock requests
 		jest.mock('../src/utils/request/index', () => ({
-			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessRes),
+			httpRequest: jest.fn((url, options) => {
+				if (options.responseType === 'arraybuffer') {
+					return mockImageResolutionResponse;
+				}
+				return mockServiceURLSuccessRes;
+			}),
 			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLIncorrectResWs),
 			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
 		}));
@@ -114,7 +130,34 @@ describe('URL Validation tests', () => {
 	it('should have validation errors when HTTP service URL API returns status code other than 200', async () => {
 		// Mock requests
 		jest.mock('../src/utils/request/index', () => ({
-			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURL500Res),
+			httpRequest: jest.fn((url, options) => {
+				if (options.responseType === 'arraybuffer') {
+					return mockImageResolutionResponse;
+				}
+				return mockServiceURL500Res;
+			}),
+			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
+			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
+		}));
+
+		// Test validation
+		const { validateURLs } = require('../src/validateURLs');
+		const urlErrors = await validateURLs(filesToTest);
+		expect(urlErrors.length).toBeGreaterThan(0);
+
+		// Restore axios mock
+		jest.resetAllMocks();
+	});
+
+	it('should have validation errors when HTTP service URL API returns logo image of incorrect resolution', async () => {
+		// Mock requests
+		jest.mock('../src/utils/request/index', () => ({
+			httpRequest: jest.fn((url, options) => {
+				if (options.responseType === 'arraybuffer') {
+					return mockIncorrectImageResolutionResponse;
+				}
+				return mockServiceURLSuccessRes;
+			}),
 			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
 			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
 		}));
@@ -131,7 +174,12 @@ describe('URL Validation tests', () => {
 	it('should not have validation errors when service URL API returns correct chainID', async () => {
 		// Mock requests
 		jest.mock('../src/utils/request/index', () => ({
-			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessRes),
+			httpRequest: jest.fn((url, options) => {
+				if (options.responseType === 'arraybuffer') {
+					return mockImageResolutionResponse;
+				}
+				return mockServiceURLSuccessRes;
+			}),
 			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
 			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
 		}));
@@ -148,7 +196,13 @@ describe('URL Validation tests', () => {
 	it('should have validation errors when HTTP service URL API returns incorrect chain ID', async () => {
 		// Mock requests
 		jest.mock('../src/utils/request/index', () => ({
-			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLIncorrectRes),
+			httpRequest: jest.fn((url, options) => {
+				if (options.responseType === 'arraybuffer') {
+					return mockImageResolutionResponse;
+				}
+
+				return mockServiceURLIncorrectRes;
+			}),
 			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
 			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLSuccessResWs),
 		}));
@@ -165,7 +219,13 @@ describe('URL Validation tests', () => {
 	it('should have validation errors when node returns incorrect chain ID', async () => {
 		// Mock requests
 		jest.mock('../src/utils/request/index', () => ({
-			httpRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessRes),
+			httpRequest: jest.fn((url, options) => {
+				if (options.responseType === 'arraybuffer') {
+					return mockImageResolutionResponse;
+				}
+
+				return mockServiceURLSuccessRes;
+			}),
 			wsRequest: jest.fn().mockResolvedValueOnce(mockServiceURLSuccessResWs),
 			requestInfoFromLiskNodeWSEndpoint: jest.fn().mockResolvedValueOnce(mockNodeURLIncorrectResWs),
 		}));

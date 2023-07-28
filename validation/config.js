@@ -47,4 +47,15 @@ config.filename = {
 // Files whitelisted
 config.whitelistedFilesPath = path.join(__dirname, 'whitelistedFiles');
 
+// Repo URL
+config.repositoryURL = 'https://raw.githubusercontent.com/LiskHQ/app-registry';
+config.repositoryDefaultBranch = 'main';
+config.repositoryHashURLRegex = new RegExp(`^${config.repositoryURL}/[0-9a-f]{40}$`);
+
+// Image sesolutions
+config.image = {
+	DEFAULT_HEIGHT: 64,
+	DEFAULT_WIDTH: 64,
+};
+
 module.exports = config;

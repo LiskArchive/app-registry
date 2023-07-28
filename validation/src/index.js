@@ -37,7 +37,7 @@ const validate = async () => {
 		if (dir.trim() && config.knownNetworks.includes(dir.split('/')[0])) {
 			changedAppDirs.add(path.resolve(dir));
 		} else if (!isAuthorFromDevTeam) {
-			validationErrors.push(new Error(`File (${allChangedFiles[i]}) does not belong to a known network.`));
+			validationErrors.push(`File (${allChangedFiles[i]}) does not belong to a known network.`);
 		}
 	}
 
@@ -71,7 +71,7 @@ const validate = async () => {
 	const validateConfigFilesErrors = await validateAllConfigFiles(changedAppDirs);
 
 	// Validate serviceURLs
-	const urlErrors = await validateURLs(changedAppFiles);
+	const urlErrors = await validateURLs(changedAppFiles, allChangedFiles);
 
 	// Merge all validation errors
 	validationErrors = [...configFileErrors, ...schemaErrors, ...validateConfigFilesErrors, ...urlErrors];

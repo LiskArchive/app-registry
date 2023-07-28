@@ -97,6 +97,16 @@ const readFileLinesToArray = async (filePath) => {
 
 const exists = async filePath => !!(await fs.stat(filePath).catch(() => null));
 
+const readFile = filePath => new Promise((resolve, reject) => {
+	fs.readFile(filePath)
+		.then(data => {
+			resolve(data);
+		})
+		.catch(error => {
+			reject(error);
+		});
+});
+
 module.exports = {
 	getNestedFilesByName,
 	getDirectories,
@@ -104,4 +114,5 @@ module.exports = {
 	readJsonFile,
 	readFileLinesToArray,
 	exists,
+	readFile,
 };

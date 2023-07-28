@@ -108,7 +108,7 @@ describe('httpRequest for http requests', () => {
 		axios.get.mockResolvedValueOnce(mockResponse);
 
 		const { httpRequest } = require(mockRequestFilePath);
-		const response = await httpRequest(url);
+		const response = await httpRequest(url, {});
 
 		expect(response).toEqual(mockResponse);
 		expect(axios.get).toHaveBeenCalledWith(url, {});
@@ -123,7 +123,7 @@ describe('httpRequest for http requests', () => {
 		axios.get.mockResolvedValueOnce(mockResponse);
 
 		const { httpRequest } = require(mockRequestFilePath);
-		await expect(httpRequest(url)).rejects.toThrow(
+		await expect(httpRequest(url, {})).rejects.toThrow(
 			`Error: URL '${url}' returned response with status code ${mockResponse.status}.`,
 		);
 		expect(axios.get).toHaveBeenCalledWith(url, {});
@@ -243,7 +243,7 @@ describe('httpRequest for https requests', () => {
 
 	it('should throw an error for an unsecured service URL', async () => {
 		const { httpRequest } = require(mockRequestFilePath);
-		await expect(httpRequest(invalidUrl, certificate)).rejects.toThrow(
+		await expect(httpRequest(invalidUrl, {}, certificate)).rejects.toThrow(
 			`Incorrect service URL provided: ${invalidUrl}.`,
 		);
 		expect(axios.get).not.toHaveBeenCalled();
@@ -256,7 +256,7 @@ describe('httpRequest for https requests', () => {
 		mockAxios.get.mockResolvedValueOnce(mockResponse);
 
 		const { httpRequest } = require(mockRequestFilePath);
-		const response = await httpRequest(url, mockPublicKey);
+		const response = await httpRequest(url, {}, mockPublicKey);
 
 		expect(response).toEqual(mockResponse);
 	});
@@ -268,7 +268,7 @@ describe('httpRequest for https requests', () => {
 		mockAxios.get.mockResolvedValueOnce(mockInvalidResponse);
 
 		const { httpRequest } = require(mockRequestFilePath);
-		await expect(httpRequest(url, certificate)).rejects.toThrow(
+		await expect(httpRequest(url, {}, certificate)).rejects.toThrow(
 			`Error: URL '${url}' returned response with status code ${mockInvalidResponse.status}.`,
 		);
 	});
@@ -280,7 +280,7 @@ describe('httpRequest for https requests', () => {
 		mockAxios.get.mockResolvedValueOnce(mockResponse);
 
 		const { httpRequest } = require(mockRequestFilePath);
-		await expect(httpRequest(url, invalidPublicKey)).rejects.toThrow(
+		await expect(httpRequest(url, {}, invalidPublicKey)).rejects.toThrow(
 			"Supplied apiCertificatePublickey doesn't match with public key extracted from the SSL/TLS security certificate.",
 		);
 	});

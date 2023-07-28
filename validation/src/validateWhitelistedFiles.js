@@ -51,7 +51,7 @@ const validateAllWhitelistedFiles = async (filePaths) => {
 		const stat = await fs.stat(filePath);
 
 		if (stat.isFile() && !isFileWhitelisted(path.basename(filePath), whitelistedFilePatterns)) {
-			validationErrors.push(new Error(`File ${filePath} is not whitelisted.`));
+			validationErrors.push(`File ${filePath} is not whitelisted.`);
 		}
 		/* eslint-enable no-await-in-loop */
 	}
