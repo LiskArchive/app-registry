@@ -33,13 +33,12 @@ const validatePublicKeyFromURL = async (url, publicKey) => {
 	}
 };
 
-const httpRequest = async (url, publicKey) => {
+const httpRequest = async (url, httpOptions = {}, publicKey) => {
 	const { protocol } = new URL(url);
 	if (protocol !== 'https:' && protocol !== 'http:') {
 		throw new Error(`Incorrect service URL provided: ${url}.`);
 	}
 
-	const httpOptions = {};
 	if (protocol === 'https:') {
 		httpOptions.httpsAgent = agent;
 	}

@@ -22,10 +22,10 @@ const validateAllConfigFilesInDir = async (directory) => {
 		const files = await fs.readdir(directory);
 
 		if (!files.includes(config.filename.APP_JSON) || !files.includes(config.filename.NATIVE_TOKENS)) {
-			validationErrors.push(new Error(`Files '${config.filename.APP_JSON}' and '${config.filename.NATIVE_TOKENS}' are not present in directory ${directory}.`));
+			validationErrors.push(`Files '${config.filename.APP_JSON}' and '${config.filename.NATIVE_TOKENS}' are not present in directory ${directory}.`);
 		}
 	} catch (err) {
-		validationErrors.push(new Error(`Error reading directory: ${directory}.\n${err}`));
+		validationErrors.push(`Validation of directory (${directory}) failed with error: ${err.message}`);
 	}
 
 	return validationErrors;

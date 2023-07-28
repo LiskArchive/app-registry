@@ -51,7 +51,7 @@ const validateAllWhitelistedFiles = async (filePaths) => {
 		const stat = await fs.stat(filePath);
 
 		if (stat.isFile() && !isFileWhitelisted(path.basename(filePath), whitelistedFilePatterns)) {
-			validationErrors.push(new Error(`User is not permitted to modify the file: ${filePath}.`));
+			validationErrors.push(`User is not permitted to modify the file: ${filePath}.`);
 		}
 		/* eslint-enable no-await-in-loop */
 	}
