@@ -24,7 +24,9 @@ All the *app.json* files within the repository must adhere to the schema specifi
 Example: *mainnet/Lisk/app.json*
 
 *Important information*:
-- All the specified URLs in *app.json* (i.e. `genesisURL`, `appNodes`, and `serviceURLs`) are validated in real-time. Hence, please ensure that they are valid and reachable at the time of submission.
+- All the specified URLs in *app.json* (i.e. `genesisURL`, `appNodes`, and `serviceURLs`, etc.) are validated in real-time. Hence, please ensure that they are valid and reachable at the time of submission.
+- Prior to metadata submission, ensure sidechains are registered on the mainchain.
+- For logos pointing to app-registry GitHub URL, use the main branch in the URL to ensure working functionality after PR merge. All logos submitted needs to have `64x64` resolution.
 - For `mainnet` and `testnet` submissions, it is necessary that all the API deployments are secured with SSL/TLS.
 - For every SSL/TLS secured API deployment (i.e. for `appNodes`, and `serviceURLs`), it is mandatory to specify the `apiCertificatePublicKey`. In case you need support in extracting the public key from your SSL/TLS certificate, you can use one of the following methods:
     1. [Using OpenSSL](./docs/extracting-pubkey-from-cert-using-openssl.md)
@@ -37,6 +39,10 @@ Example: *mainnet/Lisk/app.json*
 All the *nativetokens.json* files within the repository must adhere to the schema specified [here](./schema/nativetokens.json).
 
 Example: *mainnet/Lisk/nativetokens.json*
+
+*Important information*:
+- Prior to metadata submission, ensure sidechains are registered on the mainchain.
+- For logos pointing to app-registry GitHub URL, use the main branch in the URL to ensure working functionality after PR merge. All logos submitted needs to have `64x64` resolution.
 
 ### Logo Images
 
