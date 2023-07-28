@@ -22,17 +22,27 @@ const { validateConfigFilePaths } = require('./validateConfigFilePaths');
 const { exists } = require('./utils/fs');
 const config = require('../config');
 
-function drawBorder(messages) {
-	const maxLength = Math.max(...messages.map((msg) => colors.unstyle(msg).length));
-	const line = '─'.repeat(maxLength + 4);
-	const border = colors.yellow(`┌${line}┐\n`);
+const drawBorder = (messages) => {
+	const maxLength = 165; // Maximum characters per line
+	const horizontalLine = '─'.repeat(maxLength + 4); // Create a horizontal line
+	const border = colors.yellow(`┌${horizontalLine}┐\n`); // Top border
+
 	const content = messages.map((msg) => {
-		const padding = ' '.repeat(maxLength - colors.unstyle(msg).length);
-		return colors.yellow(`│  ${msg}${padding}  │\n`);
-	}).join('');
-	const bottomBorder = colors.yellow(`└${line}┘\n`);
+		const lines = msg.split('\n'); // Split message by newline
+		const formattedLines = lines.map((line) => {
+			const chunks = line.match(new RegExp(`.{1,${maxLength}}`, 'g')) || []; // Split line into chunks
+			const formattedChunks = chunks.map((chunk) => {
+				const padding = ' '.repeat(maxLength - colors.unstyle(chunk).length);
+				return colors.yellow('│  ') + colors.white(`${chunk}${padding}`) + colors.yellow('  │\n');
+			}).join('');
+			return formattedChunks;
+		}).join('');
+		return formattedLines;
+	}).join(''); // Messages content with padding
+
+	const bottomBorder = colors.yellow(`└${horizontalLine}┘\n`); // Bottom border
 	return border + content + bottomBorder;
-}
+};
 
 const validate = async () => {
 	let validationErrors = [];
@@ -97,10 +107,8 @@ const validate = async () => {
 
 	if (validationErrors.length > 0) {
 		validationErrors = [
-			colors.bold.underline.red('The following validations have failed. Please address them to proceed:'),
-			'',
-			'',
-			...validationErrors.map((message, index) => colors.red(`${index + 1}. ${message}`)),
+			colors.bold.underline.red('The following validations have failed. Please address them to proceed:\n\n'),
+			...validationErrors.map((message, index) => colors.white(`${index + 1}. ${message}`)),
 		];
 
 		// eslint-disable-next-line no-console

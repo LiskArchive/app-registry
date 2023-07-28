@@ -32,13 +32,13 @@ const validateExplorerUrls = async (explorers) => {
 		try {
 			await httpRequest(explorerURL);
 		} catch (error) {
-			validationErrors.push(`Error validating explorer URL. Error: ${error.message}.`);
+			validationErrors.push(`Validation of explorer URL (${explorerURL}) failed with error: ${error.message}.`);
 		}
 
 		try {
 			await httpRequest(explorerTxnPage);
 		} catch (error) {
-			validationErrors.push(`Error validating explorer txn page URL. Error: ${error.message}.`);
+			validationErrors.push(`Validation of explorer txn page URL (${explorerTxnPage}) failed with error: ${error.message}.`);
 		}
 		/* eslint-enable no-await-in-loop */
 	}
@@ -52,7 +52,7 @@ const validateGenesisURL = async (genesisURL) => {
 	try {
 		await httpRequest(genesisURL);
 	} catch (error) {
-		validationErrors.push(`Error validating genesis URL. Error: ${error.message}.`);
+		validationErrors.push(`Validation of genesis URL (${genesisURL}) failed with error: ${error.message}.`);
 	}
 
 	return validationErrors;
@@ -64,7 +64,7 @@ const validateProjectPageURL = async (projectPageURL) => {
 	try {
 		await httpRequest(projectPageURL);
 	} catch (error) {
-		validationErrors.push(`Error validating project page URL. Error: ${error.message}.`);
+		validationErrors.push(`Validation of project page URL (${projectPageURL}) failed with error: ${error.message}.`);
 	}
 
 	return validationErrors;
@@ -79,23 +79,24 @@ const validateImageResolution = async (params) => {
 	try {
 		if (url) {
 			const response = await httpRequest(url, { responseType: 'arraybuffer' });
-			// console.log(JSON.stringify(response.data))
 			imageBuffer = Buffer.from(response.data);
 		} else if (filePath) {
 			imageBuffer = await readFile(filePath);
 		} else {
-			throw Error('Either url or filePath needs to be supplied to check image resolution');
+			throw Error('Either URL or filePath needs to be supplied to verify the image resolution.');
 		}
 
 		// Use sharp to get the image dimensions
 		const metadata = await sharp(imageBuffer).metadata();
 		const { width, height } = metadata;
 
-		if (width !== config.image.DEFAULT_HEIGHT || height !== config.image.DEFAULT_WIDTH) {
-			validationErrors.push(`Error validating logo URL: ${url}. Image resolution should be ${config.image.DEFAULT_HEIGHT}x${config.image.DEFAULT_WIDTH}.`);
+		if (height !== config.image.DEFAULT_HEIGHT || width !== config.image.DEFAULT_WIDTH) {
+			const logo = url || filePath;
+			validationErrors.push(`Validation of logo (${logo}) failed with error: Image resolution must be ${config.image.DEFAULT_HEIGHT}px x ${config.image.DEFAULT_WIDTH}px.`);
 		}
 	} catch (error) {
-		validationErrors.push(`Error validating logo URL: ${url}. Error: ${error.message}.`);
+		const logo = url || filePath;
+		validationErrors.push(`Validation of logo (${logo}) failed with error: ${error.message}.`);
 	}
 
 	return validationErrors;
@@ -107,12 +108,10 @@ const validateLogoURLs = async (logos, allChangedFiles) => {
 
 	if (pngURL) {
 		if (!pngURL.endsWith('.png')) {
-			validationErrors.push(`Error validating logo png URL: ${pngURL}. Provided URL is not in png format.`);
+			validationErrors.push(`Validation of PNG logo URL (${pngURL}) failed with error: Provided URL is not in PNG format.`);
 		} else {
 			try {
 				if (pngURL.startsWith(`${config.repositoryURL}/`) && !config.repositoryHashURLRegex.test(pngURL)) {
-					// If logo is part of main branch but pushed in current branch
-					// If logo is already part of main branch
 					if (pngURL.startsWith(`${config.repositoryURL}/${config.repositoryDefaultBranch}/`)) {
 						// If logo is part of main branch but pushed in current branch
 						const filePath = pngURL.replace(`${config.repositoryURL}/${config.repositoryDefaultBranch}/`, '');
@@ -122,26 +121,24 @@ const validateLogoURLs = async (logos, allChangedFiles) => {
 						} else {
 							validationErrors.push(...await validateImageResolution({ filePath: path.join(config.rootDir, filePath) }));
 						}
-					} else { // If logo url dosent refrance default branch or commit hash
-						validationErrors.push(`Error validating logo png URL: ${pngURL}. URL needs to be associated with ${config.repositoryDefaultBranch} branch or a commit hash.`);
+					} else { // If logo URL doesn't reference the default branch or commit hash
+						validationErrors.push(`Validation of PNG logo URL (${pngURL}) failed with error:  URL needs to be associated with the '${config.repositoryDefaultBranch}' branch or a commit hash.`);
 					}
 				} else {
 					validationErrors.push(...await validateImageResolution({ url: pngURL }));
 				}
 			} catch (error) {
-				validationErrors.push(`Error validating logo png URL: ${pngURL}. Error: ${error.message}.`);
+				validationErrors.push(`Validation of PNG logo URL (${pngURL}) failed with error: ${error.message}.`);
 			}
 		}
 	}
 
 	if (svgURL) {
 		if (!svgURL.endsWith('.svg')) {
-			validationErrors.push(`Error validating logo svg URL: ${svgURL}. Provided URL is not in svg format.`);
+			validationErrors.push(`Validation of SVG logo URL (${svgURL}) failed with error: Provided URL is not in SVG format.`);
 		} else {
 			try {
 				if (svgURL.startsWith(`${config.repositoryURL}/`) && !config.repositoryHashURLRegex.test(svgURL)) {
-					// If logo is part of main branch but pushed in current branch
-					// If logo is already part of main branch
 					if (svgURL.startsWith(`${config.repositoryURL}/${config.repositoryDefaultBranch}/`)) {
 						// If logo is part of main branch but pushed in current branch
 
@@ -153,13 +150,13 @@ const validateLogoURLs = async (logos, allChangedFiles) => {
 							validationErrors.push(...await validateImageResolution({ filePath: path.join(config.rootDir, filePath) }));
 						}
 					} else { // If logo url dosent refrance default branch or commit hash
-						validationErrors.push(`Error validating logo svg URL: ${svgURL}. URL needs to be associated with ${config.repositoryDefaultBranch} branch or a commit hash.`);
+						validationErrors.push(`Validation of SVG logo URL (${svgURL}) failed with error:  URL needs to be associated with the '${config.repositoryDefaultBranch}' branch or a commit hash.`);
 					}
 				} else {
 					validationErrors.push(...await validateImageResolution({ url: svgURL }));
 				}
 			} catch (error) {
-				validationErrors.push(`Error validating logo svg URL: ${svgURL}. Error: ${error.message}.`);
+				validationErrors.push(`Validation of SVG logo URL (${svgURL}) failed with error: ${error.message}.`);
 			}
 		}
 	}
@@ -197,8 +194,8 @@ const validateAppNodeUrls = async (appNodeInfos, chainID, isSecuredNetwork) => {
 			} else {
 				validationErrors.push(`Incorrect URL protocol: ${appNodeUrl}.`);
 			}
-		} catch (e) {
-			validationErrors.push(`Error establishing connection with node: ${appNodeUrl}.`);
+		} catch (error) {
+			validationErrors.push(`Establishing connection with node (${appNodeUrl}) failed due error: ${error.message}.`);
 		}
 		/* eslint-enable no-await-in-loop */
 	}
@@ -232,7 +229,7 @@ const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork) => {
 						validationErrors.push(`ChainID mismatch in HTTP URL: ${httpServiceURL}.\nService URL chainID: ${chainIDFromServiceURL}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`);
 					}
 				} catch (error) {
-					validationErrors.push(`Error validating URL: ${httpServiceURL}. Error: ${error.message}.`);
+					validationErrors.push(`Validation of URL (${httpServiceURL}) failed with error: ${error.message}.`);
 				}
 			}
 
@@ -244,7 +241,7 @@ const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork) => {
 						validationErrors.push(`ChainID mismatch in WS URL: ${wsServiceUrl}.\nService URL chainID: ${wsRes.chainID}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`);
 					}
 				} catch (error) {
-					validationErrors.push(`Error validating URL: ${wsServiceUrl}. Error: ${error.message}.`);
+					validationErrors.push(`Validation of URL (${wsServiceUrl}) failed with error: ${error.message}.`);
 				}
 			}
 		}

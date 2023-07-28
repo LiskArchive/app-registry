@@ -29,7 +29,7 @@ const validateConfigFilePaths = async (filePaths) => {
 				validationErrors.push(`File (${filePath}) does not belong to a known network.`);
 			}
 		} catch (err) {
-			validationErrors.push(`Error validating file: ${filePaths[i]}. Error: ${err.message}`);
+			validationErrors.push(`Validation of file (${filePaths[i]}) failed with error: ${err.message}`);
 		}
 	}
 

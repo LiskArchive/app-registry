@@ -25,7 +25,7 @@ const validateAllConfigFilesInDir = async (directory) => {
 			validationErrors.push(`Files '${config.filename.APP_JSON}' and '${config.filename.NATIVE_TOKENS}' are not present in directory ${directory}.`);
 		}
 	} catch (err) {
-		validationErrors.push(`Error reading directory: ${directory}.\n${err}`);
+		validationErrors.push(`Validation of directory (${directory}) failed with error: ${err.message}`);
 	}
 
 	return validationErrors;
