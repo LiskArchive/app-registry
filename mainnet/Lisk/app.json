@@ -14,26 +14,26 @@
     "backgroundColor": "#f7f9fb",
     "serviceURLs": [
         {
-            "http": "https://mainnet-service.lisk.com",
-            "ws": "wss://mainnet-service.lisk.com",
-            "apiCertificatePublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtz6qaTSCNwtGrdPJTori\n/CQCG5/ozu6IRIwAwNeB4YpYcUti3a16braLtC+9ElZ5S+S1hPS+nix3hlzuXm2z\ndpsgfHBuw16NO/9Hk1IbNMJOQD3KDY7GTeBebyBSVC9T5JEAQyTBm6elhIGvGlxZ\naQLV2vvZ2nR8T3UhECGOjtBurrCem5bLtJvg+XZXiTn27xQ1nEwUtm0rH1CJgSt7\nhVjQcAerNLaP58f1O521vgHr79UrJWLxqhjdNIccDZ4kWRCBdvnDBaKz2yI6sYhU\nD8OuPxvwXkrT7DX8GvODMOgf6NYqJIb8TD3wjoR/wWJHUG2Bc9v6eQScAFmCc/FL\n+wIDAQAB\n-----END PUBLIC KEY-----"
+            "http": "https://service.lisk.com",
+            "ws": "wss://service.lisk.com",
+            "apiCertificatePublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwAOGlgzeePs8O7FjSU9a\nUKQg4EYSJNgQqkwD/ITAJ6TzcXRCUK+N230NaFcQ8EFJw/8Al0r8mpjpOOEpPZDq\n+WljcCRkVHXZCJMvgDNcstzdrt1fKzsCrER2jB3hDUXt04xzzlk8ArJG0JeD/CmW\nAsQqL/S6v/GRVTuViHqzWm2eF2XrduUK8wIbQ1y+7HoVdgZDf5MpuvEXluVX4IeJ\nMyzbn9djdrDkHkcbml8dOHyLE6GOS5jKtXj+bKhyTVlSZFbexxKYiBqCpR6kMUnM\nVrURmWGT+jb7UhGkJiP7EpFB7MjAB+yXMiygd6lz67qjG6wFky1wB9NYGJ/50rrV\nDQIDAQAB\n-----END PUBLIC KEY-----"
         }
     ],
     "explorers": [
         {
-            "url": "https://mainnet.liskscan.com",
-            "txnPage": "https://mainnet.liskscan.com/transactions"
+            "url": "https://liskscan.com",
+            "txnPage": "https://liskscan.com/transactions"
         }
     ],
     "appNodes": [
         {
             "url": "https://mainnet.lisk.com",
-            "apiCertificatePublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtz6qaTSCNwtGrdPJTori\n/CQCG5/ozu6IRIwAwNeB4YpYcUti3a16braLtC+9ElZ5S+S1hPS+nix3hlzuXm2z\ndpsgfHBuw16NO/9Hk1IbNMJOQD3KDY7GTeBebyBSVC9T5JEAQyTBm6elhIGvGlxZ\naQLV2vvZ2nR8T3UhECGOjtBurrCem5bLtJvg+XZXiTn27xQ1nEwUtm0rH1CJgSt7\nhVjQcAerNLaP58f1O521vgHr79UrJWLxqhjdNIccDZ4kWRCBdvnDBaKz2yI6sYhU\nD8OuPxvwXkrT7DX8GvODMOgf6NYqJIb8TD3wjoR/wWJHUG2Bc9v6eQScAFmCc/FL\n+wIDAQAB\n-----END PUBLIC KEY-----",
+            "apiCertificatePublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqiQIDBSSlqKeWo0st2Hy\nJRbDzqYgcZfQvOpttr4kMbDjAYnz6XvZe3kOHcnMM2ePWrAS66SHTqdVbEEiu9Kf\njEQQkmk/Xv7XSMQ5kwidv+ANNDjTaC9GRnUHQ3pH77ZZY5msq0kEvmDvyMljU9kD\neqpugQn7jQVTG7te7PyXnZxvzMq8tgDILEwRnkF2hUF6jCH5X763aOT7X6yKUKY5\nZSUqmStKGPt1i34E5Pvb2AumsApkyqXfST/N/h8NV3UXRTBQ/fwAEvtOj3IMNNrw\nRUZIYAvwPFxTLXF0Dfj0fEiLFQzq+VPk3jsD9EbH1FotHXPtgA7brvG0uHfWKNsQ\nIQIDAQAB\n-----END PUBLIC KEY-----",
             "maintainer": "Lightcurve GmbH"
         },
         {
             "url": "wss://mainnet.lisk.com",
-            "apiCertificatePublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtz6qaTSCNwtGrdPJTori\n/CQCG5/ozu6IRIwAwNeB4YpYcUti3a16braLtC+9ElZ5S+S1hPS+nix3hlzuXm2z\ndpsgfHBuw16NO/9Hk1IbNMJOQD3KDY7GTeBebyBSVC9T5JEAQyTBm6elhIGvGlxZ\naQLV2vvZ2nR8T3UhECGOjtBurrCem5bLtJvg+XZXiTn27xQ1nEwUtm0rH1CJgSt7\nhVjQcAerNLaP58f1O521vgHr79UrJWLxqhjdNIccDZ4kWRCBdvnDBaKz2yI6sYhU\nD8OuPxvwXkrT7DX8GvODMOgf6NYqJIb8TD3wjoR/wWJHUG2Bc9v6eQScAFmCc/FL\n+wIDAQAB\n-----END PUBLIC KEY-----",
+            "apiCertificatePublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqiQIDBSSlqKeWo0st2Hy\nJRbDzqYgcZfQvOpttr4kMbDjAYnz6XvZe3kOHcnMM2ePWrAS66SHTqdVbEEiu9Kf\njEQQkmk/Xv7XSMQ5kwidv+ANNDjTaC9GRnUHQ3pH77ZZY5msq0kEvmDvyMljU9kD\neqpugQn7jQVTG7te7PyXnZxvzMq8tgDILEwRnkF2hUF6jCH5X763aOT7X6yKUKY5\nZSUqmStKGPt1i34E5Pvb2AumsApkyqXfST/N/h8NV3UXRTBQ/fwAEvtOj3IMNNrw\nRUZIYAvwPFxTLXF0Dfj0fEiLFQzq+VPk3jsD9EbH1FotHXPtgA7brvG0uHfWKNsQ\nIQIDAQAB\n-----END PUBLIC KEY-----",
             "maintainer": "Lightcurve GmbH"
         }
     ]
