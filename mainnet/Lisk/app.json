@@ -23,6 +23,10 @@
         {
             "url": "https://liskscan.com",
             "txnPage": "https://liskscan.com/transactions"
+        },
+        {
+            "url": "https://lisk.observer",
+            "txnPage": "https://lisk.observer/transactions"
         }
     ],
     "appNodes": [
