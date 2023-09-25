@@ -174,7 +174,7 @@ const validateAppNodeUrls = async (appNodeInfos, chainID, isSecuredNetwork) => {
 
 		const { protocol } = new URL(appNodeUrl);
 
-		if (isSecuredNetwork && (protocol !== 'https:' || protocol !== 'wss:' || !publicKey)) {
+		if (isSecuredNetwork && ((protocol !== 'https:' && protocol !== 'wss:') || !publicKey)) {
 			validationErrors.push(`Require secure URLs and API certificate public key in case of the following networks: ${config.securedNetworks}.`);
 		}
 
