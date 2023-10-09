@@ -20,7 +20,7 @@ const config = {};
 config.rootDir = path.join(__dirname, '../');
 
 // Directories corresponding the known networks
-config.knownNetworks = ['devnet', 'betanet', 'testnet', 'mainnet'];
+config.knownNetworks = ['testnet', 'mainnet'];
 config.securedNetworks = ['testnet', 'mainnet'];
 
 // Schema directory
