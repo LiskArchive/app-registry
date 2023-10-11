@@ -14,8 +14,8 @@
     "backgroundColor": "#cf2e2e",
     "serviceURLs": [
         {
-            "http": "http://devnet-enevti-service.liskdev.net:9901",
-            "ws": "ws://devnet-enevti-service.liskdev.net:9901"
+            "http": "http://127.0.0.1:9902",
+            "ws": "ws://127.0.0.1:9902"
         }
     ],
     "explorers": [],
