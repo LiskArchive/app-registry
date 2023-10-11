@@ -14,8 +14,8 @@
     "backgroundColor": "#f7f9fb",
     "serviceURLs": [
         {
-            "http": "http://devnet-service.liskdev.net:9901",
-            "ws": "ws://devnet-service.liskdev.net:9901"
+            "http": "http://127.0.0.1:9901",
+            "ws": "ws://127.0.0.1:9901"
         }
     ],
     "explorers": [],
