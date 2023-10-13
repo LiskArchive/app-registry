@@ -1,8 +1,8 @@
 {
-    "title": "Lisk - Alphanet - Native tokens",
+    "title": "Lisk - Mainnet - Native tokens",
     "tokens": [
         {
-            "tokenID": "0300000000000000",
+            "tokenID": "0000000000000000",
             "tokenName": "Lisk",
             "description": "Default token for the entire Lisk ecosystem",
             "denomUnits": [
@@ -25,8 +25,8 @@
             "displayDenom": "lsk",
             "symbol": "LSK",
             "logo": {
-                "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/alphanet/Lisk/images/tokens/lisk.png",
-                "svg": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/alphanet/Lisk/images/tokens/lisk.svg"
+                "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/mainnet/Lisk/images/tokens/lisk.png",
+                "svg": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/mainnet/Lisk/images/tokens/lisk.svg"
             }
         }
     ]

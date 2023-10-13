@@ -1,19 +1,20 @@
 const tokensNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Mainnet - Native tokens',
 };
 
 const tokensIncorrect = {
-	title: 'Lisk - Betanet - Native tokens',
+	title: 'Lisk - Mainnet - Native tokens',
 	tokens: 'Tokens',
 };
 
 const tokenIDNotPresent = {
-	title: 'Lisk - Alphanet',
-	description: 'Metadata configuration for the Lisk blockchain (mainchain) in alphanet',
-	chainName: 'Lisk',
-	chainID: '03000000',
-	networkType: 'alphanet',
-	genesisURL: 'https://downloads.lisk.com/lisk/alphanet/genesis_block.json.tar.gz',
+	title: 'Lisk - Mainnet',
+	description: 'Metadata configuration for the Lisk blockchain (mainchain) in mainnet',
+	chainName: 'lisk_mainchain',
+	displayName: 'Lisk',
+	chainID: '00000000',
+	networkType: 'mainnet',
+	genesisURL: 'https://downloads.lisk.com/lisk/mainnet/genesis_block.json.tar.gz',
 	projectPage: 'https://lisk.com',
 	logo: {
 		png: 'https://lisk-qa.ams3.digitaloceanspaces.com/lisk.png',
@@ -22,24 +23,24 @@ const tokenIDNotPresent = {
 	backgroundColor: '#f7f9fb',
 	serviceURLs: [
 		{
-			http: 'https://alphanet-service.liskdev.net',
-			ws: 'wss://alphanet-service.liskdev.net',
+			http: 'https://mainnet-service.lisk.com',
+			ws: 'wss://mainnet-service.lisk.com',
 		},
 	],
 	explorers: [],
 	appNodes: [
 		{
-			url: 'ws://alphanet.liskdev.net:4002',
+			url: 'wss://mainnet.lisk.com',
 			maintainer: 'Lightcurve GmbH',
 		},
 	],
 };
 
 const tokenNameNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
 				{
@@ -69,10 +70,10 @@ const tokenNameNotPresent = {
 };
 
 const denomUnitsNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			baseDenom: 'beddows',
@@ -87,10 +88,10 @@ const denomUnitsNotPresent = {
 };
 
 const denomUnitsDecimalsIncorrect = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: '<INCORRECT>',
@@ -106,10 +107,10 @@ const denomUnitsDecimalsIncorrect = {
 };
 
 const denomUnitsDecimalsNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -139,10 +140,10 @@ const denomUnitsDecimalsNotPresent = {
 };
 
 const denomUnitsDenomNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -172,10 +173,10 @@ const denomUnitsDenomNotPresent = {
 };
 
 const baseDenomNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -205,10 +206,10 @@ const baseDenomNotPresent = {
 };
 
 const displayDenomNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -238,10 +239,10 @@ const displayDenomNotPresent = {
 };
 
 const symbolNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -271,10 +272,10 @@ const symbolNotPresent = {
 };
 
 const logoNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -305,10 +306,10 @@ const logoNotPresent = {
 };
 
 const logoPngNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -338,10 +339,10 @@ const logoPngNotPresent = {
 };
 
 const logoSvgNotPresent = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -371,10 +372,10 @@ const logoSvgNotPresent = {
 };
 
 const logoPNGIncorrect = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [
@@ -405,10 +406,10 @@ const logoPNGIncorrect = {
 };
 
 const logoSVGIncorrect = {
-	title: 'Lisk - Alphanet - Native tokens',
+	title: 'Lisk - Mainnet - Native tokens',
 	tokens: [
 		{
-			tokenID: '0300000000000000',
+			tokenID: '0000000000000000',
 			tokenName: 'Lisk',
 			description: 'Default token for the entire Lisk ecosystem',
 			denomUnits: [

@@ -23,6 +23,7 @@ const nativeTokenSchema = require(`${config.schemaDir}/${config.filename.NATIVE_
 
 const ajv = new Ajv();
 addFormats(ajv);
+ajv.addKeyword('example');
 
 const validateChainName = async (filePaths) => {
 	const validationErrors = [];
@@ -34,8 +35,9 @@ const validateChainName = async (filePaths) => {
 		const parentDirName = path.basename(path.dirname(filePath));
 
 		const chainNameFromFile = data && data.chainName ? data.chainName.toLowerCase() : undefined;
-		if (chainNameFromFile !== parentDirName.toLowerCase()) {
-			validationErrors.push(new Error(`Parent directory name doesn't match the chainName in ${filePaths[i]}.`));
+		const displayNameFromFile = data && data.displayName ? data.displayName.toLowerCase() : undefined;
+		if (chainNameFromFile !== parentDirName.toLowerCase() && displayNameFromFile !== parentDirName.toLowerCase()) {
+			validationErrors.push(`Parent directory name neither matches the chainName nor the displayName in ${filePaths[i]}.`);
 		}
 		/* eslint-enable no-await-in-loop */
 	}
@@ -53,7 +55,7 @@ const validateSchema = async (schema, filePaths) => {
 		const valid = ajv.validate(schema, data);
 
 		if (!valid) {
-			validationErrors.push(new Error(JSON.stringify(ajv.errors)));
+			validationErrors.push(JSON.stringify(ajv.errors));
 		}
 		/* eslint-enable no-await-in-loop */
 	}

@@ -25,17 +25,20 @@
             "properties": {
                 "denom": {
                     "type": "string",
-                    "description": "Supported denomination. Example: Beddows, LSK"
+                    "description": "Supported denomination.",
+                    "example": "beddows"
                 },
                 "decimals": {
                     "type": "integer",
-                    "description": "The exponent over base 10 by which the denomination is a factor of the baseDenom. Example: 8 for LSK (1 LSK = 10^8 Beddows)"
+                    "description": "The exponent over base 10 by which the denomination is a factor of the baseDenom. Example: 8 for LSK (1 LSK = 10^8 Beddows).",
+                    "example": 0
                 },
                 "aliases": {
                     "type": "array",
                     "items": {
                         "type": "string",
-                        "description": "Human friendly aliases for the denomination unit"
+                        "description": "Human friendly aliases for the denomination unit.",
+                        "example": "Beddows"
                     }
                 }
             }
@@ -50,12 +53,14 @@
                 "png": {
                     "type": "string",
                     "format": "uri-reference",
-                    "description": "URI to the PNG format of the token logo"
+                    "description": "URI to the PNG format of the token logo.",
+                    "example": "https://lisk.com/logo.png"
                 },
                 "svg": {
                     "type": "string",
                     "format": "uri-reference",
-                    "description": "URI to the SVG format of the token logo"
+                    "description": "URI to the SVG format of the token logo.",
+                    "example": "https://lisk.com/logo.svg"
                 }
             }
         },
@@ -72,15 +77,18 @@
             "properties": {
                 "tokenID": {
                     "type": "string",
-                    "description": "The universal identifier for the token within the Lisk ecosystem. It is defined as the concatenated value of the chainID and localID. Example: tokenID for LSK would be '0000000100000000' (chainID: '00000001', localID: '00000000')"
+                    "description": "The universal identifier for the token within the Lisk ecosystem.",
+                    "example": "0000000000000000"
                 },
                 "tokenName": {
                     "type": "string",
-                    "description": "The name of the token. For example Lisk"
+                    "description": "The name of the token. For example Lisk.",
+                    "example": "Lisk"
                 },
                 "description": {
                     "type": "string",
-                    "description": "A short description of the token"
+                    "description": "A short description of the token.",
+                    "example": "Default token for the entire Lisk ecosystem."
                 },
                 "denomUnits": {
                     "type": "array",
@@ -90,15 +98,18 @@
                 },
                 "baseDenom": {
                     "type": "string",
-                    "description": "The base denomination unit of the token. Must be a 'denom' in denomUnits. Example: Beddows"
+                    "description": "The base denomination unit of the token. Must be a 'denom' in denomUnits.",
+                    "example": "Beddows"
                 },
                 "displayDenom": {
                     "type": "string",
-                    "description": "The human friendly denomination unit of the token. Must be a 'denom' in denomUnits. Example: LSK"
+                    "description": "The human friendly denomination unit of the token. Must be a 'denom' in denomUnits.",
+                    "example": "lsk"
                 },
                 "symbol": {
                     "type": "string",
-                    "description": "The symbol for the token. Example: LSK"
+                    "description": "The symbol for the token.",
+                    "example": "LSK"
                 },
                 "logo": {
                     "$ref": "#/$defs/tokenLogoURI"

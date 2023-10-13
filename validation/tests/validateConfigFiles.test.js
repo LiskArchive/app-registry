@@ -25,7 +25,7 @@ describe('Configs in network directories validation tests', () => {
 
 	afterAll(async () => {
 		// Remove the temporary directory and files created during testing
-		await setup.cleanTestEnviroment();
+		await setup.cleanTestEnvironment();
 	});
 
 	it('should not have validation errors when app.json and nativetokens.json is present in all network directories', async () => {

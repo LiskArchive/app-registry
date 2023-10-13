@@ -26,10 +26,10 @@ const validateConfigFilePaths = async (filePaths) => {
 			const grandparentDir = path.basename(parentDir);
 
 			if (!config.knownNetworks.includes(grandparentDir)) {
-				validationErrors.push(new Error(`File (${filePath}) does not belong to a known network.`));
+				validationErrors.push(`File (${filePath}) does not belong to a known network.`);
 			}
 		} catch (err) {
-			validationErrors.push(new Error(`Error: ${err}`));
+			validationErrors.push(`Validation of file (${filePaths[i]}) failed with error: ${err.message}`);
 		}
 	}
 

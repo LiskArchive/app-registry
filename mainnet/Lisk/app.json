@@ -1,0 +1,44 @@
+{
+    "title": "Lisk - Mainnet",
+    "description": "Metadata configuration for the Lisk blockchain (mainchain) in mainnet",
+    "chainName": "lisk_mainchain",
+    "displayName": "Lisk",
+    "chainID": "00000000",
+    "networkType": "mainnet",
+    "genesisURL": "https://downloads.lisk.com/lisk/mainnet/genesis_block.json.tar.gz",
+    "projectPage": "https://lisk.com",
+    "logo": {
+        "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/mainnet/Lisk/images/application/lisk.png",
+        "svg": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/mainnet/Lisk/images/application/lisk.svg"
+    },
+    "backgroundColor": "#f7f9fb",
+    "serviceURLs": [
+        {
+            "http": "https://service.lisk.com",
+            "ws": "wss://service.lisk.com",
+            "apiCertificatePublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwAOGlgzeePs8O7FjSU9a\nUKQg4EYSJNgQqkwD/ITAJ6TzcXRCUK+N230NaFcQ8EFJw/8Al0r8mpjpOOEpPZDq\n+WljcCRkVHXZCJMvgDNcstzdrt1fKzsCrER2jB3hDUXt04xzzlk8ArJG0JeD/CmW\nAsQqL/S6v/GRVTuViHqzWm2eF2XrduUK8wIbQ1y+7HoVdgZDf5MpuvEXluVX4IeJ\nMyzbn9djdrDkHkcbml8dOHyLE6GOS5jKtXj+bKhyTVlSZFbexxKYiBqCpR6kMUnM\nVrURmWGT+jb7UhGkJiP7EpFB7MjAB+yXMiygd6lz67qjG6wFky1wB9NYGJ/50rrV\nDQIDAQAB\n-----END PUBLIC KEY-----"
+        }
+    ],
+    "explorers": [
+        {
+            "url": "https://liskscan.com",
+            "txnPage": "https://liskscan.com/transactions"
+        },
+        {
+            "url": "https://lisk.observer",
+            "txnPage": "https://lisk.observer/transactions"
+        }
+    ],
+    "appNodes": [
+        {
+            "url": "https://mainnet.lisk.com",
+            "apiCertificatePublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqiQIDBSSlqKeWo0st2Hy\nJRbDzqYgcZfQvOpttr4kMbDjAYnz6XvZe3kOHcnMM2ePWrAS66SHTqdVbEEiu9Kf\njEQQkmk/Xv7XSMQ5kwidv+ANNDjTaC9GRnUHQ3pH77ZZY5msq0kEvmDvyMljU9kD\neqpugQn7jQVTG7te7PyXnZxvzMq8tgDILEwRnkF2hUF6jCH5X763aOT7X6yKUKY5\nZSUqmStKGPt1i34E5Pvb2AumsApkyqXfST/N/h8NV3UXRTBQ/fwAEvtOj3IMNNrw\nRUZIYAvwPFxTLXF0Dfj0fEiLFQzq+VPk3jsD9EbH1FotHXPtgA7brvG0uHfWKNsQ\nIQIDAQAB\n-----END PUBLIC KEY-----",
+            "maintainer": "Lightcurve GmbH"
+        },
+        {
+            "url": "wss://mainnet.lisk.com",
+            "apiCertificatePublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqiQIDBSSlqKeWo0st2Hy\nJRbDzqYgcZfQvOpttr4kMbDjAYnz6XvZe3kOHcnMM2ePWrAS66SHTqdVbEEiu9Kf\njEQQkmk/Xv7XSMQ5kwidv+ANNDjTaC9GRnUHQ3pH77ZZY5msq0kEvmDvyMljU9kD\neqpugQn7jQVTG7te7PyXnZxvzMq8tgDILEwRnkF2hUF6jCH5X763aOT7X6yKUKY5\nZSUqmStKGPt1i34E5Pvb2AumsApkyqXfST/N/h8NV3UXRTBQ/fwAEvtOj3IMNNrw\nRUZIYAvwPFxTLXF0Dfj0fEiLFQzq+VPk3jsD9EbH1FotHXPtgA7brvG0uHfWKNsQ\nIQIDAQAB\n-----END PUBLIC KEY-----",
+            "maintainer": "Lightcurve GmbH"
+        }
+    ]
+}

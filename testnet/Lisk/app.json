@@ -1,0 +1,44 @@
+{
+    "title": "Lisk - Testnet",
+    "description": "Metadata configuration for the Lisk blockchain (mainchain) in testnet",
+    "chainName": "lisk_mainchain",
+    "displayName": "Lisk",
+    "chainID": "01000000",
+    "networkType": "testnet",
+    "genesisURL": "https://downloads.lisk.com/lisk/testnet/genesis_block.json.tar.gz",
+    "projectPage": "https://lisk.com",
+    "logo": {
+        "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/testnet/Lisk/images/application/lisk.png",
+        "svg": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/testnet/Lisk/images/application/lisk.svg"
+    },
+    "backgroundColor": "#f7f9fb",
+    "serviceURLs": [
+        {
+            "http": "https://testnet-service.lisk.com",
+            "ws": "wss://testnet-service.lisk.com",
+            "apiCertificatePublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqiQIDBSSlqKeWo0st2Hy\nJRbDzqYgcZfQvOpttr4kMbDjAYnz6XvZe3kOHcnMM2ePWrAS66SHTqdVbEEiu9Kf\njEQQkmk/Xv7XSMQ5kwidv+ANNDjTaC9GRnUHQ3pH77ZZY5msq0kEvmDvyMljU9kD\neqpugQn7jQVTG7te7PyXnZxvzMq8tgDILEwRnkF2hUF6jCH5X763aOT7X6yKUKY5\nZSUqmStKGPt1i34E5Pvb2AumsApkyqXfST/N/h8NV3UXRTBQ/fwAEvtOj3IMNNrw\nRUZIYAvwPFxTLXF0Dfj0fEiLFQzq+VPk3jsD9EbH1FotHXPtgA7brvG0uHfWKNsQ\nIQIDAQAB\n-----END PUBLIC KEY-----"
+        }
+    ],
+    "explorers": [
+        {
+            "url": "https://testnet.liskscan.com",
+            "txnPage": "https://testnet.liskscan.com/transactions"
+        },
+        {
+            "url": "https://testnet.lisk.observer",
+            "txnPage": "https://testnet.lisk.observer/transactions"
+        }
+    ],
+    "appNodes": [
+        {
+            "url": "https://testnet.lisk.com",
+            "apiCertificatePublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqiQIDBSSlqKeWo0st2Hy\nJRbDzqYgcZfQvOpttr4kMbDjAYnz6XvZe3kOHcnMM2ePWrAS66SHTqdVbEEiu9Kf\njEQQkmk/Xv7XSMQ5kwidv+ANNDjTaC9GRnUHQ3pH77ZZY5msq0kEvmDvyMljU9kD\neqpugQn7jQVTG7te7PyXnZxvzMq8tgDILEwRnkF2hUF6jCH5X763aOT7X6yKUKY5\nZSUqmStKGPt1i34E5Pvb2AumsApkyqXfST/N/h8NV3UXRTBQ/fwAEvtOj3IMNNrw\nRUZIYAvwPFxTLXF0Dfj0fEiLFQzq+VPk3jsD9EbH1FotHXPtgA7brvG0uHfWKNsQ\nIQIDAQAB\n-----END PUBLIC KEY-----",
+            "maintainer": "Lightcurve GmbH"
+        },
+        {
+            "url": "wss://testnet.lisk.com",
+            "apiCertificatePublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqiQIDBSSlqKeWo0st2Hy\nJRbDzqYgcZfQvOpttr4kMbDjAYnz6XvZe3kOHcnMM2ePWrAS66SHTqdVbEEiu9Kf\njEQQkmk/Xv7XSMQ5kwidv+ANNDjTaC9GRnUHQ3pH77ZZY5msq0kEvmDvyMljU9kD\neqpugQn7jQVTG7te7PyXnZxvzMq8tgDILEwRnkF2hUF6jCH5X763aOT7X6yKUKY5\nZSUqmStKGPt1i34E5Pvb2AumsApkyqXfST/N/h8NV3UXRTBQ/fwAEvtOj3IMNNrw\nRUZIYAvwPFxTLXF0Dfj0fEiLFQzq+VPk3jsD9EbH1FotHXPtgA7brvG0uHfWKNsQ\nIQIDAQAB\n-----END PUBLIC KEY-----",
+            "maintainer": "Lightcurve GmbH"
+        }
+    ]
+}
