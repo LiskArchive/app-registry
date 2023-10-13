@@ -4,7 +4,7 @@
         {
             "tokenID": "0400001100000000",
             "tokenName": "Dex",
-            "description": "Native utility token",
+            "description": "Native Utility Token",
             "denomUnits": [
                 {
                     "denom": "dex",

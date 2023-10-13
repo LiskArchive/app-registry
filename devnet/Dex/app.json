@@ -4,12 +4,13 @@
     "chainName": "Dex",
     "chainID": "04000011",
     "networkType": "devnet",
-    "genesisURL": "https://github.com/LiskHQ/lisk-dex-core/raw/development/config/default/genesis_block.blob",
-    "projectPage": "https://github.com/LiskHQ/lisk-dex-core",
+    "genesisURL": "",
+    "projectPage": "",
     "logo": {
         "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/devnet/Dex/images/application/dex.png",
-        "svg": ""
+        "svg": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/devnet/Dex/images/application/dex.svg"
     },
+    "backgroundColor": "#f7f9fb",
     "serviceURLs": [
         {
             "http": "http://devnet-dex-service.liskdev.net:9901",
