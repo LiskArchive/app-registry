@@ -5,7 +5,7 @@
     "displayName": "Lisk",
     "chainID": "04000000",
     "networkType": "devnet",
-    "genesisURL": "https://downloads.lisk.com/lisk/devnet/genesis_block.json.tar.gz",
+    "genesisURL": "https://github.com/LiskHQ/lisk-core/blob/development/config/devnet/genesis_assets.json",
     "projectPage": "https://lisk.com",
     "logo": {
         "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/devnet/Lisk/images/application/lisk.png",

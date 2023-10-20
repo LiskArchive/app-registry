@@ -21,6 +21,8 @@ const config = require('../config');
 const { httpRequest, wsRequest, requestInfoFromLiskNodeWSEndpoint, requestInfoFromLiskNodeHTTPEndpoint } = require('./utils/request/index');
 const { readFile } = require('./utils/fs');
 
+const LOCALHOST_IP = '127.0.0.1';
+
 const validateExplorerUrls = async (explorers) => {
 	const validationErrors = [];
 
@@ -149,7 +151,7 @@ const validateLogoURLs = async (logos, allChangedFiles) => {
 						} else {
 							validationErrors.push(...await validateImageResolution({ filePath: path.join(config.rootDir, filePath) }));
 						}
-					} else { // If logo url dosent refrance default branch or commit hash
+					} else { // If logo URL doesn't reference default branch or commit hash
 						validationErrors.push(`Validation of SVG logo URL (${svgURL}) failed with error:  URL needs to be associated with the '${config.repositoryDefaultBranch}' branch or a commit hash.`);
 					}
 				} else {
@@ -179,20 +181,22 @@ const validateAppNodeUrls = async (appNodeInfos, chainID, isSecuredNetwork) => {
 		}
 
 		try {
-			if (protocol === 'ws:' || protocol === 'wss:') {
+			if (!appNodeUrl.includes(LOCALHOST_IP)) {
+				if (protocol === 'ws:' || protocol === 'wss:') {
 				// Validate ws app node URLs
-				const nodeSystemInfo = await requestInfoFromLiskNodeWSEndpoint(appNodeUrl, publicKey);
-				if (nodeSystemInfo.chainID !== chainID) {
-					validationErrors.push(`ChainID mismatch on node: ${appNodeUrl}.\nNode chainID: ${nodeSystemInfo.chainID}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config are accurate.`);
-				}
-			} else if (protocol === 'http:' || protocol === 'https:') {
+					const nodeSystemInfo = await requestInfoFromLiskNodeWSEndpoint(appNodeUrl, publicKey);
+					if (nodeSystemInfo.chainID !== chainID) {
+						validationErrors.push(`ChainID mismatch on node: ${appNodeUrl}.\nNode chainID: ${nodeSystemInfo.chainID}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config are accurate.`);
+					}
+				} else if (protocol === 'http:' || protocol === 'https:') {
 				// Validate HTTP app node URLs
-				const nodeSystemInfo = await requestInfoFromLiskNodeHTTPEndpoint(appNodeUrl, publicKey);
-				if (nodeSystemInfo.chainID !== chainID) {
-					validationErrors.push(`ChainID mismatch on node: ${appNodeUrl}.\nNode chainID: ${nodeSystemInfo.chainID}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config are accurate.`);
+					const nodeSystemInfo = await requestInfoFromLiskNodeHTTPEndpoint(appNodeUrl, publicKey);
+					if (nodeSystemInfo.chainID !== chainID) {
+						validationErrors.push(`ChainID mismatch on node: ${appNodeUrl}.\nNode chainID: ${nodeSystemInfo.chainID}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config are accurate.`);
+					}
+				} else {
+					validationErrors.push(`Incorrect URL protocol: ${appNodeUrl}.`);
 				}
-			} else {
-				validationErrors.push(`Incorrect URL protocol: ${appNodeUrl}.`);
 			}
 		} catch (error) {
 			validationErrors.push(`Establishing connection with node (${appNodeUrl}) failed due error: ${error.message}.`);
@@ -221,7 +225,7 @@ const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork) => {
 			validationErrors.push('Require Lisk Service HTTP and WS URLs. For secured deployments, please provide apiCertificatePublicKey as well.');
 		} else {
 			// Validate HTTP service URLs
-			if (httpServiceURL) {
+			if (httpServiceURL && !httpServiceURL.includes(LOCALHOST_IP)) {
 				try {
 					const httpRes = await httpRequest(httpServiceURL + config.LS_HTTP_ENDPOINT_NET_STATUS, {}, publicKey);
 					const chainIDFromServiceURL = httpRes.data.data.chainID;
@@ -234,7 +238,7 @@ const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork) => {
 			}
 
 			// Validate ws service URLs
-			if (wsServiceUrl) {
+			if (wsServiceUrl && !wsServiceUrl.includes(LOCALHOST_IP)) {
 				try {
 					const wsRes = await wsRequest(wsServiceUrl + config.LS_WS_API_NAMESPACE, config.LS_WS_ENDPOINT_NET_STATUS, {}, publicKey);
 					if (wsRes.result.data.chainID !== chainID) {
