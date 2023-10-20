@@ -21,6 +21,8 @@ const config = require('../config');
 const { httpRequest, wsRequest, requestInfoFromLiskNodeWSEndpoint, requestInfoFromLiskNodeHTTPEndpoint } = require('./utils/request/index');
 const { readFile } = require('./utils/fs');
 
+const LOCALHOST_IP = '127.0.0.1';
+
 const validateExplorerUrls = async (explorers) => {
 	const validationErrors = [];
 
@@ -149,7 +151,7 @@ const validateLogoURLs = async (logos, allChangedFiles) => {
 						} else {
 							validationErrors.push(...await validateImageResolution({ filePath: path.join(config.rootDir, filePath) }));
 						}
-					} else { // If logo url dosent refrance default branch or commit hash
+					} else { // If logo URL doesn't reference default branch or commit hash
 						validationErrors.push(`Validation of SVG logo URL (${svgURL}) failed with error:  URL needs to be associated with the '${config.repositoryDefaultBranch}' branch or a commit hash.`);
 					}
 				} else {
@@ -164,7 +166,7 @@ const validateLogoURLs = async (logos, allChangedFiles) => {
 	return validationErrors;
 };
 
-const validateAppNodeUrls = async (appNodeInfos, chainID, isSecuredNetwork) => {
+const validateAppNodeUrls = async (appNodeInfos, chainID, isSecuredNetwork, isAuthorFromDevTeam = false) => {
 	const validationErrors = [];
 
 	for (let i = 0; i < appNodeInfos.length; i++) {
@@ -179,20 +181,24 @@ const validateAppNodeUrls = async (appNodeInfos, chainID, isSecuredNetwork) => {
 		}
 
 		try {
-			if (protocol === 'ws:' || protocol === 'wss:') {
-				// Validate ws app node URLs
-				const nodeSystemInfo = await requestInfoFromLiskNodeWSEndpoint(appNodeUrl, publicKey);
-				if (nodeSystemInfo.chainID !== chainID) {
-					validationErrors.push(`ChainID mismatch on node: ${appNodeUrl}.\nNode chainID: ${nodeSystemInfo.chainID}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config are accurate.`);
+			if (!appNodeUrl.includes(LOCALHOST_IP)) {
+				if (protocol === 'ws:' || protocol === 'wss:') {
+					// Validate ws app node URLs
+					const nodeSystemInfo = await requestInfoFromLiskNodeWSEndpoint(appNodeUrl, publicKey);
+					if (nodeSystemInfo.chainID !== chainID) {
+						validationErrors.push(`ChainID mismatch on node: ${appNodeUrl}.\nNode chainID: ${nodeSystemInfo.chainID}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config are accurate.`);
+					}
+				} else if (protocol === 'http:' || protocol === 'https:') {
+					// Validate HTTP app node URLs
+					const nodeSystemInfo = await requestInfoFromLiskNodeHTTPEndpoint(appNodeUrl, publicKey);
+					if (nodeSystemInfo.chainID !== chainID) {
+						validationErrors.push(`ChainID mismatch on node: ${appNodeUrl}.\nNode chainID: ${nodeSystemInfo.chainID}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config are accurate.`);
+					}
+				} else {
+					validationErrors.push(`Incorrect URL protocol: ${appNodeUrl}.`);
 				}
-			} else if (protocol === 'http:' || protocol === 'https:') {
-				// Validate HTTP app node URLs
-				const nodeSystemInfo = await requestInfoFromLiskNodeHTTPEndpoint(appNodeUrl, publicKey);
-				if (nodeSystemInfo.chainID !== chainID) {
-					validationErrors.push(`ChainID mismatch on node: ${appNodeUrl}.\nNode chainID: ${nodeSystemInfo.chainID}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config are accurate.`);
-				}
-			} else {
-				validationErrors.push(`Incorrect URL protocol: ${appNodeUrl}.`);
+			} else if (!isAuthorFromDevTeam) {
+				validationErrors.push(`URL ${appNodeUrl} should not contain ${LOCALHOST_IP}.`);
 			}
 		} catch (error) {
 			validationErrors.push(`Establishing connection with node (${appNodeUrl}) failed due error: ${error.message}.`);
@@ -203,7 +209,7 @@ const validateAppNodeUrls = async (appNodeInfos, chainID, isSecuredNetwork) => {
 	return validationErrors;
 };
 
-const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork) => {
+const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork, isAuthorFromDevTeam = false) => {
 	const validationErrors = [];
 
 	for (let i = 0; i < serviceURLs.length; i++) {
@@ -222,26 +228,34 @@ const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork) => {
 		} else {
 			// Validate HTTP service URLs
 			if (httpServiceURL) {
-				try {
-					const httpRes = await httpRequest(httpServiceURL + config.LS_HTTP_ENDPOINT_NET_STATUS, {}, publicKey);
-					const chainIDFromServiceURL = httpRes.data.data.chainID;
-					if (chainIDFromServiceURL !== chainID) {
-						validationErrors.push(`ChainID mismatch in HTTP URL: ${httpServiceURL}.\nService URL chainID: ${chainIDFromServiceURL}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`);
+				if (!httpServiceURL.includes(LOCALHOST_IP)) {
+					try {
+						const httpRes = await httpRequest(httpServiceURL + config.LS_HTTP_ENDPOINT_NET_STATUS, {}, publicKey);
+						const chainIDFromServiceURL = httpRes.data.data.chainID;
+						if (chainIDFromServiceURL !== chainID) {
+							validationErrors.push(`ChainID mismatch in HTTP URL: ${httpServiceURL}.\nService URL chainID: ${chainIDFromServiceURL}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`);
+						}
+					} catch (error) {
+						validationErrors.push(`Validation of URL (${httpServiceURL}) failed with error: ${error.message}.`);
 					}
-				} catch (error) {
-					validationErrors.push(`Validation of URL (${httpServiceURL}) failed with error: ${error.message}.`);
+				} else if (!isAuthorFromDevTeam) {
+					validationErrors.push(`URL ${httpServiceURL} should not contain ${LOCALHOST_IP}.`);
 				}
 			}
 
-			// Validate ws service URLs
 			if (wsServiceUrl) {
-				try {
-					const wsRes = await wsRequest(wsServiceUrl + config.LS_WS_API_NAMESPACE, config.LS_WS_ENDPOINT_NET_STATUS, {}, publicKey);
-					if (wsRes.result.data.chainID !== chainID) {
-						validationErrors.push(`ChainID mismatch in WS URL: ${wsServiceUrl}.\nService URL chainID: ${wsRes.chainID}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`);
+				// Validate ws service URLs
+				if (!wsServiceUrl.includes(LOCALHOST_IP)) {
+					try {
+						const wsRes = await wsRequest(wsServiceUrl + config.LS_WS_API_NAMESPACE, config.LS_WS_ENDPOINT_NET_STATUS, {}, publicKey);
+						if (wsRes.result.data.chainID !== chainID) {
+							validationErrors.push(`ChainID mismatch in WS URL: ${wsServiceUrl}.\nService URL chainID: ${wsRes.chainID}.\napp.json chainID: ${chainID}.\nPlease ensure that the supplied values in the config is correct.`);
+						}
+					} catch (error) {
+						validationErrors.push(`Validation of URL (${wsServiceUrl}) failed with error: ${error.message}.`);
 					}
-				} catch (error) {
-					validationErrors.push(`Validation of URL (${wsServiceUrl}) failed with error: ${error.message}.`);
+				} else if (!isAuthorFromDevTeam) {
+					validationErrors.push(`URL ${wsServiceUrl} should not contain ${LOCALHOST_IP}.`);
 				}
 			}
 		}
@@ -252,7 +266,7 @@ const validateServiceURLs = async (serviceURLs, chainID, isSecuredNetwork) => {
 	return validationErrors;
 };
 
-const validateURLs = async (changedAppFiles, allChangedFiles) => {
+const validateURLs = async (changedAppFiles, allChangedFiles, isAuthorFromDevTeam) => {
 	let validationErrors = [];
 
 	const securedNetworkPaths = [];
@@ -282,7 +296,7 @@ const validateURLs = async (changedAppFiles, allChangedFiles) => {
 		}
 
 		// Validate service URLs
-		const serviceURLValidationErrors = await validateServiceURLs(data.serviceURLs, data.chainID, isSecuredNetwork);
+		const serviceURLValidationErrors = await validateServiceURLs(data.serviceURLs, data.chainID, isSecuredNetwork, isAuthorFromDevTeam);
 
 		// Validate logo URLs
 		const logoValidationErrors = await validateLogoURLs(data.logo, allChangedFiles);
@@ -297,7 +311,7 @@ const validateURLs = async (changedAppFiles, allChangedFiles) => {
 		const explorerURLValidationErrors = await validateExplorerUrls(data.explorers);
 
 		// Validate appNodes URLs
-		const appNodeURLValidationErrors = await validateAppNodeUrls(data.appNodes, data.chainID, isSecuredNetwork);
+		const appNodeURLValidationErrors = await validateAppNodeUrls(data.appNodes, data.chainID, isSecuredNetwork, isAuthorFromDevTeam);
 		/* eslint-enable no-await-in-loop */
 
 		validationErrors = [...validationErrors,

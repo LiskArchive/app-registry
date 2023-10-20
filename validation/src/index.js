@@ -94,7 +94,7 @@ const validate = async () => {
 	const validateConfigFilesErrors = await validateAllConfigFiles(changedAppDirs);
 
 	// Validate serviceURLs
-	const urlErrors = await validateURLs(changedAppFiles, allChangedFiles);
+	const urlErrors = await validateURLs(changedAppFiles, allChangedFiles, isAuthorFromDevTeam);
 
 	// Merge all validation errors
 	validationErrors = [...configFileErrors, ...schemaErrors, ...validateConfigFilesErrors, ...urlErrors];
