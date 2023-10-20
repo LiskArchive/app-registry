@@ -12,6 +12,7 @@ The blockchain application metadata is arranged in the following structure: <br/
 The repository currently supports adding off-chain application metadata for the following networks:
 - mainnet
 - testnet
+- devnet
 
 ### App JSON
 

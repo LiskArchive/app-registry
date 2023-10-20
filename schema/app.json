@@ -39,7 +39,7 @@
         },
         "networkType": {
             "type": "string",
-            "description": "Network for which this configuration is specified. Must be one of 'mainnet' or 'testnet'.",
+            "description": "Network for which this configuration is specified. Must be one of 'mainnet', 'testnet' or 'devnet'.",
             "example": "mainnet"
         },
         "projectPage": {
