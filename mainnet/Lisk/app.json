@@ -3,9 +3,9 @@
     "description": "Metadata configuration for the Lisk blockchain (mainchain) in mainnet",
     "chainName": "lisk_mainchain",
     "displayName": "Lisk",
-    "chainID": "00000000",
+    "chainID": "9000000",
     "networkType": "mainnet",
-    "genesisURL": "https://downloads.lisk.com/lisk/mainnet/genesis_block.json.tar.gz",
+    "genesisURL": "https://lisk-mainnet-dryrun.fra1.cdn.digitaloceanspaces.com/genesis_block.json.tar.gz",
     "projectPage": "https://lisk.com",
     "logo": {
         "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/mainnet/Lisk/images/application/lisk.png",
@@ -14,8 +14,8 @@
     "backgroundColor": "#f7f9fb",
     "serviceURLs": [
         {
-            "http": "https://service.lisk.com",
-            "ws": "wss://service.lisk.com",
+            "http": "https://mainnet-service.liskdev.net",
+            "ws": "wss://mainnet-service.liskdev.net",
             "apiCertificatePublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwAOGlgzeePs8O7FjSU9a\nUKQg4EYSJNgQqkwD/ITAJ6TzcXRCUK+N230NaFcQ8EFJw/8Al0r8mpjpOOEpPZDq\n+WljcCRkVHXZCJMvgDNcstzdrt1fKzsCrER2jB3hDUXt04xzzlk8ArJG0JeD/CmW\nAsQqL/S6v/GRVTuViHqzWm2eF2XrduUK8wIbQ1y+7HoVdgZDf5MpuvEXluVX4IeJ\nMyzbn9djdrDkHkcbml8dOHyLE6GOS5jKtXj+bKhyTVlSZFbexxKYiBqCpR6kMUnM\nVrURmWGT+jb7UhGkJiP7EpFB7MjAB+yXMiygd6lz67qjG6wFky1wB9NYGJ/50rrV\nDQIDAQAB\n-----END PUBLIC KEY-----"
         }
     ],

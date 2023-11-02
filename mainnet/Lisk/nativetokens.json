@@ -2,7 +2,7 @@
     "title": "Lisk - Mainnet - Native tokens",
     "tokens": [
         {
-            "tokenID": "0000000000000000",
+            "tokenID": "9900000000000000",
             "tokenName": "Lisk",
             "description": "Default token for the entire Lisk ecosystem",
             "denomUnits": [
