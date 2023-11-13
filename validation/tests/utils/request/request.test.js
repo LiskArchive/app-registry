@@ -215,7 +215,7 @@ describe('wsRequest for wss requests', () => {
 
 		const { wsRequest } = require(mockRequestFilePath);
 		await expect(wsRequest(wsEndpoint, wsMethod, wsParams, invalidPublicKey, timeout)).rejects.toThrow(
-			"Supplied apiCertificatePublickey doesn't match with public key extracted from the SSL/TLS security certificate.",
+			"Supplied apiCertificatePublicKey doesn't match with public key extracted from the SSL/TLS security certificate.",
 		);
 	});
 });
@@ -281,7 +281,7 @@ describe('httpRequest for https requests', () => {
 
 		const { httpRequest } = require(mockRequestFilePath);
 		await expect(httpRequest(url, {}, invalidPublicKey)).rejects.toThrow(
-			"Supplied apiCertificatePublickey doesn't match with public key extracted from the SSL/TLS security certificate.",
+			"Supplied apiCertificatePublicKey doesn't match with public key extracted from the SSL/TLS security certificate.",
 		);
 	});
 });

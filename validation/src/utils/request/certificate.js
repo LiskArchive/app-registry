@@ -35,7 +35,7 @@ const getCertificateFromURL = async (url, timeout = config.API_TIMEOUT) => {
 		const req = https.request(options, (res) => {
 			const certificate = res.socket.getPeerCertificate();
 			if (!certificate) {
-				reject(new Error(`No certificate found for url: ${url}.`));
+				reject(new Error(`No certificate found for URL: ${url}.`));
 			}
 
 			cachedCerts[host] = certificate.raw;

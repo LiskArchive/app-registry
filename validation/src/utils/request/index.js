@@ -29,7 +29,7 @@ const validatePublicKeyFromURL = async (url, publicKey) => {
 	const apiPubKey = await convertCertificateToPemPublicKey(sslCertificate);
 
 	if (apiPubKey.trim() !== publicKey.trim()) {
-		throw new Error("Supplied apiCertificatePublickey doesn't match with public key extracted from the SSL/TLS security certificate.");
+		throw new Error("Supplied apiCertificatePublicKey doesn't match with public key extracted from the SSL/TLS security certificate.");
 	}
 };
 
