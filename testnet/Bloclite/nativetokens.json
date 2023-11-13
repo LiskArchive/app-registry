@@ -8,14 +8,14 @@
             "denomUnits": [
                 {
                     "denom": "bloc",
-                    "decimals": 0,
+                    "decimals": 8,
                     "aliases": [
                         "Bloc"
                     ]
                 },
                 {
                     "denom": "lite",
-                    "decimals": 8,
+                    "decimals": 0,
                     "aliases": [
                         "Lite"
                     ]
