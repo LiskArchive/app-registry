@@ -1,15 +1,15 @@
 {
-    "title": "Bloc Lite - Testnet",
-    "description": "Metadata configuration for the Bloc Lite sidechain in testnet",
-    "chainName": "BlocLite",
-    "displayName": "Bloc Lite",
+    "title": "Bloclite - Testnet",
+    "description": "Metadata configuration for the Bloclite sidechain in testnet",
+    "chainName": "bloclite",
+    "displayName": "Bloclite",
     "chainID": "01000001",
     "networkType": "testnet",
     "genesisURL": "https://downloads.lisk.com/lisk/testnet/genesis_block.json.tar.gz",
     "projectPage": "https://lisk.com",
     "logo": {
-        "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/testnet/BlocLite/images/application/blocLite.png",
-        "svg": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/testnet/BlocLite/images/application/blocLite.svg"
+        "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/testnet/Bloclite/images/application/blocLite.png",
+        "svg": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/testnet/Bloclite/images/application/blocLite.svg"
     },
     "backgroundColor": "#932CFF",
     "serviceURLs": [
