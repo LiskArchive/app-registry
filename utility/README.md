@@ -10,7 +10,7 @@ Before using the script, kindly ensure that you have Node.js installed on your s
 
 1. **Download the script:**
 
-   Download the [`extractPublicKeyFromCertificate.js`](https://github.com/LiskHQ/app-registry/blob/main/utility/generatePublicKeyFromCertificate.js) file from this repository and save it to a location on your computer.
+   Download the [`extractPublicKeyFromCertificate.js`](https://github.com/LiskHQ/app-registry/blob/main/utility/extractPublicKeyFromCertificate.js) file from this repository and save it to a location on your computer.
 
 2. **Open a Terminal or Command Prompt:**
 
@@ -21,7 +21,7 @@ Before using the script, kindly ensure that you have Node.js installed on your s
    To run the script and generate the public key, use the following command:
 
    ```bash
-   node generate_public_key.js <path/to/certificate.pem> <path/to/public_key.pem>
+   node extractPublicKeyFromCertificate.js <path/to/certificate.pem> <path/to/public_key.pem>
    ```
 
    Replace `<path/to/certificate.pem>` with the path to your PEM certificate file, and `<path/to/public_key.pem>` with the desired output file path for the public key to be extracted.

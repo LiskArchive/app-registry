@@ -1,0 +1,33 @@
+{
+    "title": "Bloclite - Testnet - Native tokens",
+    "tokens": [
+        {
+            "tokenID": "0100000100000000",
+            "tokenName": "bloclite",
+            "description": "Default token for the entire Bloclite ecosystem",
+            "denomUnits": [
+                {
+                    "denom": "bloc",
+                    "decimals": 0,
+                    "aliases": [
+                        "Bloc"
+                    ]
+                },
+                {
+                    "denom": "lite",
+                    "decimals": 8,
+                    "aliases": [
+                        "Lite"
+                    ]
+                }
+            ],
+            "baseDenom": "lite",
+            "displayDenom": "bloc",
+            "symbol": "BLOC",
+            "logo": {
+                "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/testnet/Bloclite/images/tokens/bloclite.png",
+                "svg": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/testnet/Bloclite/images/tokens/bloclite.svg"
+            }
+        }
+    ]
+}
