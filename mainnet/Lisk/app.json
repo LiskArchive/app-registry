@@ -3,7 +3,7 @@
     "description": "Metadata configuration for the Lisk blockchain (mainchain) in mainnet",
     "chainName": "lisk_mainchain",
     "displayName": "Lisk",
-    "chainID": "9000000",
+    "chainID": "99000000",
     "networkType": "mainnet",
     "genesisURL": "https://lisk-mainnet-dryrun.fra1.cdn.digitaloceanspaces.com/genesis_block.json.tar.gz",
     "projectPage": "https://lisk.com",
