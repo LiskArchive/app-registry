@@ -1,0 +1,27 @@
+{
+    "title": "Dex - Testnet",
+    "description": "Metadata configuration for the Dex blockchain (sidechain) in testnet.",
+    "chainName": "Dex",
+    "chainID": "01000011",
+    "networkType": "testnet",
+    "genesisURL": "https://lisk-qa.ams3.digitaloceanspaces.com/dex-testnet-genesis-block.tar.gz",
+    "projectPage": "https://lisk.com",
+    "logo": {
+        "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/testnet/Dex/images/application/dex.png",
+        "svg": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/testnet/Dex/images/application/dex.svg"
+    },
+    "backgroundColor": "#f7f9fb",
+    "serviceURLs": [
+        {
+            "http": "https://testnet-dex-service.lisk.com",
+            "ws": "wss://testnet-dex-service.lisk.com"
+        }
+    ],
+    "explorers": [],
+    "appNodes": [
+        {
+            "url": "https://testnet-dex.lisk.com",
+            "maintainer": "Lightcurve GmbH"
+        }
+    ]
+}

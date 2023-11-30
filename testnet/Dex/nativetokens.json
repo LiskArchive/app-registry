@@ -1,0 +1,26 @@
+{
+    "title": "Dex - Testnet - Native tokens",
+    "tokens": [
+        {
+            "tokenID": "0100001100000000",
+            "tokenName": "Dex",
+            "description": "Native Utility Token",
+            "denomUnits": [
+                {
+                    "denom": "dex",
+                    "decimals": 8,
+                    "aliases": [
+                        "Dex"
+                    ]
+                }
+            ],
+            "baseDenom": "dex",
+            "displayDenom": "dex",
+            "symbol": "DEX",
+            "logo": {
+                "png": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/testnet/Dex/images/tokens/dex.png",
+                "svg": "https://raw.githubusercontent.com/LiskHQ/app-registry/main/testnet/Dex/images/tokens/dex.svg"
+            }
+        }
+    ]
+}
