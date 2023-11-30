@@ -12,61 +12,58 @@
  * Removal or modification of this copyright notice is prohibited.
  */
 
-const https = require('https');
 const { exec } = require('child_process');
-const config = require('../../../config');
+const crypto = require('crypto');
 
 const cachedCerts = {};
 
-const getCertificateFromURL = async (url, timeout = config.API_TIMEOUT) => {
+// eslint-disable-next-line consistent-return
+const getCertificateFromURL = async (url) => new Promise((resolve, reject) => {
 	const { host } = new URL(url);
 
 	if (host in cachedCerts) {
 		return Promise.resolve(cachedCerts[host]);
 	}
 
-	return new Promise((resolve, reject) => {
-		const options = {
-			hostname: host,
-			port: 443,
-			method: 'GET',
-		};
+	// Use OpenSSL to retrieve the PEM certificate
+	const command = `openssl s_client -connect ${host}:443 -showcerts </dev/null 2>/dev/null | openssl x509 -outform PEM`;
 
-		const req = https.request(options, (res) => {
-			const certificate = res.socket.getPeerCertificate();
-			if (!certificate) {
-				reject(new Error(`No certificate found for URL: ${url}.`));
-			}
-
-			cachedCerts[host] = certificate.raw;
-			resolve(certificate.raw);
-		});
-
-		req.on('error', (error) => {
-			reject(error);
-		});
-
-		req.setTimeout(timeout, () => {
-			req.destroy();
-			reject(new Error(`Request timed out when fetching certificate from URL: ${url}.`));
-		});
-
-		req.end();
-	});
-};
-
-const convertCertificateToPemPublicKey = async (certificate) => new Promise((resolve, reject) => {
-	const command = 'openssl x509 -inform der -pubkey -noout | openssl rsa -pubin -inform pem';
-	const child = exec(command, (error, stdout) => {
+	exec(command, (error, stdout, stderr) => {
 		if (error) {
 			reject(error);
+			return;
 		}
 
-		resolve(stdout);
-	});
+		if (stderr) {
+			reject(new Error(`Error: ${stderr}`));
+			return;
+		}
 
-	child.stdin.write(Buffer.from((certificate), 'base64'));
-	child.stdin.end();
+		const pemCertificate = stdout;
+		cachedCerts[host] = pemCertificate;
+		resolve(pemCertificate);
+	});
+});
+
+// eslint-disable-next-line consistent-return
+const convertCertificateToPemPublicKey = (pemCertificate) => new Promise((resolve, reject) => {
+	try {
+		// Create a certificate object from the PEM data
+		const certificate = crypto.createPublicKey({
+			key: pemCertificate,
+			format: 'pem',
+		});
+
+		// Convert the certificate to PEM format for public key
+		const publicKeyPem = certificate.export({
+			format: 'pem',
+			type: 'spki',
+		});
+
+		return resolve(publicKeyPem);
+	} catch (error) {
+		reject(new Error(`Error occurred while extracting the public key: ${error.message}.`));
+	}
 });
 
 module.exports = {

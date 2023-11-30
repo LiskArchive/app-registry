@@ -19,6 +19,7 @@ const { validateURLs } = require('./validateURLs');
 const { validateAllWhitelistedFiles } = require('./validateWhitelistedFiles');
 const { validateAllConfigFiles } = require('./validateConfigFiles');
 const { validateConfigFilePaths } = require('./validateConfigFilePaths');
+const { validateTokens } = require('./validateTokens');
 const { exists } = require('./utils/fs');
 const config = require('../config');
 
@@ -96,8 +97,11 @@ const validate = async () => {
 	// Validate serviceURLs
 	const urlErrors = await validateURLs(changedAppFiles, allChangedFiles, isAuthorFromDevTeam);
 
+	// Validate tokens
+	const tokenErrors = await validateTokens(changedAppFiles);
+
 	// Merge all validation errors
-	validationErrors = [...configFileErrors, ...schemaErrors, ...validateConfigFilesErrors, ...urlErrors];
+	validationErrors = [...configFileErrors, ...schemaErrors, ...validateConfigFilesErrors, ...urlErrors, ...tokenErrors];
 
 	// Check if any non-whitelisted files are modified
 	if (!isAuthorFromDevTeam) {

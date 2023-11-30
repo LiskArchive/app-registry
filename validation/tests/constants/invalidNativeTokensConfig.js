@@ -439,6 +439,74 @@ const logoSVGIncorrect = {
 	],
 };
 
+const baseDenomWithIncorrectDecimals = {
+	title: 'Lisk - Mainnet - Native tokens',
+	tokens: [
+		{
+			tokenID: '0000000000000000',
+			tokenName: 'Lisk',
+			description: 'Default token for the entire Lisk ecosystem',
+			denomUnits: [
+				{
+					denom: 'beddows',
+					decimals: 8,
+					aliases: [
+						'Beddows',
+					],
+				},
+				{
+					denom: 'lsk',
+					decimals: 8,
+					aliases: [
+						'Lisk',
+					],
+				},
+			],
+			baseDenom: 'beddows',
+			displayDenom: 'lsk',
+			symbol: 'LSK',
+			logo: {
+				png: 'https://lisk-qa.ams3.digitaloceanspaces.com/lisk.png',
+				svg: 'https://lisk-qa.ams3.digitaloceanspaces.com/lisk.svg',
+			},
+		},
+	],
+};
+
+const baseDenomNotInToken = {
+	title: 'Lisk - Mainnet - Native tokens',
+	tokens: [
+		{
+			tokenID: '0000000000000000',
+			tokenName: 'Lisk',
+			description: 'Default token for the entire Lisk ecosystem',
+			denomUnits: [
+				{
+					denom: 'beddows',
+					decimals: 0,
+					aliases: [
+						'Beddows',
+					],
+				},
+				{
+					denom: 'lsk',
+					decimals: 8,
+					aliases: [
+						'Lisk',
+					],
+				},
+			],
+			baseDenom: 'invalidToken',
+			displayDenom: 'lsk',
+			symbol: 'LSK',
+			logo: {
+				png: 'https://lisk-qa.ams3.digitaloceanspaces.com/lisk.png',
+				svg: 'https://lisk-qa.ams3.digitaloceanspaces.com/lisk.svg',
+			},
+		},
+	],
+};
+
 module.exports = {
 	tokensNotPresent,
 	tokensIncorrect,
@@ -456,4 +524,6 @@ module.exports = {
 	logoSvgNotPresent,
 	logoPNGIncorrect,
 	logoSVGIncorrect,
+	baseDenomWithIncorrectDecimals,
+	baseDenomNotInToken,
 };
