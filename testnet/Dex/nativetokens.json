@@ -8,7 +8,7 @@
             "denomUnits": [
                 {
                     "denom": "dex",
-                    "decimals": 8,
+                    "decimals": 0,
                     "aliases": [
                         "Dex"
                     ]
