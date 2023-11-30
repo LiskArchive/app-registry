@@ -22,7 +22,7 @@ const getCertificateFromURL = async (url) => new Promise((resolve, reject) => {
 	const { host } = new URL(url);
 
 	if (host in cachedCerts) {
-		return Promise.resolve(cachedCerts[host]);
+		return resolve(cachedCerts[host]);
 	}
 
 	// Use OpenSSL to retrieve the PEM certificate

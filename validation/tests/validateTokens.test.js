@@ -42,7 +42,7 @@ describe('validateTokens', () => {
 		/* eslint-enable max-len */
 	});
 
-	it('should return an array with an error message for invalid baseDenom', async () => {
+	it('should return an array with an error message if no elements in denomUnits have 0 decimals', async () => {
 		/* eslint-disable max-len */
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidConfig.baseDenomWithIncorrectDecimals));
 
@@ -53,7 +53,7 @@ describe('validateTokens', () => {
 		/* eslint-enable max-len */
 	});
 
-	it('should return an array with an error message for invalid baseDenom', async () => {
+	it('should return an array with an error message if baseDemon is not present in denomUnits', async () => {
 		/* eslint-disable max-len */
 		await setup.createFileInNetwork(config.filename.NATIVE_TOKENS, JSON.stringify(invalidConfig.baseDenomNotInToken));
 
