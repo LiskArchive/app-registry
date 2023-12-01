@@ -12,18 +12,15 @@
  * Removal or modification of this copyright notice is prohibited.
  */
 
+const fs = require('fs')
 const { exec } = require('child_process');
 const crypto = require('crypto');
 
-const cachedCerts = {};
+const url = process.argv[2];
+const publicKeyFilePath = process.argv[3];
 
-// eslint-disable-next-line consistent-return
 const getCertificateFromURL = async (url) => new Promise((resolve, reject) => {
 	const { host } = new URL(url);
-
-	if (host in cachedCerts) {
-		return resolve(cachedCerts[host]);
-	}
 
 	// Use OpenSSL to retrieve the PEM certificate
 	const command = `openssl s_client -connect ${host}:443 -showcerts </dev/null 2>/dev/null | openssl x509 -outform PEM`;
@@ -40,12 +37,10 @@ const getCertificateFromURL = async (url) => new Promise((resolve, reject) => {
 		}
 
 		const pemCertificate = stdout;
-		cachedCerts[host] = pemCertificate;
 		resolve(pemCertificate);
 	});
 });
 
-// eslint-disable-next-line consistent-return
 const convertCertificateToPemPublicKey = (pemCertificate) => new Promise((resolve, reject) => {
 	try {
 		// Create a certificate object from the PEM data
@@ -60,13 +55,13 @@ const convertCertificateToPemPublicKey = (pemCertificate) => new Promise((resolv
 			type: 'spki',
 		});
 
-		return resolve(publicKeyPem);
+        // Write the public key to the output file
+        fs.writeFileSync(publicKeyFilePath, publicKeyPem);
 	} catch (error) {
 		reject(new Error(`Error occurred while extracting the public key: ${error.message}.`));
 	}
 });
 
-module.exports = {
-	getCertificateFromURL,
-	convertCertificateToPemPublicKey,
-};
+getCertificateFromURL(url).then((cert) => {
+    convertCertificateToPemPublicKey(cert);
+});
