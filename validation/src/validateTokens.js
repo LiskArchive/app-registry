@@ -34,7 +34,7 @@ const validateTokens = async (changedAppFiles) => {
 
 			const isBaseDenomDefinitionValid = token.denomUnits.some(unit => unit.denom === token.baseDenom && unit.decimals === 0);
 			if (isBaseDenomInDenomUnits && !isBaseDenomDefinitionValid) {
-				validationErrors.push(`baseDenom ${token.baseDenom} defined in denomUnits does not have decimals set to 0.`);
+				validationErrors.push(`baseDenom "${token.baseDenom}" defined in denomUnits does not have "decimals" set to 0.`);
 			}
 		}
 	}
