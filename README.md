@@ -27,9 +27,12 @@ Example: *mainnet/Lisk/app.json*
 - Prior to the metadata submission, please ensure that the Lisk applications are registered on the Lisk mainchain and vice-versa.
 - For logos pointing to app-registry GitHub URL, use the main branch in the URL to ensure working functionality after PR merge. All logos submitted need to adhere to `64px x 64px` resolution.
 - For `mainnet` and `testnet` submissions, it is necessary that all the API deployments are secured with SSL/TLS.
-- For every SSL/TLS secured API deployment (i.e. for `appNodes`, and `serviceURLs`), it is mandatory to specify the `apiCertificatePublicKey`. In case you need support in extracting the public key from your SSL/TLS certificate, you can use one of the following methods:
-    1. [Using OpenSSL](./docs/extracting-pubkey-from-cert-using-openssl.md)
-    2. [Using the NodeJS script](./utility/README.md)
+- For every SSL/TLS secured API deployment (i.e. for `appNodes`, and `serviceURLs`), it is mandatory to specify the `apiCertificatePublicKey`.
+    1. In case you need support in extracting the public key from your SSL/TLS certificate, you can use one of the following methods:
+        1. [Using OpenSSL](./docs/extracting-pubkey-from-cert-using-openssl.md)
+        2. [Using the NodeJS script](./utility/extractPublicKeyFromCertificate/README.md)
+    2. In case you need support in extracting the public key from a URL, you can use the following method:
+        1. [Using the NodeJS script](./utility/extractPublicKeyFromURL/README.md)
 
 ### Native Tokens JSON
 

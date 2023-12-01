@@ -25,12 +25,16 @@ const validateTokens = async (changedAppFiles) => {
 		const nativeTokensdata = await readJsonFile(nativetokenFile);
 		const { tokens } = nativeTokensdata;
 
-		// eslint-disable-next-line no-restricted-syntax, no-await-in-loop
+		// eslint-disable-next-line no-restricted-syntax
 		for (const token of tokens) {
-			const isValid = token.denomUnits.some(unit => unit.denom === token.baseDenom && unit.decimals === 0);
+			const isBaseDenomInDenomUnits = token.denomUnits.some(unit => unit.denom === token.baseDenom);
+			if (!isBaseDenomInDenomUnits) {
+				validationErrors.push(`baseDenom "${token.baseDenom}" is not defined in denomUnits.`);
+			}
 
-			if (!isValid) {
-				validationErrors.push(`baseDenom ${token.baseDenom} is not present in denomUnits with decimals set to 0.`);
+			const isBaseDenomDefinitionValid = token.denomUnits.some(unit => unit.denom === token.baseDenom && unit.decimals === 0);
+			if (isBaseDenomInDenomUnits && !isBaseDenomDefinitionValid) {
+				validationErrors.push(`baseDenom ${token.baseDenom} defined in denomUnits does not have decimals set to 0.`);
 			}
 		}
 	}

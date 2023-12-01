@@ -10,7 +10,7 @@ Before using the script, kindly ensure that you have Node.js installed on your s
 
 1. **Download the script:**
 
-   Download the [`extractPublicKeyFromCertificate.js`](https://github.com/LiskHQ/app-registry/blob/main/utility/extractPublicKeyFromCertificate.js) file from this repository and save it to a location on your computer.
+   Download the [`extractPublicKeyFromCertificate.js`](https://github.com/LiskHQ/app-registry/blob/main/utility/extractPublicKeyFromCertificate/extractPublicKeyFromCertificate.js) file from this repository and save it to a location on your computer.
 
 2. **Open a Terminal or Command Prompt:**
 
