@@ -4,7 +4,7 @@
         {
             "tokenID": "0400000100000000",
             "tokenName": "Enevti",
-            "description": "Native Utility Token",
+            "description": "Native Utility Token of enevti",
             "denomUnits": [
                 {
                     "denom": "ventti",
@@ -17,7 +17,7 @@
                     "aliases": []
                 }
             ],
-            "baseDenom": "ventti",
+            "baseDenom": "venttii",
             "displayDenom": "envt",
             "symbol": "ENVT",
             "logo": {
